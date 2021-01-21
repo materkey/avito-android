@@ -3,7 +3,7 @@ package com.avito.plugin
 import com.android.build.api.artifact.ArtifactType
 import com.android.build.api.variant.Variant
 import com.android.build.gradle.api.ApplicationVariant
-import com.avito.android.androidCommonExtension
+import com.avito.android.androidComponents
 import com.avito.android.bundleTaskProvider
 import com.avito.android.withAndroidApp
 import com.avito.kotlin.dsl.getBooleanProperty
@@ -84,15 +84,13 @@ class SignServicePlugin : Plugin<Project> {
 
         val registeredBuildTypes = mutableMapOf<String, String>()
 
-        target.withAndroidApp { appExtension ->
+        target.androidComponents {
 
-            target.androidCommonExtension.onVariants {
-                val variant = this
-
+            onVariants { variant ->
                 registerTask(
                     tasks = target.tasks,
                     type = SignApkTask::class.java,
-                    variant = this,
+                    variant = variant,
                     taskName = signApkTaskName(variant),
                     serviceUrl = signExtension.host.orEmpty(),
                     signTokensMap = signExtension.apkSignTokens
@@ -101,31 +99,31 @@ class SignServicePlugin : Plugin<Project> {
                 registerTask(
                     tasks = target.tasks,
                     type = SignBundleTask::class.java,
-                    variant = this,
+                    variant = variant,
                     taskName = signBundleTaskName(variant),
                     serviceUrl = signExtension.host.orEmpty(),
                     signTokensMap = signExtension.bundleSignTokens
                 )
 
                 registeredBuildTypes[variant.name] = requireNotNull(variant.buildType)
-            }
 
-            target.androidCommonExtension.onVariantProperties {
-
-                artifacts.use(target.tasks.signedApkTaskProvider(this))
+                variant.artifacts.use(target.tasks.signedApkTaskProvider(variant))
                     .wiredWithDirectories(
                         taskInput = SignApkTask::unsignedDirProperty,
                         taskOutput = SignApkTask::signedDirProperty
                     )
                     .toTransform(ArtifactType.APK)
 
-                artifacts.use(target.tasks.signedBundleTaskProvider(this))
+                variant.artifacts.use(target.tasks.signedBundleTaskProvider(variant))
                     .wiredWithFiles(
                         taskInput = SignBundleTask::unsignedFileProperty,
                         taskOutput = SignBundleTask::signedFileProperty
                     )
                     .toTransform(ArtifactType.BUNDLE)
             }
+        }
+
+        target.withAndroidApp { appExtension ->
 
             appExtension.applicationVariants.all { variant: ApplicationVariant ->
 
@@ -164,7 +162,7 @@ class SignServicePlugin : Plugin<Project> {
     private fun registerTask(
         tasks: TaskContainer,
         type: Class<out SignArtifactTask>,
-        variant: Variant<*>,
+        variant: Variant,
         taskName: String,
         serviceUrl: String,
         signTokensMap: Map<String, String?>

@@ -1,7 +1,7 @@
 package com.avito.android
 
 import com.android.build.api.component.ComponentIdentity
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.extension.AndroidComponentsExtension
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BaseExtension
@@ -29,8 +29,9 @@ fun Project.withAndroidModule(block: (testedExtension: TestedExtension) -> Unit)
 }
 
 @Suppress("UnstableApiUsage")
-val Project.androidCommonExtension
-    get() = extensions.getByType(CommonExtension::class.java)
+fun Project.androidComponents(block: AndroidComponentsExtension<*, *>.() -> Unit) {
+    block(extensions.getByType(AndroidComponentsExtension::class.java))
+}
 
 val Project.androidBaseExtension: BaseExtension
     get() = extensions.getByName<BaseExtension>("android")
