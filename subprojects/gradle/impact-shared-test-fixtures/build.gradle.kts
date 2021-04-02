@@ -1,7 +1,6 @@
 plugins {
     id("convention.kotlin-jvm")
-    id("convention.libraries")
-}
+    }
 
 dependencies {
     api(project(":common:result"))
@@ -10,4 +9,5 @@ dependencies {
     implementation(project(":gradle:impact-shared"))
     implementation(project(":gradle:test-project"))
     implementation(libs.truth)
+    implementation(libs.kotlinStdlib)
 }

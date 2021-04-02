@@ -1,8 +1,7 @@
 plugins {
     id("convention.kotlin-android-library")
     id("convention.publish-android-library")
-    id("convention.libraries")
-}
+    }
 
 dependencies {
     api(libs.androidXTestCore)
@@ -18,6 +17,7 @@ dependencies {
     // todo implementation, waitForAssertion used in app
     api(project(":common:waiter"))
 
+    implementation(libs.kotlinStdlib)
     implementation(libs.hamcrestLib)
     implementation(libs.junit)
     implementation(libs.freeReflection)

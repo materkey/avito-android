@@ -1,14 +1,14 @@
 plugins {
     id("convention.kotlin-jvm")
     id("convention.publish-kotlin-library")
-    id("convention.libraries")
-}
+    }
 
 dependencies {
     implementation(gradleApi())
     implementation(libs.okhttp)
     implementation(libs.okhttpLogging)
     implementation(libs.gson)
+    implementation(libs.kotlinStdlib)
 
     implementation(project(":common:okhttp"))
     implementation(project(":gradle:android"))

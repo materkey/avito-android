@@ -1,8 +1,7 @@
 plugins {
     id("convention.kotlin-jvm")
     id("convention.publish-kotlin-library")
-    id("convention.libraries")
-}
+    }
 
 publish {
     artifactId.set("runner-client")
@@ -18,6 +17,7 @@ dependencies {
     implementation(project(":common:result"))
     implementation(libs.coroutinesCore)
     implementation(libs.gson)
+    implementation(libs.kotlinStdlib)
 
     testImplementation(project(":common:truth-extensions"))
     testImplementation(project(":gradle:runner:shared-test"))

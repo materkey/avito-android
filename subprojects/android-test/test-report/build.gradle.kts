@@ -1,8 +1,7 @@
 plugins {
     id("convention.kotlin-android-library")
     id("convention.publish-android-library")
-    id("convention.libraries")
-}
+    }
 
 dependencies {
     implementation(project(":common:okhttp"))
@@ -20,6 +19,7 @@ dependencies {
     implementation(project(":android-test:ui-testing-core"))
     implementation(project(":android-test:resource-manager-exceptions"))
     implementation(project(":android-test:websocket-reporter"))
+    implementation(libs.kotlinStdlib)
     implementation(libs.okio)
     implementation(libs.kotson)
     implementation(libs.okhttp)

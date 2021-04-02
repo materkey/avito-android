@@ -1,8 +1,7 @@
 plugins {
     id("convention.kotlin-jvm")
     id("convention.publish-kotlin-library")
-    id("convention.libraries")
-}
+    }
 
 publish {
     artifactId.set("runner-service")
@@ -16,6 +15,7 @@ dependencies {
     implementation(project(":common:result"))
     implementation(libs.ddmlib)
     implementation(libs.rxJava)
+    implementation(libs.kotlinStdlib)
 
     testImplementation(testFixtures(project(":common:logger")))
     testImplementation(testFixtures(project(":common:time")))

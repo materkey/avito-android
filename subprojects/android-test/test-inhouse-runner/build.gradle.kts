@@ -1,8 +1,7 @@
 plugins {
     id("convention.kotlin-android-library")
     id("convention.publish-android-library")
-    id("convention.libraries")
-}
+    }
 
 dependencies {
     api(project(":android-test:test-instrumentation-runner"))
@@ -27,6 +26,7 @@ dependencies {
     implementation(project(":android-test:android-log"))
     implementation(project(":android-test:ui-testing-core"))
     implementation(project(":android-test:ui-testing-maps"))
+    implementation(libs.kotlinStdlib)
     implementation(libs.androidXTestRunner)
     implementation(libs.truth)
     implementation(libs.mockitoKotlin)

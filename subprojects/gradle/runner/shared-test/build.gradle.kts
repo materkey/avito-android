@@ -1,8 +1,7 @@
 plugins {
     id("convention.kotlin-jvm")
     id("convention.publish-kotlin-library")
-    id("convention.libraries")
-}
+    }
 
 publish {
     artifactId.set("runner-shared-test")
@@ -16,6 +15,7 @@ dependencies {
 
     implementation(libs.coroutinesCore)
     implementation(libs.kotson)
+    implementation(libs.kotlinStdlib)
     implementation(project(":common:report-viewer"))
     implementation(project(":gradle:runner:service"))
     implementation(project(":gradle:runner:shared"))

@@ -1,7 +1,6 @@
 plugins {
     id("convention.kotlin-android-library")
-    id("convention.libraries")
-}
+    }
 
 android {
 
@@ -24,6 +23,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.kotlinStdlib)
     implementation(libs.appcompat)
 
     androidTestImplementation(project(":android-test:ui-testing-core"))
