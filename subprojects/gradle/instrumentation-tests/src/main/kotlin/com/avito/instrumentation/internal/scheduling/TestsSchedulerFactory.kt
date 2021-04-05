@@ -8,7 +8,9 @@ import com.avito.filestorage.RemoteStorageFactory
 import com.avito.http.HttpClientProvider
 import com.avito.instrumentation.internal.InstrumentationTestsAction
 import com.avito.instrumentation.internal.executing.TestExecutorFactory
-import com.avito.instrumentation.internal.report.listener.ReportViewerTestReporter
+import com.avito.instrumentation.internal.report.listener.AvitoFileStorageUploader
+import com.avito.instrumentation.internal.report.listener.LogcatTestLifecycleListener
+import com.avito.instrumentation.internal.report.listener.UploadingPostProcessor
 import com.avito.instrumentation.internal.suite.TestSuiteProvider
 import com.avito.instrumentation.internal.suite.filter.FilterFactory
 import com.avito.instrumentation.internal.suite.filter.FilterInfoWriter
@@ -72,26 +74,30 @@ internal interface TestsSchedulerFactory {
             TestsRunnerImplementation(
                 testExecutorFactory = testExecutorFactory,
                 testReporterFactory = { testSuite, logcatDir, report ->
-                    ReportViewerTestReporter(
-                        loggerFactory = params.loggerFactory,
-                        timeProvider = timeProvider,
-                        testSuite = testSuite,
-                        report = report,
+                    LogcatTestLifecycleListener(
                         logcatDir = logcatDir,
-                        retracer = ProguardRetracer.Impl(params.proguardMappings),
-                        metricsSender = InstrumentationMetricsSender(
-                            statsDSender = StatsDSender.Impl(
-                                config = metricsConfig.statsDConfig,
-                                loggerFactory = params.loggerFactory
-                            ),
-                            runnerPrefix = metricsConfig.runnerPrefix
-                        ),
-                        remoteStorage = RemoteStorageFactory.create(
-                            endpoint = params.fileStorageUrl,
-                            httpClientProvider = httpClientProvider,
+                        reportPostProcessor = UploadingPostProcessor(
                             loggerFactory = params.loggerFactory,
-                            timeProvider = timeProvider
-                        )
+                            timeProvider = timeProvider,
+                            testSuite = testSuite,
+                            metricsSender = InstrumentationMetricsSender(
+                                statsDSender = StatsDSender.Impl(
+                                    config = metricsConfig.statsDConfig,
+                                    loggerFactory = params.loggerFactory
+                                ),
+                                runnerPrefix = metricsConfig.runnerPrefix
+                            ),
+                            retracer = ProguardRetracer.Impl(params.proguardMappings),
+                            testArtifactsUploader = AvitoFileStorageUploader(
+                                remoteStorage = RemoteStorageFactory.create(
+                                    endpoint = params.fileStorageUrl,
+                                    httpClientProvider = httpClientProvider,
+                                    loggerFactory = params.loggerFactory,
+                                    timeProvider = timeProvider
+                                )
+                            )
+                        ),
+                        report = report,
                     )
                 },
                 loggerFactory = params.loggerFactory,

@@ -21,7 +21,9 @@ interface TestLifecycleListener {
     )
 
     sealed class TestResult {
+
         class Complete(val artifacts: Result<File>) : TestResult()
+
         class Incomplete(val infraError: InfrastructureError) : TestResult()
     }
 }
