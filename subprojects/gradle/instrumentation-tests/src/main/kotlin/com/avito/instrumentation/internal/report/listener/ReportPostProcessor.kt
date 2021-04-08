@@ -11,7 +11,7 @@ import com.avito.report.model.TestRuntimeData
 import com.avito.report.model.TestRuntimeDataPackage
 import com.avito.report.model.TestStaticData
 import com.avito.retrace.ProguardRetracer
-import com.avito.runner.scheduler.listener.TestLifecycleListener
+import com.avito.runner.scheduler.listener.TestResult
 import com.avito.runner.service.model.TestCase
 import com.avito.runner.service.model.TestCaseRun
 import com.avito.time.TimeProvider
@@ -26,7 +26,7 @@ import java.io.FileReader
 internal interface ReportPostProcessor {
 
     fun process(
-        result: TestLifecycleListener.TestResult,
+        result: TestResult,
         test: TestCase,
         executionNumber: Int,
         logcatBuffers: Map<Pair<TestCase, Int>, LogcatBuffer>
@@ -50,7 +50,7 @@ internal class UploadingPostProcessor(
         .create()
 
     override fun process(
-        result: TestLifecycleListener.TestResult,
+        result: TestResult,
         test: TestCase,
         executionNumber: Int,
         logcatBuffers: Map<Pair<TestCase, Int>, LogcatBuffer>
@@ -59,7 +59,7 @@ internal class UploadingPostProcessor(
         val key = test to executionNumber
 
         return when (result) {
-            is TestLifecycleListener.TestResult.Complete -> {
+            is TestResult.Complete -> {
                 result.artifacts.fold(
                     { reportDir ->
                         val reportJson = File(reportDir, REPORT_JSON_ARTIFACT)
@@ -119,7 +119,7 @@ internal class UploadingPostProcessor(
                     }
                 )
             }
-            is TestLifecycleListener.TestResult.Incomplete -> {
+            is TestResult.Incomplete -> {
                 val (stdout: String, stderr: String) = logcatBuffers.getLogcat(key)
 
                 with(result.infraError) {
