@@ -1,4 +1,4 @@
-package com.avito.android.test.report.transport
+package com.avito.report
 
 import com.avito.android.Result
 import java.io.File
@@ -16,11 +16,13 @@ interface ReportFileProvider {
     /**
      * @return filename with extension
      */
-    fun fromUploadPlaceholder(placeholder: String): String
+    fun fromUploadPlaceholder(placeholder: String): String?
 
-    fun provideReportDir(): Result<File>
+    fun provideReportDir(): File
 
-    fun provideReportFile(): Result<File>
+    fun provideReportFile(): File
+
+    fun getFile(relativePath: String): File
 
     fun generateFile(name: String, extension: String, create: Boolean = false): Result<File>
 

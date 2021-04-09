@@ -23,10 +23,9 @@ internal interface TestArtifactsProcessor {
     ): Result<AndroidTest>
 
     companion object {
-        // todo should be passed with instrumentation params, see [ExternalStorageTransport]
+
         internal const val REPORT_JSON_ARTIFACT = "report.json"
 
-        // todo reuse/pass from common report module
         internal val gson: Gson = GsonBuilder()
             .registerTypeAdapterFactory(EntryTypeAdapterFactory())
             .create()

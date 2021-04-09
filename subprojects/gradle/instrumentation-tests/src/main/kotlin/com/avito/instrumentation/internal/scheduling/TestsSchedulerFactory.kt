@@ -12,16 +12,16 @@ import com.avito.instrumentation.internal.report.listener.AvitoFileStorageUpload
 import com.avito.instrumentation.internal.report.listener.LegacyTestArtifactsProcessor
 import com.avito.instrumentation.internal.report.listener.LogcatTestLifecycleListener
 import com.avito.instrumentation.internal.report.listener.ReportProcessorImpl
+import com.avito.instrumentation.internal.report.listener.TestArtifactsProcessor
+import com.avito.instrumentation.internal.report.listener.TestArtifactsProcessorImpl
 import com.avito.instrumentation.internal.suite.TestSuiteProvider
 import com.avito.instrumentation.internal.suite.filter.FilterFactory
 import com.avito.instrumentation.internal.suite.filter.FilterInfoWriter
 import com.avito.instrumentation.metrics.InstrumentationMetricsSender
-import com.avito.report.model.EntryTypeAdapterFactory
 import com.avito.retrace.ProguardRetracer
 import com.avito.runner.service.worker.device.adb.listener.RunnerMetricsConfig
 import com.avito.time.TimeProvider
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import java.io.File
 import java.nio.file.Files
 
@@ -94,18 +94,9 @@ internal interface TestsSchedulerFactory {
                             loggerFactory = params.loggerFactory,
                             testSuite = testSuite,
                             metricsSender = metricsSender,
-                            testArtifactsProcessor = LegacyTestArtifactsProcessor(
-                                gson = gson,
-                                testArtifactsUploader = AvitoFileStorageUploader(
-                                    RemoteStorageFactory.create(
-                                        endpoint = params.fileStorageUrl,
-                                        httpClientProvider = httpClientProvider,
-                                        loggerFactory = params.loggerFactory,
-                                        timeProvider = timeProvider
-                                    )
-                                ),
-                                retracer = ProguardRetracer.Impl(params.proguardMappings),
-                                timeProvider = timeProvider
+                            testArtifactsProcessor = createTestArtifactsProcessor(
+                                uploadTestArtifacts = params.uploadTestArtifacts,
+                                gson = TestArtifactsProcessor.gson
                             )
                         ),
                         report = report,
@@ -120,6 +111,36 @@ internal interface TestsSchedulerFactory {
                 tempLogcatDir = tempDir,
                 projectName = params.projectName
             )
+        }
+
+        private fun createTestArtifactsProcessor(uploadTestArtifacts: Boolean, gson: Gson): TestArtifactsProcessor {
+
+            val uploader = AvitoFileStorageUploader(
+                RemoteStorageFactory.create(
+                    endpoint = params.fileStorageUrl,
+                    httpClientProvider = httpClientProvider,
+                    loggerFactory = params.loggerFactory,
+                    timeProvider = timeProvider
+                )
+            )
+
+            val retracer: ProguardRetracer = ProguardRetracer.Impl(params.proguardMappings)
+
+            return if (uploadTestArtifacts) {
+                TestArtifactsProcessorImpl(
+                    gson = gson,
+                    testArtifactsUploader = uploader,
+                    retracer = retracer,
+                    timeProvider = timeProvider
+                )
+            } else {
+                LegacyTestArtifactsProcessor(
+                    gson = gson,
+                    testArtifactsUploader = uploader,
+                    retracer = retracer,
+                    timeProvider = timeProvider
+                )
+            }
         }
     }
 }

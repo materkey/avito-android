@@ -99,6 +99,9 @@ internal class ReportProcessorImplTest {
                 testCase to TestStaticDataPackage.createStubInstance()
             ),
             artifactsUploader = object : TestArtifactsUploader {
+
+                override suspend fun uploadFile(file: File): String = ""
+
                 override suspend fun uploadLogcat(logcat: String): String {
                     delay(100)
                     return "error"

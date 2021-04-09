@@ -1,6 +1,8 @@
 package com.avito.instrumentation.internal.report.listener
 
 import com.avito.android.Result
+import com.avito.report.ReportFileProvider
+import com.avito.report.internal.ReportFileProviderImpl
 import com.avito.report.model.AndroidTest
 import com.avito.report.model.Incident
 import com.avito.report.model.IncidentElement
@@ -20,11 +22,11 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileReader
 
-internal class LegacyTestArtifactsProcessor(
+internal class TestArtifactsProcessorImpl(
     private val gson: Gson,
     private val testArtifactsUploader: TestArtifactsUploader,
     private val retracer: ProguardRetracer,
-    private val timeProvider: TimeProvider
+    private val timeProvider: TimeProvider,
 ) : TestArtifactsProcessor {
 
     override fun process(
@@ -33,22 +35,48 @@ internal class LegacyTestArtifactsProcessor(
         logcatBuffer: LogcatBuffer?
     ): Result<AndroidTest> {
 
+        val reportFileProvider = createReportFileProvider(
+            testReportRootDir = lazy { reportDir },
+            testStaticData = testStaticData
+        )
+
+        val reportArtifactsUploader = ReportArtifactsUploader(
+            testArtifactsUploader = testArtifactsUploader,
+            reportFileProvider = reportFileProvider
+        )
+
         val scope = CoroutineScope(CoroutineName("test-artifacts-${testStaticData.name}") + Dispatchers.IO)
 
-        val reportJson = File(reportDir, TestArtifactsProcessor.REPORT_JSON_ARTIFACT)
-
         return Result.tryCatch {
+            val reportJson = reportFileProvider.provideReportFile()
+
             val testRuntimeData: TestRuntimeData = gson.fromJson<TestRuntimeDataPackage>(
                 FileReader(reportJson)
             )
 
-            val isTestFailed = testRuntimeData.incident != null
-
             runBlocking {
                 withContext(scope.coroutineContext) {
+                    val isTestFailed = testRuntimeData.incident != null
+
                     AndroidTest.Completed.create(
                         testStaticData = testStaticData,
-                        testRuntimeData = testRuntimeData,
+                        testRuntimeData = TestRuntimeDataPackage(
+                            incident = reportArtifactsUploader.processIncident(
+                                testRuntimeData.incident
+                            ),
+                            startTime = testRuntimeData.startTime,
+                            endTime = testRuntimeData.endTime,
+                            dataSetData = testRuntimeData.dataSetData,
+                            video = reportArtifactsUploader.processVideo(
+                                testRuntimeData.video
+                            ),
+                            preconditions = reportArtifactsUploader.processStepList(
+                                testRuntimeData.preconditions
+                            ),
+                            steps = reportArtifactsUploader.processStepList(
+                                testRuntimeData.steps
+                            )
+                        ),
                         stdout = uploadLogcat(logcatBuffer?.getStdout(), isUploadNeeded = isTestFailed),
                         stderr = uploadLogcat(logcatBuffer?.getStderr(), isUploadNeeded = isTestFailed)
                     )
@@ -89,6 +117,17 @@ internal class LegacyTestArtifactsProcessor(
                 )
             }
         }
+    }
+
+    private fun createReportFileProvider(
+        testReportRootDir: Lazy<File>,
+        testStaticData: TestStaticData
+    ): ReportFileProvider {
+        return ReportFileProviderImpl(
+            rootDir = testReportRootDir,
+            className = testStaticData.name.className,
+            methodName = testStaticData.name.methodName
+        )
     }
 
     private suspend fun uploadLogcat(logcat: List<String>?, isUploadNeeded: Boolean): String {

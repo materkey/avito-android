@@ -3,6 +3,7 @@ package com.avito.instrumentation.internal.report.listener
 import com.avito.filestorage.FutureValue
 import com.avito.filestorage.HttpRemoteStorage
 import com.avito.filestorage.RemoteStorage
+import java.io.File
 
 internal class AvitoFileStorageUploader(
     private val remoteStorage: RemoteStorage
@@ -16,6 +17,10 @@ internal class AvitoFileStorageUploader(
             ),
             comment = "logcat"
         ).getUrl()
+    }
+
+    override suspend fun uploadFile(file: File): String {
+        return "" // not used
     }
 
     private fun FutureValue<RemoteStorage.Result>.getUrl(): String {

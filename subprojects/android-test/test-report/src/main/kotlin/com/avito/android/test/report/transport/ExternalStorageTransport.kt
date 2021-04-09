@@ -1,11 +1,13 @@
 package com.avito.android.test.report.transport
 
+import com.avito.android.Result
 import com.avito.android.test.report.ReportState
 import com.avito.android.test.report.model.TestMetadata
 import com.avito.filestorage.FutureValue
 import com.avito.filestorage.RemoteStorage
 import com.avito.logger.LoggerFactory
 import com.avito.logger.create
+import com.avito.report.ReportFileProvider
 import com.avito.time.TimeProvider
 import com.google.gson.Gson
 
@@ -25,7 +27,11 @@ internal class ExternalStorageTransport(
     private val testRuntimeDataBuilder = TestRuntimeDataBuilder(timeProvider)
 
     override fun sendReport(state: ReportState.Initialized.Started) {
-        reportFileProvider.provideReportFile().fold(
+        Result.tryCatch {
+            reportFileProvider.provideReportFile().apply {
+                parentFile?.mkdirs()
+            }
+        }.fold(
             onSuccess = { file ->
                 try {
                     val json = gson.toJson(testRuntimeDataBuilder.fromState(state))

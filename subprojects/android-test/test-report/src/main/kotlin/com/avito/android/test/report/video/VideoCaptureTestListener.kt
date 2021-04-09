@@ -2,12 +2,12 @@ package com.avito.android.test.report.video
 
 import com.avito.android.test.report.ReportState
 import com.avito.android.test.report.listener.TestLifecycleListener
-import com.avito.android.test.report.transport.ReportFileProvider
 import com.avito.android.test.report.transport.Transport
 import com.avito.filestorage.FutureValue
 import com.avito.filestorage.RemoteStorage
 import com.avito.logger.LoggerFactory
 import com.avito.logger.create
+import com.avito.report.ReportFileProvider
 import com.avito.report.model.Incident
 import com.avito.report.model.Video
 
