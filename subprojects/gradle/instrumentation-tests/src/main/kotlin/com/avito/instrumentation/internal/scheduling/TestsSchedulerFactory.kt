@@ -9,16 +9,19 @@ import com.avito.http.HttpClientProvider
 import com.avito.instrumentation.internal.InstrumentationTestsAction
 import com.avito.instrumentation.internal.executing.TestExecutorFactory
 import com.avito.instrumentation.internal.report.listener.AvitoFileStorageUploader
+import com.avito.instrumentation.internal.report.listener.LegacyTestArtifactsProcessor
 import com.avito.instrumentation.internal.report.listener.LogcatTestLifecycleListener
-import com.avito.instrumentation.internal.report.listener.UploadingPostProcessor
+import com.avito.instrumentation.internal.report.listener.ReportProcessorImpl
 import com.avito.instrumentation.internal.suite.TestSuiteProvider
 import com.avito.instrumentation.internal.suite.filter.FilterFactory
 import com.avito.instrumentation.internal.suite.filter.FilterInfoWriter
 import com.avito.instrumentation.metrics.InstrumentationMetricsSender
+import com.avito.report.model.EntryTypeAdapterFactory
 import com.avito.retrace.ProguardRetracer
 import com.avito.runner.service.worker.device.adb.listener.RunnerMetricsConfig
 import com.avito.time.TimeProvider
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import java.io.File
 import java.nio.file.Files
 
@@ -70,31 +73,39 @@ internal interface TestsSchedulerFactory {
             reportSkippedTests = params.instrumentationConfiguration.reportSkippedTests
         )
 
-        private fun createTestRunner(devicesProviderFactory: DevicesProviderFactory, tempDir: File): TestsRunner =
-            TestsRunnerImplementation(
+        private fun createTestRunner(devicesProviderFactory: DevicesProviderFactory, tempDir: File): TestsRunner {
+
+            val statsDSender: StatsDSender = StatsDSender.Impl(
+                config = metricsConfig.statsDConfig,
+                loggerFactory = params.loggerFactory
+            )
+
+            val metricsSender = InstrumentationMetricsSender(
+                statsDSender = statsDSender,
+                runnerPrefix = metricsConfig.runnerPrefix
+            )
+
+            return TestsRunnerImplementation(
                 testExecutorFactory = testExecutorFactory,
                 testReporterFactory = { testSuite, logcatDir, report ->
                     LogcatTestLifecycleListener(
                         logcatDir = logcatDir,
-                        reportPostProcessor = UploadingPostProcessor(
+                        reportProcessor = ReportProcessorImpl(
                             loggerFactory = params.loggerFactory,
-                            timeProvider = timeProvider,
                             testSuite = testSuite,
-                            metricsSender = InstrumentationMetricsSender(
-                                statsDSender = StatsDSender.Impl(
-                                    config = metricsConfig.statsDConfig,
-                                    loggerFactory = params.loggerFactory
+                            metricsSender = metricsSender,
+                            testArtifactsProcessor = LegacyTestArtifactsProcessor(
+                                gson = gson,
+                                testArtifactsUploader = AvitoFileStorageUploader(
+                                    RemoteStorageFactory.create(
+                                        endpoint = params.fileStorageUrl,
+                                        httpClientProvider = httpClientProvider,
+                                        loggerFactory = params.loggerFactory,
+                                        timeProvider = timeProvider
+                                    )
                                 ),
-                                runnerPrefix = metricsConfig.runnerPrefix
-                            ),
-                            retracer = ProguardRetracer.Impl(params.proguardMappings),
-                            testArtifactsUploader = AvitoFileStorageUploader(
-                                remoteStorage = RemoteStorageFactory.create(
-                                    endpoint = params.fileStorageUrl,
-                                    httpClientProvider = httpClientProvider,
-                                    loggerFactory = params.loggerFactory,
-                                    timeProvider = timeProvider
-                                )
+                                retracer = ProguardRetracer.Impl(params.proguardMappings),
+                                timeProvider = timeProvider
                             )
                         ),
                         report = report,
@@ -109,5 +120,6 @@ internal interface TestsSchedulerFactory {
                 tempLogcatDir = tempDir,
                 projectName = params.projectName
             )
+        }
     }
 }

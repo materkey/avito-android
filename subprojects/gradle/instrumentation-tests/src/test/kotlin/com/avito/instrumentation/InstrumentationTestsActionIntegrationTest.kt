@@ -173,10 +173,10 @@ internal class InstrumentationTestsActionIntegrationTest {
                 buildId = params.buildId,
             ),
             gson = InstrumentationTestsActionFactory.gson,
-            timeProvider = StubTimeProvider(),
             metricsConfig = RunnerMetricsConfig(params.statsDConfig, SeriesName.create("runner")),
             testExecutorFactory = testExecutorFactory,
             testSuiteLoader = testSuiteLoader,
+            timeProvider = StubTimeProvider(),
             httpClientProvider = HttpClientProvider.createStubInstance()
         ).create(devicesProviderFactory = StubDeviceProviderFactory),
         finalizer = FinalizerFactory.Impl(
