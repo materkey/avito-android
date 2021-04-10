@@ -1,6 +1,7 @@
 package com.avito.instrumentation.internal.report
 
 import com.avito.instrumentation.internal.TestRunResult
+import com.avito.instrumentation.internal.finalizer.InstrumentationTestActionFinalizer.FinalizeAction
 import com.avito.report.ReportViewer
 import com.avito.report.model.ReportCoordinates
 import com.avito.report.model.Stability
@@ -8,15 +9,15 @@ import com.avito.report.model.Status
 import org.apache.commons.text.StringEscapeUtils
 import java.io.File
 
-internal class JUnitReportWriter(private val reportViewer: ReportViewer) {
+internal class WriteJUnitReportAction(
+    private val reportViewer: ReportViewer,
+    private val reportCoordinates: ReportCoordinates,
+    private val destination: File
+) : FinalizeAction {
 
     private val estimatedTestRecordSize = 150
 
-    fun write(
-        reportCoordinates: ReportCoordinates,
-        testRunResult: TestRunResult,
-        destination: File
-    ) {
+    override fun action(testRunResult: TestRunResult) {
         val testCountOverall = testRunResult.testCount()
         val testCountSuccess = testRunResult.successCount()
         val testCountFailures = testRunResult.failureCount()
@@ -96,7 +97,15 @@ internal class JUnitReportWriter(private val reportViewer: ReportViewer) {
                 appendLine(">")
 
                 appendLine("<error>")
-                appendLine("Not reported")
+                appendLine(
+                    "Not reported: ${
+                        reportViewer.generateSingleTestRunUrl(
+                            reportCoordinates,
+                            test.name.className,
+                            test.name.methodName
+                        )
+                    }"
+                )
                 appendLine("</error>")
 
                 appendLine("</testcase>")

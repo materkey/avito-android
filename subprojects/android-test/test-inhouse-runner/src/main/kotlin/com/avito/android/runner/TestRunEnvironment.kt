@@ -1,10 +1,10 @@
 package com.avito.android.runner
 
+import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.test.platform.app.InstrumentationRegistry
 import com.avito.android.elastic.ElasticConfig
 import com.avito.android.log.ElasticConfigFactory
-import com.avito.android.runner.TestRunEnvironment.RunEnvironment.ReportDestination
 import com.avito.android.runner.annotation.resolver.HostAnnotationResolver
 import com.avito.android.runner.annotation.resolver.NETWORKING_TYPE_KEY
 import com.avito.android.runner.annotation.resolver.NetworkingType
@@ -14,6 +14,7 @@ import com.avito.android.stats.SeriesName
 import com.avito.android.stats.StatsDConfig
 import com.avito.android.test.report.ArgsProvider
 import com.avito.android.test.report.model.TestMetadata
+import com.avito.android.test.report.transport.ReportDestination
 import com.avito.android.test.report.video.VideoFeatureValue
 import com.avito.report.model.ReportCoordinates
 import okhttp3.HttpUrl
@@ -83,21 +84,7 @@ sealed class TestRunEnvironment {
         internal val fileStorageUrl: String,
         // TODO delete after MBS-10434 resolved
         internal val dumpMainLooperMessagesEnabled: Boolean
-    ) : TestRunEnvironment() {
-
-        sealed class ReportDestination {
-
-            class Backend(
-                val reportApiUrl: String,
-                val reportViewerUrl: String,
-                val deviceName: String
-            ) : ReportDestination()
-
-            object File : ReportDestination()
-
-            object NoOp : ReportDestination()
-        }
-    }
+    ) : TestRunEnvironment()
 
     companion object {
         internal const val LOCAL_STUDIO_RUN_ID = -1
@@ -164,21 +151,31 @@ private fun parseReportDestination(argumentsProvider: ArgsProvider): ReportDesti
             ReportDestination.NoOp
         }
     } else {
-        ReportDestination.File
+        val uploadFromRunner =
+            argumentsProvider.getOptionalArgument("avito.report.fromRunner")?.toBoolean() ?: false
+
+        if (uploadFromRunner) {
+            ReportDestination.File
+        } else {
+            ReportDestination.Legacy
+        }
     }
 }
 
 private fun parseSentryConfig(argumentsProvider: ArgsProvider): SentryConfig {
-    val sentryDsn = argumentsProvider.getOptionalArgument("sentryDsn")
-    return if (sentryDsn.isNullOrBlank()) {
+    val dsn = argumentsProvider.getOptionalArgument("sentryDsn")
+    val tags = mapOf(
+        "API" to Build.VERSION.SDK_INT.toString()
+    )
+    return if (dsn.isNullOrBlank()) {
         SentryConfig.Disabled
     } else {
         SentryConfig.Enabled(
-            dsn = sentryDsn,
+            dsn = dsn,
             environment = "android-test",
             serverName = "",
             release = "",
-            tags = emptyMap()
+            tags = tags
         )
     }
 }

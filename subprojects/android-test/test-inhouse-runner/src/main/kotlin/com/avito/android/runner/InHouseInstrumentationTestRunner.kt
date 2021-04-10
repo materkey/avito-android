@@ -6,7 +6,6 @@ import androidx.test.espresso.Espresso
 import androidx.test.platform.app.InstrumentationRegistry
 import com.avito.android.elastic.ElasticConfig
 import com.avito.android.log.AndroidLoggerFactory
-import com.avito.android.runner.TestRunEnvironment.RunEnvironment.ReportDestination
 import com.avito.android.runner.annotation.resolver.MethodStringRepresentation
 import com.avito.android.runner.annotation.resolver.TestMetadataInjector
 import com.avito.android.runner.annotation.resolver.TestMethodOrClass
@@ -14,6 +13,7 @@ import com.avito.android.runner.annotation.resolver.getTestOrThrow
 import com.avito.android.runner.annotation.validation.CompositeTestMetadataValidator
 import com.avito.android.runner.annotation.validation.TestMetadataValidator
 import com.avito.android.runner.delegates.MainLooperMessagesLogDelegate
+import com.avito.android.runner.delegates.ReportLifecycleEventsDelegate
 import com.avito.android.sentry.SentryConfig
 import com.avito.android.stats.StatsDSender
 import com.avito.android.test.UITestConfig
@@ -29,8 +29,11 @@ import com.avito.android.test.report.ReportViewerWebsocketReporter
 import com.avito.android.test.report.incident.AppCrashException
 import com.avito.android.test.report.listener.TestLifecycleNotifier
 import com.avito.android.test.report.model.TestMetadata
-import com.avito.android.test.report.transport.ExternalStorageTransport
-import com.avito.android.test.report.transport.LocalRunTransport
+import com.avito.android.test.report.screenshot.ScreenshotCapturer
+import com.avito.android.test.report.screenshot.ScreenshotCapturerImpl
+import com.avito.android.test.report.transport.ReportFileProvider
+import com.avito.android.test.report.transport.ReportFileProviderImpl
+import com.avito.android.test.report.transport.ReportTransportFactory
 import com.avito.android.test.report.transport.Transport
 import com.avito.android.test.report.troubleshooting.Troubleshooter
 import com.avito.android.test.report.troubleshooting.dump.MainLooperMessagesLogDumper
@@ -43,15 +46,10 @@ import com.avito.filestorage.RemoteStorage
 import com.avito.filestorage.RemoteStorageFactory
 import com.avito.http.HttpClientProvider
 import com.avito.logger.create
-import com.avito.report.ReportsApiFactory
-import com.avito.report.model.DeviceName
-import com.avito.report.model.EntryTypeAdapterFactory
 import com.avito.report.model.Kind
 import com.avito.test.http.MockDispatcher
 import com.avito.time.DefaultTimeProvider
 import com.avito.time.TimeProvider
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.mockwebserver.MockWebServer
 import java.util.concurrent.TimeUnit
@@ -89,6 +87,32 @@ abstract class InHouseInstrumentationTestRunner :
         )
     }
 
+    private val reportFileProvider: ReportFileProvider by lazy {
+        val runEnvironment = testRunEnvironment.asRunEnvironmentOrThrow()
+
+        ReportFileProviderImpl(
+            runEnvironment.outputDirectory,
+            runEnvironment.testMetadata.className,
+            runEnvironment.testMetadata.methodName!!
+        )
+    }
+
+    private val reportTransport: Transport by lazy {
+
+        val runEnvironment = testRunEnvironment.asRunEnvironmentOrThrow()
+
+        ReportTransportFactory(
+            timeProvider = timeProvider,
+            loggerFactory = loggerFactory,
+            remoteStorage = remoteStorage,
+            httpClientProvider = httpClientProvider,
+            reportFileProvider = reportFileProvider
+        ).create(
+            testRunCoordinates = runEnvironment.testRunCoordinates,
+            reportDestination = runEnvironment.reportDestination
+        )
+    }
+
     /**
      * Public for *TestApp to skip on orchestrator runs
      */
@@ -98,6 +122,13 @@ abstract class InHouseInstrumentationTestRunner :
         } else {
             TestRunEnvironment.OrchestratorFakeRunEnvironment
         }
+    }
+
+    /**
+     * Public for synth monitoring
+     */
+    val screenshotCapturer: ScreenshotCapturer by lazy {
+        ScreenshotCapturerImpl(reportFileProvider)
     }
 
     override val loggerFactory by lazy {
@@ -119,44 +150,10 @@ abstract class InHouseInstrumentationTestRunner :
     }
 
     override val report: Report by lazy {
-        val runEnvironment = testRunEnvironment.asRunEnvironmentOrThrow()
-        val transport: List<Transport> = when (val dest = runEnvironment.reportDestination) {
-            is ReportDestination.Backend -> {
-                val testReportLogger = loggerFactory.create<Report>()
-                listOf(
-                    LocalRunTransport(
-                        reportViewerUrl = dest.reportViewerUrl,
-                        reportCoordinates = runEnvironment.testRunCoordinates,
-                        deviceName = DeviceName(dest.deviceName),
-                        logger = testReportLogger,
-                        reportsApi = ReportsApiFactory.create(
-                            host = dest.reportApiUrl,
-                            loggerFactory = loggerFactory,
-                            httpClientProvider = httpClientProvider
-                        )
-                    )
-                )
-            }
-            ReportDestination.File -> {
-                val gson: Gson = GsonBuilder()
-                    .registerTypeAdapterFactory(EntryTypeAdapterFactory())
-                    .create()
-
-                listOf(
-                    ExternalStorageTransport(
-                        gson = gson,
-                        timeProvider = timeProvider,
-                        loggerFactory = loggerFactory
-                    )
-                )
-            }
-            ReportDestination.NoOp -> emptyList()
-        }
         ReportImplementation(
-            onDeviceCacheDirectory = runEnvironment.outputDirectory,
-            transport = transport,
             loggerFactory = loggerFactory,
-            remoteStorage = remoteStorage,
+            transport = reportTransport,
+            screenshotCapturer = screenshotCapturer,
             timeProvider = timeProvider,
             troubleshooter = Troubleshooter.Impl(mainLooperMessagesLogDumper)
         )
@@ -200,6 +197,12 @@ abstract class InHouseInstrumentationTestRunner :
 
     override fun getDelegates(arguments: Bundle): List<InstrumentationTestRunnerDelegate> {
         return listOf(
+            ReportLifecycleEventsDelegate(
+                loggerFactory.newFactory(
+                    // Because LifecycleEvents logs are needed only for test reports
+                    newElasticConfig = ElasticConfig.Disabled
+                )
+            ),
             MainLooperMessagesLogDelegate(mainLooperMessagesLogDumper)
         )
     }
@@ -330,10 +333,10 @@ abstract class InHouseInstrumentationTestRunner :
         TestLifecycleNotifier.addListener(
             VideoCaptureTestListener(
                 videoFeatureValue = runEnvironment.videoRecordingFeature,
-                onDeviceCacheDirectory = runEnvironment.outputDirectory,
+                reportFileProvider = reportFileProvider,
                 shouldRecord = shouldRecordVideo(runEnvironment.testMetadata),
                 loggerFactory = loggerFactory,
-                remoteStorage = remoteStorage
+                transport = reportTransport,
             )
         )
     }

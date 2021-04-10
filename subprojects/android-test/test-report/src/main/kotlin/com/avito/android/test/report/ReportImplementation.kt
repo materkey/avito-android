@@ -17,9 +17,7 @@ import com.avito.android.test.report.listener.TestLifecycleListener
 import com.avito.android.test.report.listener.TestLifecycleNotifier
 import com.avito.android.test.report.model.StepResult
 import com.avito.android.test.report.model.TestMetadata
-import com.avito.android.test.report.screenshot.ScreenshotCapturerImpl
-import com.avito.android.test.report.screenshot.ScreenshotUploader
-import com.avito.android.test.report.screenshot.ScreenshotUploaderImpl
+import com.avito.android.test.report.screenshot.ScreenshotCapturer
 import com.avito.android.test.report.transport.Transport
 import com.avito.android.test.report.troubleshooting.Troubleshooter
 import com.avito.filestorage.FutureValue
@@ -37,18 +35,12 @@ import java.io.File
  * Assume no parallelization
  * Assume single test per object
  *
- * @param onDeviceCacheDirectory для всяких скриншотов, видео, логов
+ * @param onDeviceCacheDirectory for screenshots/videos/logs
  */
 class ReportImplementation(
-    onDeviceCacheDirectory: Lazy<File>,
-    private val loggerFactory: LoggerFactory,
-    private val transport: List<Transport>,
-    private val remoteStorage: RemoteStorage,
-    private val screenshotUploader: ScreenshotUploader = ScreenshotUploaderImpl(
-        screenshotCapturer = ScreenshotCapturerImpl(onDeviceCacheDirectory),
-        remoteStorage = remoteStorage,
-        loggerFactory = loggerFactory
-    ),
+    loggerFactory: LoggerFactory,
+    private val transport: Transport,
+    private val screenshotCapturer: ScreenshotCapturer,
     private val timeProvider: TimeProvider,
     private val troubleshooter: Troubleshooter
 ) : Report,
@@ -167,11 +159,15 @@ class ReportImplementation(
             earlyEntries.addAll(
                 earlyFuturesUploads.getInitializedEntries()
             )
-            startedState.waitUploads()
-            startedState.addEarlyEntries(earlyEntries)
-            startedState.sortStepEntries()
-            startedState.incident?.appendFutureEntries()
-            startedState.writeTestCase()
+
+            with(startedState) {
+                waitUploads()
+                addEarlyEntries(earlyEntries)
+                sortStepEntries()
+                incident?.appendFutureEntries()
+                writeTestCase()
+            }
+
             startedState
         }
 
@@ -226,76 +222,108 @@ class ReportImplementation(
         currentState.currentStep = null
     }
 
-    private fun updateStep(update: StepResult.() -> Unit): Unit =
-        methodExecutionTracing("updateStep") {
-            val currentState = getCastedState<ReportState.Initialized.Started>()
-            val currentStep = requireNotNull(currentState.currentStep) {
-                "Couldn't update step because it hasn't started yet"
-            }
-
-            beforeStepUpdate(currentStep)
-            currentStep.update()
-            afterStepUpdate(currentStep)
-        }
-
     @Synchronized
     override fun makeScreenshot(comment: String): FutureValue<Result>? =
-        methodExecutionTracing("stopStep") {
-            val screenshotFuture = screenshotUploader.makeAndUploadScreenshot(comment)
+        methodExecutionTracing("makeScreenshot") {
+            val futureResult = screenshotCapturer.captureAsFile().map { screenshot: File? ->
+                if (screenshot == null) {
+                    // no resumed activity, can't capture
+                    null
+                } else {
+                    val initialized = getCastedState<ReportState.Initialized>()
 
-            if (screenshotFuture != null) {
-                try {
-                    updateStep {
-                        futureUploads.add(screenshotFuture)
-                    }
-                } catch (t: Throwable) {
-                    logger.warn("Failed to update step with captured screenshot", t)
-                    return@methodExecutionTracing null
+                    transport.sendContent(
+                        test = initialized.testMetadata,
+                        request = RemoteStorage.Request.FileRequest.Image(screenshot),
+                        comment = comment
+                    )
                 }
             }
 
-            screenshotFuture
+            futureResult.fold(
+                { futureValue ->
+                    if (futureValue != null) {
+                        updateStep {
+                            futureUploads.add(futureValue)
+                        }
+                        futureValue
+                    } else {
+                        null
+                    }
+                },
+                { throwable ->
+                    logger.warn("Failed to update step with captured screenshot", throwable)
+                    null
+                }
+            )
         }
 
     @Synchronized
     override fun addHtml(label: String, content: String, wrapHtml: Boolean) {
-        val wrappedContentIfNeeded = if (wrapHtml) wrapInHtml(content) else content
-        val html = remoteStorage.upload(
-            uploadRequest = RemoteStorage.Request.ContentRequest.Html(
-                content = wrappedContentIfNeeded,
-            ),
-            comment = label
-        )
-        val started = getCastedStateOrNull<ReportState.Initialized.Started>()
-        val futureUploads = started
-            ?.currentStepOrSynthetic()
-            ?.futureUploads ?: earlyFuturesUploads
-        futureUploads.add(html)
+        methodExecutionTracing("addHtml") {
+            val initialized = getCastedState<ReportState.Initialized>()
+
+            val wrappedContentIfNeeded = if (wrapHtml) wrapInHtml(content) else content
+
+            val html = transport.sendContent(
+                test = initialized.testMetadata,
+                request = RemoteStorage.Request.ContentRequest.Html(
+                    content = wrappedContentIfNeeded,
+                ),
+                comment = label
+            )
+
+            val started = getCastedStateOrNull<ReportState.Initialized.Started>()
+            val futureUploads = started
+                ?.currentStepOrSynthetic()
+                ?.futureUploads ?: earlyFuturesUploads
+            futureUploads.add(html)
+        }
     }
 
     @Synchronized
     override fun addText(label: String, text: String) {
-        val txt = remoteStorage.upload(
-            uploadRequest = RemoteStorage.Request.ContentRequest.PlainText(
-                content = text,
-            ),
-            comment = label
-        )
-        val started = getCastedStateOrNull<ReportState.Initialized.Started>()
-        val futureUploads = started
-            ?.currentStepOrSynthetic()
-            ?.futureUploads ?: earlyFuturesUploads
-        futureUploads.add(txt)
+        methodExecutionTracing("addText") {
+            val initialized = getCastedState<ReportState.Initialized>()
+
+            val txt = transport.sendContent(
+                test = initialized.testMetadata,
+                request = RemoteStorage.Request.ContentRequest.PlainText(
+                    content = text,
+                ),
+                comment = label
+            )
+            val started = getCastedStateOrNull<ReportState.Initialized.Started>()
+            val futureUploads = started
+                ?.currentStepOrSynthetic()
+                ?.futureUploads ?: earlyFuturesUploads
+            futureUploads.add(txt)
+        }
     }
 
     @Synchronized
     override fun addComment(comment: String) {
-        addEntry(Entry.Comment(comment, timeProvider.nowInSeconds()))
+        methodExecutionTracing("addComment") {
+            addEntry(Entry.Comment(comment, timeProvider.nowInSeconds()))
+        }
     }
 
     @Synchronized
     override fun addAssertion(assertionMessage: String) {
-        addEntry(Entry.Check(assertionMessage, timeProvider.nowInSeconds()))
+        methodExecutionTracing("addAssertion") {
+            addEntry(Entry.Check(assertionMessage, timeProvider.nowInSeconds()))
+        }
+    }
+
+    private fun updateStep(update: StepResult.() -> Unit) {
+        val currentState = getCastedState<ReportState.Initialized.Started>()
+        val currentStep = requireNotNull(currentState.currentStep) {
+            "Couldn't update step because it hasn't started yet"
+        }
+
+        beforeStepUpdate(currentStep)
+        currentStep.update()
+        afterStepUpdate(currentStep)
     }
 
     private fun addEntry(entry: Entry) {
@@ -402,12 +430,10 @@ class ReportImplementation(
         }
     }
 
-    private
-
-    fun ReportState.Initialized.Started.writeTestCase() =
+    private fun ReportState.Initialized.Started.writeTestCase() =
         methodExecutionTracing("writeTestCase") {
             beforeTestWrite(this)
-            transport.forEach { it.send(this) }
+            transport.sendReport(this)
             state = ReportState.Written
         }
 
