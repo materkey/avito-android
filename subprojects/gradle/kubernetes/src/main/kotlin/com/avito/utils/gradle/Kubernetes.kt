@@ -40,11 +40,27 @@ fun createKubernetesClient(
                     caCertFile = kubernetesCredentials.caCertFile
                 }
 
-                // working with multiple namespaces/contexts is not supported
-                require(getNamespace() == namespace) {
-                    "kubernetes.context.namespace should be $namespace, but was ${getNamespace()}. " +
+                val namespaceFromKubeConfig = getNamespace()
+
+                val namespaceDiffErrorMessage = {
+                    "kubernetes.context.namespace should be $namespace, but was $namespaceFromKubeConfig. " +
                         "Namespace hardcoded in plugin, and this check only prevents from using wrong context"
                 }
+
+                if (namespace == "default") {
+                    // special case for clusters with default namespaces
+                    require(
+                        value = namespaceFromKubeConfig == "default" || namespaceFromKubeConfig.isNullOrBlank(),
+                        lazyMessage = namespaceDiffErrorMessage
+                    )
+                } else {
+                    // working with multiple namespaces/contexts is not supported
+                    require(
+                        value = namespaceFromKubeConfig == namespace,
+                        lazyMessage = namespaceDiffErrorMessage
+                    )
+                }
+
                 requestConfig.oauthTokenProvider = oauthTokenProvider(configFile)
             }
         }
