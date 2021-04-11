@@ -26,12 +26,20 @@ internal class BuildChecksTestProjectRunner(
     fun runChecks(
         expectFailure: Boolean = false,
         disablePlugin: Boolean = false,
+        isIdeSync: Boolean = false,
         startDir: String? = null
     ): TestResult {
+        val projectProperties = mutableListOf<String>()
+
+        if (isIdeSync) {
+            projectProperties.add("-Pandroid.injected.invoked.from.ide=true")
+            projectProperties.add("-Didea.active=true")
+            projectProperties.add("-Didea.sync.active=true")
+        }
         val androidHomePath = if (androidHome is AndroidHomeLocation.Custom) androidHome.dir.path else null
 
         val environment: Map<String, String>? = when (androidHome) {
-            is AndroidHomeLocation.Default -> null // the build use the system environment
+            is AndroidHomeLocation.Default -> null // the build uses the system environment
             is AndroidHomeLocation.Absent -> mapOf("ANDROID_HOME" to "")
             is AndroidHomeLocation.Custom -> mapOf("ANDROID_HOME" to androidHome.dir.path.toString())
         }
@@ -65,6 +73,8 @@ internal class BuildChecksTestProjectRunner(
         if (disablePlugin) {
             arguments.add("-Pavito.build-checks.enabled=false")
         }
+        arguments.addAll(projectProperties)
+
         val dir = if (startDir == null) projectDir else File(projectDir, startDir)
 
         return gradlew(
