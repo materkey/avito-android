@@ -20,7 +20,6 @@ import com.fkorotkov.kubernetes.newVolumeMount
 import com.fkorotkov.kubernetes.resources
 import com.fkorotkov.kubernetes.securityContext
 import com.fkorotkov.kubernetes.spec
-import io.fabric8.kubernetes.api.model.ContainerPort
 import io.fabric8.kubernetes.api.model.PodSpec
 import io.fabric8.kubernetes.api.model.Quantity
 import io.fabric8.kubernetes.api.model.apps.Deployment
@@ -84,10 +83,6 @@ internal class ReservationDeploymentFactoryImpl(
                     securityContext {
                         privileged = true
                     }
-                    ports = listOf(ContainerPort().apply {
-                        containerPort = 5555
-                        hostPort = 5555
-                    })
 
                     resources {
                         limits = mutableMapOf<String, Quantity>().apply {

@@ -128,7 +128,7 @@ instrumentation {
                         device = emulator22
                         maximum = 5
                         minimum = 2
-                        testsPerEmulator = 3
+                        testsPerEmulator = 1
                     }
                 }
             }
