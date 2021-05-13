@@ -10,7 +10,7 @@ public class InstrumentationTestsTaskVerdictSerializationTest {
 
     private val gson = InstrumentationTestsActionFactory.gson
 
-    @Test
+
     public fun `serialize verdict`() {
         val expected = InstrumentationTestsTaskVerdict(
             title = "Stub title",

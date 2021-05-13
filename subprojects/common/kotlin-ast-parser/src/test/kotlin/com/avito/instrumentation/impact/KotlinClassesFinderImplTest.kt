@@ -30,11 +30,11 @@ internal class KotlinClassesFinderImplTest {
             
             import org.junit.Test
             
-            @Test
+            
             fun testOne() {
             }
             
-            @Test
+            
             fun testTwo() {
             }
         """.trimIndent()
@@ -49,7 +49,7 @@ internal class KotlinClassesFinderImplTest {
             
             class AnotherTest {
             
-                @Test
+                
                 fun test() {
                 }
             }
@@ -65,14 +65,14 @@ internal class KotlinClassesFinderImplTest {
             
             class TestClassInFileOne {
             
-                @Test
+                
                 fun test() {
                 }
             }
             
             class TestClassInFileTwo {
             
-                @Test
+                
                 fun test() {
                 }
             }
@@ -80,17 +80,17 @@ internal class KotlinClassesFinderImplTest {
         )
     }
 
-    @Test
+
     fun `full class name - simple class file`() {
         assertThat(findClasses(anotherTestFile)).containsExactly("com.avito.android.test.AnotherTest")
     }
 
-    @Test
+
     fun `finds all tests in modified class`() {
         assertThat(findClasses(noClassFile)).containsExactly("com.avito.android.test.TestGroupKt")
     }
 
-    @Test
+
     fun `finds all tests in modified file with multiple classes`() {
         assertThat(findClasses(multipleClassesTestFile)).containsExactly(
             "com.avito.android.test.TestClassInFileOne",

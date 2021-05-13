@@ -9,7 +9,7 @@ import java.io.File
 
 internal class ImpactPluginTest {
 
-    @Test
+    
     fun simpleIntegration(@TempDir projectDir: File) {
         TestProjectGenerator(
             plugins = plugins {

@@ -7,7 +7,7 @@ internal class SlackEmojiProviderTest {
 
     private val slackEmojiProvider = SlackEmojiProvider()
 
-    @Test
+
     fun test() {
         assertThat(slackEmojiProvider.emojiName(100)).isEqualTo(":stfgod0:")
         assertThat(slackEmojiProvider.emojiName(110)).isEqualTo(":stfgod0:")

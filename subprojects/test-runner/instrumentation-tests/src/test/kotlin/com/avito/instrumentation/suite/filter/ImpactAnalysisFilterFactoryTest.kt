@@ -16,7 +16,7 @@ internal class ImpactAnalysisFilterFactoryTest {
     private val test3 = "com.test.Test3"
     private val test4 = "com.test.Test4"
 
-    @Test
+
     fun `noImpactAnalysis - filters nothing`() {
         val filter = StubFilterFactory.create(
             impactAnalysisResult = ImpactAnalysisResult.createStubInstance(
@@ -27,7 +27,7 @@ internal class ImpactAnalysisFilterFactoryTest {
         filter.assertIncluded(test1, test2, test3, test4)
     }
 
-    @Test
+
     fun `noImpactAnalysis - filters nothing - even if impact provided`() {
         val filter = StubFilterFactory.create(
             impactAnalysisResult = ImpactAnalysisResult.createStubInstance(

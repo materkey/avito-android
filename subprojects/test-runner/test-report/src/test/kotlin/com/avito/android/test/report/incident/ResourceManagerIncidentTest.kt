@@ -25,7 +25,7 @@ class ResourceManagerIncidentTest {
         )
     }
 
-    @Test
+
     fun success_parsing() {
         val exception = ResourceManagerException(
             message = "Error message",
@@ -40,7 +40,7 @@ class ResourceManagerIncidentTest {
         assertThat(result).isSuccess()
     }
 
-    @Test
+
     fun `incedent chain must be after main incedent`() {
         val result = presenter.customize(exceptionWithIncedentChain)
 
@@ -56,12 +56,12 @@ class ResourceManagerIncidentTest {
         }
     }
 
-    @Test
+
     fun `can customize - true for sample`() {
         assertThat(presenter.canCustomize(exceptionWithIncedentChain)).isTrue()
     }
 
-    @Test
+
     fun `can customize - false for different exception`() {
         assertThat(presenter.canCustomize(Exception("Something went wrong"))).isFalse()
     }

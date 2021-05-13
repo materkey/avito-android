@@ -10,21 +10,21 @@ import org.junit.jupiter.api.Test
 
 class UploadToQappsConditionTest {
 
-    @Test
+    
     fun `can upload - has no cd config`() {
         val condition = UploadToQappsCondition(null)
 
         assertThat(condition.canUpload()).isTrue()
     }
 
-    @Test
+    
     fun `regular build - has no cd config`() {
         val condition = UploadToQappsCondition(null)
 
         assertThat(condition.isReleaseChain()).isFalse()
     }
 
-    @Test
+    
     fun `no upload - has no qapps deployment`() {
         val config = config(
             deployments = listOf(googlePlayDeployment())
@@ -34,7 +34,7 @@ class UploadToQappsConditionTest {
         assertThat(condition.canUpload()).isFalse()
     }
 
-    @Test
+    
     fun `can upload - has qapps deployment`() {
         val config = config(
             deployments = listOf(
@@ -47,7 +47,7 @@ class UploadToQappsConditionTest {
         assertThat(condition.canUpload()).isTrue()
     }
 
-    @Test
+    
     fun `regular build - non release qapps deployment`() {
         val config = config(
             deployments = listOf(
@@ -59,7 +59,7 @@ class UploadToQappsConditionTest {
         assertThat(condition.isReleaseChain()).isFalse()
     }
 
-    @Test
+    
     fun `release build - release qapps deployment`() {
         val config = config(
             deployments = listOf(

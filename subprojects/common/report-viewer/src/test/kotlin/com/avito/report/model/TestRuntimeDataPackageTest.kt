@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 internal class TestRuntimeDataPackageTest {
 
-    @Test
+    
     fun `serialize deserialize test`() {
         val testRuntimeDataPackage = TestRuntimeDataPackage.createStubInstance()
 

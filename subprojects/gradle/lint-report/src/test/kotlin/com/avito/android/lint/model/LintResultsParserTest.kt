@@ -25,7 +25,7 @@ internal class LintResultsParserTest {
         tempDir = dir.toFile()
     }
 
-    @Test
+    
     fun `report contains expected issues`() {
         val model = parse(
             xmlContent = """
@@ -127,7 +127,7 @@ internal class LintResultsParserTest {
         }
     }
 
-    @Test
+    
     fun `report with unsupported format version - must fail with explanation`() {
         var readingError: Exception? = null
         try {
@@ -146,7 +146,7 @@ internal class LintResultsParserTest {
         assertThat(readingError?.message).contains("Lint xml report for version 6 is not supported")
     }
 
-    @Test
+    
     fun `invalid report file - invalid model`() {
         val model = parse(
             xmlContent = "invalid xml file"

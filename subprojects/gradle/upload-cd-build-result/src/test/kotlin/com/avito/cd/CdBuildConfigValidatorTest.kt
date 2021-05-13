@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertThrows
 
 class CdBuildConfigValidatorTest {
 
-    @Test
+    
     fun `success - valid contract last supported version`() {
         val config = CdBuildConfig(
             schemaVersion = 2,
@@ -31,7 +31,7 @@ class CdBuildConfigValidatorTest {
         CdBuildConfigValidator(config).validate()
     }
 
-    @Test
+    
     fun `fail - unsupported deployment type`() {
         val config = CdBuildConfig(
             schemaVersion = 2,
@@ -54,7 +54,7 @@ class CdBuildConfigValidatorTest {
         assertThat(error).hasMessageThat().contains("UNKNOWN_TYPE")
     }
 
-    @Test
+    
     fun `fails - duplicated google play deployments with the same build variant`() {
         val config = CdBuildConfig(
             schemaVersion = 1,
@@ -83,7 +83,7 @@ class CdBuildConfigValidatorTest {
         assertThat(error).hasMessageThat().contains("Must be one deploy per variant")
     }
 
-    @Test
+    
     fun `fails - qapps deployment in the first version of contract`() {
         val config = CdBuildConfig(
             schemaVersion = 1,

@@ -37,7 +37,7 @@ class FastCheckChangesInIndependentModule {
         }
     }
 
-    @Test
+
     fun `fastCheck does not build modules`() {
         val result = runTask("fastCheck")
 

@@ -33,7 +33,7 @@ public class LegacyWriteTaskVerdictActionTest {
         title = "com.avito.Test.test api22 LOST"
     )
 
-    @Test
+
     public fun `write verdict with only failed test`(@TempDir dir: File) {
         val verdict = File(dir, "verdict.json")
         val verdictDeterminer = createVerdictDeterminer()
@@ -63,7 +63,7 @@ public class LegacyWriteTaskVerdictActionTest {
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
+
     public fun `write verdict with only lost test`(@TempDir dir: File) {
         val verdict = File(dir, "verdict.json")
         val action = createAction(verdict)
@@ -93,7 +93,7 @@ public class LegacyWriteTaskVerdictActionTest {
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
+
     public fun `write verdict with lost and failed tests`(@TempDir dir: File) {
         val verdict = File(dir, "verdict.json")
         val verdictDeterminer = createVerdictDeterminer()

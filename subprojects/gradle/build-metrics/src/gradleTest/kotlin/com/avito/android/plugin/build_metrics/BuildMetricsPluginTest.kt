@@ -35,7 +35,7 @@ internal class BuildMetricsPluginTest {
         ).generateIn(tempDir)
     }
 
-    @Test
+    
     fun `send nothing - dry run build`() {
         val result = build(":app:preBuild", dryRun = true)
 
@@ -45,7 +45,7 @@ internal class BuildMetricsPluginTest {
         assertThat(metrics).isEmpty()
     }
 
-    @Test
+    
     fun `send configuration time - build`() {
         val result = build(":app:preBuild")
 
@@ -55,7 +55,7 @@ internal class BuildMetricsPluginTest {
         result.assertHasMetric<TimeMetric>(".init_configuration.total")
     }
 
-    @Test
+    
     fun `send total build time - build`() {
         val result = build(":app:preBuild")
 

@@ -20,7 +20,7 @@ class BuildVerdictPluginExecutionPhaseTest : BaseBuildVerdictTest() {
         PlainTextVerdictCases.Execution(temp)
     }
 
-    @Test
+
     fun `kotlin compilation fails - build-verdict contains kotlin compile info`() {
         generateProject()
 
@@ -44,7 +44,7 @@ class BuildVerdictPluginExecutionPhaseTest : BaseBuildVerdictTest() {
         )
     }
 
-    @Test
+
     fun `kapt stubs generating fails - build-verdict contains kapt info`() {
         generateProject(
             AndroidAppModule(
@@ -73,7 +73,7 @@ class BuildVerdictPluginExecutionPhaseTest : BaseBuildVerdictTest() {
         )
     }
 
-    @Test
+
     fun `kapt fails - build-verdict contains kapt info`() {
         generateProject(
             AndroidAppModule(
@@ -120,7 +120,7 @@ class BuildVerdictPluginExecutionPhaseTest : BaseBuildVerdictTest() {
         )
     }
 
-    @Test
+
     fun `unit test fails - build-verdict contains test info`() {
         generateProject(
             AndroidAppModule(
@@ -134,12 +134,12 @@ class BuildVerdictPluginExecutionPhaseTest : BaseBuildVerdictTest() {
                         
                         class AppTest {
                         
-                            @Test
+                            
                             fun `test runtime exception`() {
                                 throw RuntimeException()
                             }
                             
-                            @Test
+                            
                             fun `test assert true`() {
                                 Assert.assertTrue(false)
                             }
@@ -169,7 +169,7 @@ class BuildVerdictPluginExecutionPhaseTest : BaseBuildVerdictTest() {
         )
     }
 
-    @Test
+
     fun `build success - no verdict file`() {
         generateProject()
 
@@ -185,7 +185,7 @@ class BuildVerdictPluginExecutionPhaseTest : BaseBuildVerdictTest() {
         assertBuildVerdictFileExist(false)
     }
 
-    @Test
+
     fun `buildVerdictTask fails - build-verdict contains task's verdict info`() {
         //language=Groovy
         generateProject(

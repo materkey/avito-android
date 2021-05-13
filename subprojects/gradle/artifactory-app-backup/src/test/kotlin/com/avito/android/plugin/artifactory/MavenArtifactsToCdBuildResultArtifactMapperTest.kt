@@ -10,7 +10,7 @@ import java.net.URI
 
 class MavenArtifactsToCdBuildResultArtifactMapperTest {
 
-    @Test
+
     fun `maven artifacts to cd build result mapper - success apk mapping`(@TempDir dir: File) {
         val classifier = "releaseApk"
         val buildVariant = BuildVariant.RELEASE
@@ -45,7 +45,7 @@ class MavenArtifactsToCdBuildResultArtifactMapperTest {
             )
     }
 
-    @Test
+
     fun `maven artifacts to cd build result mapper - success bundle mapping`(@TempDir dir: File) {
         val classifier = "releaseBundle"
         val buildVariant = BuildVariant.RELEASE
@@ -80,7 +80,7 @@ class MavenArtifactsToCdBuildResultArtifactMapperTest {
             )
     }
 
-    @Test
+
     fun `maven artifacts to cd build result mapper - success file mapping`(@TempDir dir: File) {
         val classifier = "xxx"
         val artifactId = "artifactId"

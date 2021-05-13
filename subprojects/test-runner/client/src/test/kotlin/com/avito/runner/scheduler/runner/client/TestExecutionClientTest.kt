@@ -21,7 +21,7 @@ class TestExecutionClientTest {
 
     private val loggerFactory = StubLoggerFactory
 
-    @Test
+
     fun `test execution client return results for every request`() =
         runBlockingTest {
             val requests = listOf(

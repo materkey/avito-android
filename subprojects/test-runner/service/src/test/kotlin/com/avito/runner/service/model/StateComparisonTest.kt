@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 class StateComparisonTest {
 
-    @Test
+    
     fun `states with same layers have same digests`() {
         val layers = listOf(
             State.Layer.ApiLevel(22),
@@ -23,7 +23,7 @@ class StateComparisonTest {
         assertThat(state.digest).isEqualTo(theSameState.digest)
     }
 
-    @Test
+    
     fun `states with different layers have different digests`() {
         val state = State(
             layers = listOf(
@@ -45,7 +45,7 @@ class StateComparisonTest {
         assertThat(state.digest).isNotEqualTo(stateWithAnotherApiLayer.digest)
     }
 
-    @Test
+    
     fun `states with same layers are equal`() {
         val layers = listOf(
             State.Layer.ApiLevel(22),

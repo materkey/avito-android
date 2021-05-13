@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 class MethodStringRepresentationTest {
 
-    @Test
+    
     fun `parseString - resolution error - if empty string`() {
         assertResolution(
             "",
@@ -19,7 +19,7 @@ class MethodStringRepresentationTest {
         )
     }
 
-    @Test
+    
     fun `parseString - resolution class - for class only string`() {
         assertResolution(
             "com.test.fixtures.ClassWithMethod",
@@ -27,7 +27,7 @@ class MethodStringRepresentationTest {
         )
     }
 
-    @Test
+    
     fun `parseString - resolution method - for class#method string`() {
         assertResolution(
             "com.test.fixtures.ClassWithMethod#method",
@@ -38,7 +38,7 @@ class MethodStringRepresentationTest {
         )
     }
 
-    @Test
+    
     fun `parseString - resolution class not found - for nonexistent class`() {
         val stringRepresentation = "com.test.fixtures.NonExistentClass"
         assertResolution(
@@ -47,7 +47,7 @@ class MethodStringRepresentationTest {
         )
     }
 
-    @Test
+    
     fun `parseString - resolution class not found - for nonexistent method`() {
         val stringRepresentation = "com.test.fixtures.ClassWithMethod#nonExistentMethod"
         assertResolution(

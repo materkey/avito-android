@@ -11,7 +11,7 @@ import java.io.File
 
 internal class CiStepsDynamicTest {
 
-    @Test
+    
     fun `cd plugin - custom task created - kotlin dsl`(@TempDir projectDir: File) {
         projectDir.file(
             name = "build.gradle.kts",
@@ -33,7 +33,7 @@ internal class CiStepsDynamicTest {
             .outputContains("myCustomTask - My customTask description")
     }
 
-    @Test
+    
     fun `cd plugin - custom task created`(@TempDir projectDir: File) {
         projectDir.file(
             name = "build.gradle",
@@ -55,7 +55,7 @@ internal class CiStepsDynamicTest {
             .outputContains("myCustomTask - My customTask description")
     }
 
-    @Test
+    
     fun `cd plugin - custom task created without description`(@TempDir projectDir: File) {
         projectDir.file(
             name = "build.gradle",
@@ -76,7 +76,7 @@ internal class CiStepsDynamicTest {
             .outputContains("myCustomTask")
     }
 
-    @Test
+    
     fun `cd plugin - custom task with the same name is created in multiple projects`(@TempDir projectDir: File) {
         TestProjectGenerator(
             plugins = plugins {

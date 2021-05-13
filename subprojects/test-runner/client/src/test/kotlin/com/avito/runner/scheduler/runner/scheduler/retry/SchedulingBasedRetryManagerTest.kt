@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 class SchedulingBasedRetryManagerTest {
 
-    @Test
+    
     fun `retry not required - run is failed and when retry quota is 0`() {
         val manager = provideSchedulingBasedRetryManager(quota = 0, minimalPassedCount = 1)
 
@@ -24,7 +24,7 @@ class SchedulingBasedRetryManagerTest {
         )
     }
 
-    @Test
+    
     fun `retry not required - run is passed and minimal success count is 1`() {
         val manager = provideSchedulingBasedRetryManager(quota = 0, minimalPassedCount = 1)
 
@@ -38,7 +38,7 @@ class SchedulingBasedRetryManagerTest {
         )
     }
 
-    @Test
+    
     fun `retry is required - run is failed and when retry quota is 1`() {
         val manager = provideSchedulingBasedRetryManager(quota = 1, minimalPassedCount = 1)
 
@@ -52,7 +52,7 @@ class SchedulingBasedRetryManagerTest {
         )
     }
 
-    @Test
+    
     fun `retry is required - run is passed and when retry quota is 1 and minimal success count is 2`() {
         val manager = provideSchedulingBasedRetryManager(quota = 1, minimalPassedCount = 2)
 
@@ -66,7 +66,7 @@ class SchedulingBasedRetryManagerTest {
         )
     }
 
-    @Test
+    
     fun `retry is not required - remaining retries is not enough for passing minimalPassedCount`() {
         val manager = provideSchedulingBasedRetryManager(quota = 4, minimalPassedCount = 3)
 
@@ -82,7 +82,7 @@ class SchedulingBasedRetryManagerTest {
         )
     }
 
-    @Test
+    
     fun `required 2 retries - run is passed and when retry quota is 4 and minimal success count is 3`() {
         val manager = provideSchedulingBasedRetryManager(quota = 4, minimalPassedCount = 3)
 
@@ -96,7 +96,7 @@ class SchedulingBasedRetryManagerTest {
         )
     }
 
-    @Test
+    
     fun `0 remaining retries - remaining retries is not enough for passing minimalPassedCount`() {
         val manager = provideSchedulingBasedRetryManager(quota = 2, minimalPassedCount = 4, minimalFailedCount = 0)
 
@@ -112,7 +112,7 @@ class SchedulingBasedRetryManagerTest {
         )
     }
 
-    @Test
+    
     fun `0 remaining retries - remaining retries is not enough for passing minimalFailedCount`() {
         val manager = provideSchedulingBasedRetryManager(quota = 2, minimalPassedCount = 0, minimalFailedCount = 4)
 
@@ -129,7 +129,7 @@ class SchedulingBasedRetryManagerTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+    
     fun `0 remaining retries - remaining retries is not enough for passing minimalFailedCount and minimalPassedCount`() {
         val manager = provideSchedulingBasedRetryManager(quota = 3, minimalPassedCount = 2, minimalFailedCount = 2)
 
@@ -145,7 +145,7 @@ class SchedulingBasedRetryManagerTest {
         )
     }
 
-    @Test
+    
     fun `2 remaining retries - when required 2 passed and 2 failed results after 1 passed and 1 failed`() {
         val manager = provideSchedulingBasedRetryManager(quota = 3, minimalPassedCount = 2, minimalFailedCount = 2)
 
@@ -160,7 +160,7 @@ class SchedulingBasedRetryManagerTest {
         )
     }
 
-    @Test
+    
     fun `10 remaining retries - when required 10 passed and 0 failed results`() {
         val manager = provideSchedulingBasedRetryManager(quota = 19, minimalPassedCount = 10, minimalFailedCount = 0)
 
@@ -172,7 +172,7 @@ class SchedulingBasedRetryManagerTest {
         )
     }
 
-    @Test
+    
     fun `11 remaining retries - when required 10 passed and 10 failed results`() {
         val manager = provideSchedulingBasedRetryManager(quota = 19, minimalPassedCount = 10, minimalFailedCount = 10)
 

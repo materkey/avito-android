@@ -18,7 +18,7 @@ import java.io.File
 
 internal class WriteTaskVerdictActionTest {
 
-    @Test
+    
     fun `file - contains ok message - verdict is ok`(@TempDir tempDir: File) {
         val verdict = Verdict.Success.OK(testResults = emptySet())
         val action = createWriteTaskVerdictAction(tempDir)
@@ -29,7 +29,7 @@ internal class WriteTaskVerdictActionTest {
         assertThat(verdictContent).contains("OK. No failed tests")
     }
 
-    @Test
+    
     fun `file - contains suppressed message - verdict is suppressed`(@TempDir tempDir: File) {
         val failedTest = AndroidTest.Completed.createStubInstance(
             testStaticData = TestStaticDataPackage.createStubInstance(
@@ -57,7 +57,7 @@ internal class WriteTaskVerdictActionTest {
         assertThat(verdictContent).contains("OK. Failed tests were suppressed")
     }
 
-    @Test
+    
     fun `file - contains fail message with test - verdict is failure`(@TempDir tempDir: File) {
         val failedTest = AndroidTest.Completed.createStubInstance(
             testStaticData = TestStaticDataPackage.createStubInstance(
@@ -88,7 +88,7 @@ internal class WriteTaskVerdictActionTest {
         assertThat(verdictContent).contains("com.test.Test2.test API22 FAILED")
     }
 
-    @Test
+    
     fun `file - contains lost message with test - verdict is lost`(@TempDir tempDir: File) {
         val lostTest = AndroidTest.Lost.createStubInstance(
             testStaticData = TestStaticDataPackage.createStubInstance(

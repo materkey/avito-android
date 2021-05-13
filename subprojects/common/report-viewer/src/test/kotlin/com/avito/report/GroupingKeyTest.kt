@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(StubReportsExtension::class)
 internal class GroupingKeyTest {
 
-    @Test
+
     fun `grouping_key sent for dataSet without testCaseId`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -28,7 +28,7 @@ internal class GroupingKeyTest {
             .bodyContains("\"grouping_key\":\"com.avito.Test\"")
     }
 
-    @Test
+
     fun `grouping_key doesnt sent for dataSet with testCaseId`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -45,7 +45,7 @@ internal class GroupingKeyTest {
             .bodyDoesntContain("grouping_key")
     }
 
-    @Test
+
     fun `grouping_key doesnt sent for testCase without dataset`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),

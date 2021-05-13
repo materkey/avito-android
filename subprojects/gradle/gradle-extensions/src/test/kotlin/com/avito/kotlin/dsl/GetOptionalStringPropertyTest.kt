@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 internal class GetOptionalStringPropertyTest {
 
     // todo null by default
-    @Test
+    
     fun `getOptionalStringProperty - returns empty string - on empty string by default`() {
         val project = ProjectBuilder.builder().build()
         project.extensions.extraProperties["someProperty"] = ""
@@ -16,7 +16,7 @@ internal class GetOptionalStringPropertyTest {
         assertThat(value).isEqualTo("")
     }
 
-    @Test
+    
     fun `getOptionalStringProperty - returns null - on no property`() {
         val project = ProjectBuilder.builder().build()
 
@@ -24,7 +24,7 @@ internal class GetOptionalStringPropertyTest {
         assertThat(value).isNull()
     }
 
-    @Test
+    
     fun `getOptionalStringProperty - returns correct value`() {
         val project = ProjectBuilder.builder().build()
         project.extensions.extraProperties["someProperty"] = "12345"
@@ -33,7 +33,7 @@ internal class GetOptionalStringPropertyTest {
         assertThat(value).isEqualTo("12345")
     }
 
-    @Test
+    
     fun `getOptionalStringProperty - returns default - on no value by default`() {
         val project = ProjectBuilder.builder().build()
 
@@ -41,7 +41,7 @@ internal class GetOptionalStringPropertyTest {
         assertThat(value).isEqualTo("4321")
     }
 
-    @Test
+    
     fun `getOptionalStringProperty - returns default - on no value with defaultIfBlank=false`() {
         val project = ProjectBuilder.builder().build()
 
@@ -50,7 +50,7 @@ internal class GetOptionalStringPropertyTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+    
     fun `getOptionalStringProperty - returns empty string instead of default - on empty value with defaultIfBlank=false`() {
         val project = ProjectBuilder.builder().build()
         project.extensions.extraProperties["someProperty"] = ""

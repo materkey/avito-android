@@ -11,7 +11,7 @@ import java.io.File
 
 internal class MarkReportAsSourceForTMSStepTest {
 
-    @Test
+
     fun test(@TempDir projectDir: File) {
         TestProjectGenerator(
             plugins = plugins {

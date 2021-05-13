@@ -13,7 +13,7 @@ class RetryTest {
     @get:Rule
     val rule = screenRule<RetryActivity>(launchActivity = true)
 
-    @Test
+
     fun failWithOriginalError_oneShotActionFailedWithUnexpectedError() {
         // We must preserve an original error for a user
         // It can get lost accidentally due to UITestConfig.waiterAllowedExceptions
@@ -22,7 +22,7 @@ class RetryTest {
         }
     }
 
-    @Test
+
     fun success_skipOneTimeUnknownEspressoError() {
         Screen.retry.button.firstFail(UnknownEspressoException()).click()
 

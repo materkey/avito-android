@@ -30,7 +30,7 @@ internal class TestExecutorIntegrationTest {
 
     private val loggerFactory = StubLoggerFactory
 
-    @Test
+    
     fun `executor - does not stuck - when no requests passed`(@TempDir tempDir: File) {
         val executor = createTestExecutor(loggerFactory = loggerFactory)
 
@@ -45,7 +45,7 @@ internal class TestExecutorIntegrationTest {
         // no assertion needed: just stuck in runBlocking forever before fix
     }
 
-    @Test
+    
     fun `executor - does not stuck - when deployment failed with invalid image reference`(@TempDir tempDir: File) {
         val executor = createTestExecutor(loggerFactory = loggerFactory)
 

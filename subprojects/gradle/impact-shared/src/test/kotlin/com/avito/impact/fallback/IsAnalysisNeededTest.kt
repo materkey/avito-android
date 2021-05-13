@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 
 class IsAnalysisNeededTest {
 
-    @Test
+
     fun `no git = skip`() {
         val result = isAnalysisNeededWith(gitState = null)
 
@@ -21,7 +21,7 @@ class IsAnalysisNeededTest {
         assertThat((result as IsAnalysisNeededResult.Skip).reason).contains("git is not available")
     }
 
-    @Test
+
     fun `skip in config = skip`() {
         val result = isAnalysisNeededWith(
             config = impactAnalysisExtension { skipAnalysis = true },
@@ -35,7 +35,7 @@ class IsAnalysisNeededTest {
         assertThat((result as IsAnalysisNeededResult.Skip).reason).contains("skipAnalysis=true")
     }
 
-    @Test
+
     fun `fail to get currentBranch = skip`() {
         val result = isAnalysisNeededWith(
             gitState = gitState(
@@ -48,7 +48,7 @@ class IsAnalysisNeededTest {
         assertThat((result as IsAnalysisNeededResult.Skip).reason).contains("current branch")
     }
 
-    @Test
+
     fun `fail to get targetBranch = skip`() {
         val result = isAnalysisNeededWith(
             gitState = gitState(
@@ -61,7 +61,7 @@ class IsAnalysisNeededTest {
         assertThat((result as IsAnalysisNeededResult.Skip).reason).contains("target branch")
     }
 
-    @Test
+
     fun `currentBranch protected = skip`() {
         val result = isAnalysisNeededWith(
             config = impactAnalysisExtension { protectedBranches = setOf("master", "release/*") },
@@ -75,7 +75,7 @@ class IsAnalysisNeededTest {
         assertThat((result as IsAnalysisNeededResult.Skip).reason).contains("branch is protected")
     }
 
-    @Test
+
     fun `targetBranch protected = skip`() {
         val result = isAnalysisNeededWith(
             config = impactAnalysisExtension { protectedBranches = setOf("master", "release/*") },
@@ -89,7 +89,7 @@ class IsAnalysisNeededTest {
         assertThat((result as IsAnalysisNeededResult.Skip).reason).contains("branch is protected")
     }
 
-    @Test
+
     fun `same branches = skip in CI`() {
         val result = isAnalysisNeededWith(
             gitState = gitState(
@@ -103,7 +103,7 @@ class IsAnalysisNeededTest {
         assertThat((result as IsAnalysisNeededResult.Skip).reason).contains("running on target branch")
     }
 
-    @Test
+
     fun `same branches = run locally on feature branch`() {
         val result = isAnalysisNeededWith(
             gitState = gitLocalState(
@@ -116,7 +116,7 @@ class IsAnalysisNeededTest {
             .that(result).isInstanceOf<IsAnalysisNeededResult.Run>()
     }
 
-    @Test
+
     fun `same branches = run locally on default branch`() {
         val result = isAnalysisNeededWith(
             gitState = gitLocalState(
@@ -129,7 +129,7 @@ class IsAnalysisNeededTest {
             .that(result).isInstanceOf<IsAnalysisNeededResult.Run>()
     }
 
-    @Test
+
     fun `different branches = run`() {
         val result = isAnalysisNeededWith(
             gitState = gitState(

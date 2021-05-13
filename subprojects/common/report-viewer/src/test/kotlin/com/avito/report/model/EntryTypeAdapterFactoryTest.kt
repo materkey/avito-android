@@ -11,7 +11,7 @@ internal class EntryTypeAdapterFactoryTest {
 
     private val gsonWithEntryAdapter = ReportsApiFactory.gson
 
-    @Test
+    
     fun `serialize - contains placeholder - fileAddress is file to upload`() {
         val entry = Entry.File.createStubInstance(
             fileAddress = FileAddress.File("name.txt")
@@ -20,7 +20,7 @@ internal class EntryTypeAdapterFactoryTest {
         assertThat(result).contains("\"#upload:name.txt\"")
     }
 
-    @Test
+    
     fun `serialize - as it is - fileAddress is url`() {
         val entry = Entry.File.createStubInstance(
             fileAddress = FileAddress.URL("http://stub/name.txt".toHttpUrl())
@@ -29,7 +29,7 @@ internal class EntryTypeAdapterFactoryTest {
         assertThat(result).contains("\"http://stub/name.txt\"")
     }
 
-    @Test
+    
     fun `serialize - error placeholder - fileAddress is error`() {
         val entry = Entry.File.createStubInstance(
             fileAddress = FileAddress.Error(RuntimeException("something went wrong"))
@@ -38,7 +38,7 @@ internal class EntryTypeAdapterFactoryTest {
         assertThat(result).contains("\"#error:something went wrong\"")
     }
 
-    @Test
+    
     fun `deserialize - fileAddress is error - error placeholder`() {
         val json = """{"type":"img_png","timestamp":0,"comment":"","file_address":"#error:something went wrong"}"""
         val result = gsonWithEntryAdapter.fromJson<Entry.File>(json)
@@ -48,7 +48,7 @@ internal class EntryTypeAdapterFactoryTest {
         }
     }
 
-    @Test
+    
     fun `deserialize - fileAddress is url - as it is`() {
         val json = """{"type":"img_png","timestamp":0,"comment":"","file_address":"http://stub/name.txt"}"""
         val result = gsonWithEntryAdapter.fromJson<Entry.File>(json)
@@ -58,7 +58,7 @@ internal class EntryTypeAdapterFactoryTest {
         }
     }
 
-    @Test
+    
     fun `deserialize - fileAddress is file to upload - contains placeholder`() {
         val json = """{"type":"img_png","timestamp":0,"comment":"","file_address":"#upload:name.txt"}"""
         val result = gsonWithEntryAdapter.fromJson<Entry.File>(json)
@@ -68,7 +68,7 @@ internal class EntryTypeAdapterFactoryTest {
         }
     }
 
-    @Test
+    
     fun `serialize list - contains upload placeholder`() {
         val entryList = listOf(
             Entry.File.createStubInstance(
@@ -82,7 +82,7 @@ internal class EntryTypeAdapterFactoryTest {
         }
     }
 
-    @Test
+    
     fun `deserialize list - contains upload placeholder`() {
         val json = """[
             |{"type":"img_png","timestamp":0,"comment":"","file_address":"#upload:name.txt"}

@@ -11,7 +11,7 @@ import java.io.File
 
 internal class ArtifactsTest {
 
-    @Test
+
     fun `artifacts - fails on configuration - on duplicate ids`(@TempDir tempDir: File) {
 
         tempDir.file("1.json", "{}")

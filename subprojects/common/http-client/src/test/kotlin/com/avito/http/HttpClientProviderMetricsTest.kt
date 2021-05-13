@@ -45,7 +45,7 @@ internal class HttpClientProviderMetricsTest {
 
     private val doesNotMatter = 111L
 
-    @Test
+    
     fun `timeout metric send - request timed out`() {
         val provider = createClientProvider()
 
@@ -64,7 +64,7 @@ internal class HttpClientProviderMetricsTest {
         )
     }
 
-    @Test
+    
     fun `all metrics send - multiple parallel requests`() {
         val provider = createClientProvider()
 
@@ -85,7 +85,7 @@ internal class HttpClientProviderMetricsTest {
         )
     }
 
-    @Test
+    
     fun `response 200 metric send - success request`() {
         val provider = createClientProvider()
 
@@ -100,7 +100,7 @@ internal class HttpClientProviderMetricsTest {
         )
     }
 
-    @Test
+    
     fun `response 502 metric - failed request`() {
         val provider = createClientProvider()
 
@@ -115,7 +115,7 @@ internal class HttpClientProviderMetricsTest {
         )
     }
 
-    @Test
+    
     fun `all retries metrics send - request retries multiple times`() {
         val provider = createClientProvider()
 

@@ -31,7 +31,7 @@ internal class SlackConditionalSenderIntegrationTest {
         httpClientProvider = HttpClientProvider.createStubInstance(loggerFactory = loggerFactory)
     )
 
-    @Test
+    
     fun `second message - updates with thread message - if contains same unique string as first one`() {
         val uniqueId = UUID.randomUUID().toString()
 
@@ -59,7 +59,7 @@ internal class SlackConditionalSenderIntegrationTest {
         // todo assert thread message
     }
 
-    @Test
+    
     fun `second message - updates with thread message - if same author`() {
         val author = UUID.randomUUID().toString()
 

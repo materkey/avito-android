@@ -11,7 +11,7 @@ internal class AaptTest {
 
     private val irrelevant = File(".")
 
-    @Test
+
     fun `parseApkPackageName - returns package name from aapt output`() {
         val aaptOutput = """
             package: name='ru.domofond.app.dev' versionCode='248' versionName='debug' platformBuildVersionName='debug'
@@ -32,7 +32,7 @@ internal class AaptTest {
         assertThat(actual).isEqualTo(Result.Success(expected))
     }
 
-    @Test
+
     fun `parseApkPackageName - returns null - aapt output is incorrect`() {
         val aaptOutput = """
             There is no valid output

@@ -24,7 +24,7 @@ class InstrumentationTest {
 
     private val instrumentationParser = InstrumentationTestCaseRunParser.Impl()
 
-    @Test
+    
     fun `read instrumentation output - emits expected entries - with failed test`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>("instrumentation-output-failed-test.txt")
 
@@ -211,7 +211,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         )
     }
 
-    @Test
+    
     fun `read instrumentation output - completes stream - with failed test`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>("instrumentation-output-failed-test.txt")
 
@@ -224,7 +224,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertCompleted()
     }
 
-    @Test
+    
     fun `read instrumentation output - does not emit error - with failed test`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>("instrumentation-output-failed-test.txt")
 
@@ -237,7 +237,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertNoErrors()
     }
 
-    @Test
+    
     fun `read instrumentation output as tests - emits expected tests - with failed test`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>("instrumentation-output-failed-test.txt")
 
@@ -325,7 +325,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         )
     }
 
-    @Test
+    
     fun `read instrumentation output - emits only result entry - with 0 tests`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-0-tests.txt"
@@ -351,7 +351,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         )
     }
 
-    @Test
+    
     fun `read instrumentation output - completes stream - with 0 tests`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-0-tests.txt"
@@ -366,7 +366,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertCompleted()
     }
 
-    @Test
+    
     fun `read instrumentation output - does not emit error - with 0 tests`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-0-tests.txt"
@@ -381,7 +381,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertNoErrors()
     }
 
-    @Test
+    
     fun `read instrumentation output as tests - does not emit error - with 0 tests`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-0-tests.txt"
@@ -396,7 +396,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertNoErrors()
     }
 
-    @Test
+    
     fun `read instrumentation output as tests - completes stream - with 0 tests`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-0-tests.txt"
@@ -411,7 +411,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertCompleted()
     }
 
-    @Test
+    
     fun `read instrumentation output as tests - does not emit any test - with 0 tests`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-0-tests.txt"
@@ -426,7 +426,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertNoValues()
     }
 
-    @Test
+    
     fun `read instrumentation output - emits expected entries - unordered output`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-unordered-output.txt"
@@ -518,7 +518,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         )
     }
 
-    @Test
+    
     fun `read instrumentation output - completes stream - unordered output`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-unordered-output.txt"
@@ -533,7 +533,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertCompleted()
     }
 
-    @Test
+    
     fun `read instrumentation output - does not emit error - unordered output`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-unordered-output.txt"
@@ -548,7 +548,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertNoErrors()
     }
 
-    @Test
+    
     fun `read instrumentation output as tests - emits expected tests - unordered output`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-unordered-output.txt"
@@ -591,7 +591,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         )
     }
 
-    @Test
+    
     fun `read instrumentation output as tests - completes stream - unordered output`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-unordered-output.txt"
@@ -606,7 +606,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertCompleted()
     }
 
-    @Test
+    
     fun `read instrumentation output as tests - does not emit error - unordered output`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-unordered-output.txt"
@@ -621,7 +621,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertNoErrors()
     }
 
-    @Test
+    
     fun `read instrumentation output - emits expected entries - ignored test`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-ignored-test.txt"
@@ -691,7 +691,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         )
     }
 
-    @Test
+    
     fun `read instrumentation output - completes stream - ignored test`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-ignored-test.txt"
@@ -706,7 +706,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertCompleted()
     }
 
-    @Test
+    
     fun `read instrumentation output - does not emit error - ignored test`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-ignored-test.txt"
@@ -721,7 +721,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         subscriber.assertNoErrors()
     }
 
-    @Test
+    
     fun `read instrumentation output as tests - emits expected tests - ignored test`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-ignored-test.txt"
@@ -757,7 +757,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         )
     }
 
-    @Test
+    
     fun `read instrumentation output - emits error result entry - process crashed while test run`() {
         val outputWithFailedTest =
             fileFromJarResources<InstrumentationTest>("instrumentation-output-crashed-process.txt")
@@ -794,7 +794,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         )
     }
 
-    @Test
+    
     fun `read instrumentation output as tests - emits failed test - process crashed while test run`() {
         val outputWithFailedTest =
             fileFromJarResources<InstrumentationTest>("instrumentation-output-crashed-process.txt")
@@ -822,7 +822,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         )
     }
 
-    @Test
+    
     fun `read instrumentation output - emits error result entry - process crashed before test run`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-crashed-process-before-test-ran.txt"
@@ -849,7 +849,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         )
     }
 
-    @Test
+    
     fun `read instrumentation output as tests - emits failed test - process crashed before test run`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-crashed-process-before-test-ran.txt"
@@ -875,7 +875,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
     }
 
     @Suppress("MaxLineLength")
-    @Test
+    
     fun `read instrumentation output - emits error result entry - process crashed before test run after one completed test`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-crashed-process-before-test-ran-after-completed-test.txt"
@@ -925,7 +925,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
     }
 
     @Suppress("MaxLineLength")
-    @Test
+    
     fun `read instrumentation output as tests - emits failed test - process crashed before test run after one completed test`() {
         val outputWithFailedTest = fileFromJarResources<InstrumentationTest>(
             "instrumentation-output-crashed-process-before-test-ran-after-completed-test.txt"
@@ -958,7 +958,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
     }
 
     @Suppress("MaxLineLength")
-    @Test
+    
     fun `read instrumentation output - emits error result entry with fields from run entry - this fields not found in failed entry`() {
         val outputWithFailedTest =
             fileFromJarResources<InstrumentationTest>("instrumentation-output-test-failed-without-test-field.txt")
@@ -1017,7 +1017,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
     }
 
     @Suppress("MaxLineLength")
-    @Test
+    
     fun `read instrumentation output as tests - emits failed test with fields from run entry - this fields not found in failed entry`() {
         val outputWithFailedTest =
             fileFromJarResources<InstrumentationTest>("instrumentation-output-test-failed-without-test-field.txt")
@@ -1048,7 +1048,7 @@ at android.app.Instrumentation.InstrumentationThread.run(Instrumentation.java:19
         )
     }
 
-    @Test
+    
     fun `read invalid instrumentation output - emits error`() {
         val outputWithFailedTest =
             fileFromJarResources<InstrumentationTest>("instrumentation-output-invalid-command.txt")

@@ -13,7 +13,7 @@ import java.io.File
 
 class PlatformDependencyTest {
 
-    @Test
+    
     fun `code ownership - skip platform module check`(@TempDir projectDir: File) {
         TestProjectGenerator(
             plugins = plugins {

@@ -98,7 +98,7 @@ class SourceSetsImpactTest {
         }
     }
 
-    @Test
+
     fun `change in the implementation main - detects changes in all tests and dependant projects`() {
         with(projectDir) {
             git("reset --hard")
@@ -114,7 +114,7 @@ class SourceSetsImpactTest {
         )
     }
 
-    @Test
+
     fun `change in the implementation build type - detects changes in all tests and dependant projects`() {
         with(projectDir) {
             git("reset --hard")
@@ -130,7 +130,7 @@ class SourceSetsImpactTest {
         )
     }
 
-    @Test
+
     fun `change an orphan file - detects changes as in the implementation`() {
         with(projectDir) {
             git("reset --hard")
@@ -146,7 +146,7 @@ class SourceSetsImpactTest {
         )
     }
 
-    @Test
+
     fun `change in unit tests main - detects changes in unit tests only in this module`() {
         with(projectDir) {
             git("reset --hard")
@@ -162,7 +162,7 @@ class SourceSetsImpactTest {
         )
     }
 
-    @Test
+
     fun `change in unit tests build type - detects changes in unit tests only in this module`() {
         with(projectDir) {
             git("reset --hard")
@@ -178,7 +178,7 @@ class SourceSetsImpactTest {
         )
     }
 
-    @Test
+
     fun `change in android tests - detects changes in android tests only in this module`() {
         with(projectDir) {
             git("reset --hard")
@@ -194,7 +194,7 @@ class SourceSetsImpactTest {
         )
     }
 
-    @Test
+
     fun `change in a custom source set for tests - detects changes in dependant test source sets`() {
         with(projectDir) {
             git("reset --hard")

@@ -23,7 +23,7 @@ internal class HttpElasticClientTest {
     )
         .also { dispatcher -> mockWebServer.dispatcher = dispatcher }
 
-    @Test
+
     fun testRequestParams() {
 
         timeProvider.now = Date(1609858594000)

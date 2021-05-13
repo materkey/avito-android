@@ -27,7 +27,7 @@ internal class KubernetesReservationClientIntegrationTest {
     private var clientTwo: ReservationClient? = null
 
     @Disabled("MBS-10461")
-    @Test
+    
     fun `claim - throws exception - unknown host`() {
         clientOne = KubernetesReservationClient.createStubInstance(
             loggerFactory = loggerFactory,
@@ -67,7 +67,7 @@ internal class KubernetesReservationClientIntegrationTest {
      * see MBS-8662
      */
     @Disabled("MBS-10461")
-    @Test
+    
     fun `claim - throws exception - deployment already exists`() {
         // to generate single name for two different clients
         val deploymentNameGenerator = StubDeploymentNameGenerator()

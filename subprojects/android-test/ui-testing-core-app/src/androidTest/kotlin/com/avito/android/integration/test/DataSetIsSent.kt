@@ -35,7 +35,7 @@ class DataSetIsSent {
     }
 
     @DataSetNumber(1)
-    @Test
+
     fun dataSet1() {
         dataSet(DataSetImpl("messageOne")) { test(it) }
     }

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 
 class ComponentResolverTest {
 
-    @Test
+
     fun `resolver - resolves mock web server type - for test with MockApiRule`() {
         val file = FileSpec.builder("", "Test")
             .addType(
@@ -48,7 +48,7 @@ class ComponentResolverTest {
         )
     }
 
-    @Test
+
     fun `resolver - resolves mocked network layer type - for test with AbstractMockitoApiRule child`() {
         val file = FileSpec.builder("", "Test")
             .addType(

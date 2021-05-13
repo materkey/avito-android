@@ -10,7 +10,7 @@ internal class TestsActionParamsSerializationTest {
 
     private val loggerFactory = StubLoggerFactory
 
-    @Test
+    
     fun `params is serializable`() {
         val params = InstrumentationTestsAction.Params.createStubInstance(loggerFactory = loggerFactory)
 

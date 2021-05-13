@@ -21,7 +21,7 @@ public class FindAndroidAppTaskActionTest {
     private val graphBuilder = AndroidAppsGraphBuilder(DependenciesGraphBuilder(root, StubLoggerFactory))
     private val action = FindAndroidAppTaskAction(graphBuilder)
 
-    @Test
+    
     public fun `NoSuitableApps - Result contains all no suitable apps`() {
         val rootApp = androidApp("rootApp", root)
         val rootAppSecond = androidApp("rootAppSecond", root)

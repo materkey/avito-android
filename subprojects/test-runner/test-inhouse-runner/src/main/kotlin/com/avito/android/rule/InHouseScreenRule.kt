@@ -37,7 +37,7 @@ import org.junit.runners.model.Statement
  *   @get:Rule
  *   val screenRule = PhoneVerificationScreen.Rule()
  *
- *   @Test
+ *   
  *   fun successStart() {
  *
  *     screenRule.startWithPhone(phone)

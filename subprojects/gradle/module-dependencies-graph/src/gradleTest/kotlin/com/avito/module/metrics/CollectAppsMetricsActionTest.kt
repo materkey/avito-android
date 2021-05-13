@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test
 @Suppress("MagicNumber")
 internal class CollectAppsMetricsActionTest {
 
-    @Test
+
     fun `relative - no common modules`() {
         val root = rootProject()
 
@@ -36,7 +36,7 @@ internal class CollectAppsMetricsActionTest {
         assertThat(bToA!!.commonDependenciesRatio.toInt()).isEqualTo(0)
     }
 
-    @Test
+
     fun `relative - all common modules`() {
         val root = rootProject()
 
@@ -57,7 +57,7 @@ internal class CollectAppsMetricsActionTest {
         assertThat(bToA!!.commonDependenciesRatio.toInt()).isEqualTo(100)
     }
 
-    @Test
+
     fun `relative - partial intersection`() {
         val root = rootProject()
 

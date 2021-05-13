@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 @ExtendWith(MockitoExtension::class)
 class ReportCreatorTest {
 
-    @Test
+
     fun `create summary - creates test report for each test case`() {
         val summary = createSummary(
             runs = listOf(
@@ -31,7 +31,7 @@ class ReportCreatorTest {
         assertThat(summary.reports).hasSize(3)
     }
 
-    @Test
+
     fun `runs count - is empty`() {
         val summary = createSummary(
             runs = listOf(
@@ -46,7 +46,7 @@ class ReportCreatorTest {
         assertThat(summary.ignoredRunsCount).isEqualTo(0)
     }
 
-    @Test
+
     fun `create summary - marks test as matched - all tests passed`() {
         val summary = createSummary(
             runs = listOf(
@@ -63,7 +63,7 @@ class ReportCreatorTest {
         ).isInstanceOf<TestCaseRequestMatchingReport.Result.Matched>()
     }
 
-    @Test
+
     fun `create summary - marks test as mismatched - all tests failed`() {
         val summary = createSummary(
             runs = listOf(
@@ -80,7 +80,7 @@ class ReportCreatorTest {
         ).isInstanceOf<TestCaseRequestMatchingReport.Result.Mismatched>()
     }
 
-    @Test
+
     fun `failed count - is not 0`() {
         val summary = createSummary(
             runs = listOf(
@@ -97,7 +97,7 @@ class ReportCreatorTest {
         assertThat(summary.ignoredRunsCount).isEqualTo(0)
     }
 
-    @Test
+
     fun `create summary - marks test as mismatched - minimum success test count not reached`() {
         val runs = listOf(
             generateTestRunRequest(
@@ -120,7 +120,7 @@ class ReportCreatorTest {
         ).isInstanceOf<TestCaseRequestMatchingReport.Result.Mismatched>()
     }
 
-    @Test
+
     fun `failed and passed count - is not 0`() {
         val runs = listOf(
             generateTestRunRequest(
@@ -143,7 +143,7 @@ class ReportCreatorTest {
         assertThat(summary.ignoredRunsCount).isEqualTo(0)
     }
 
-    @Test
+
     fun `create summary - marks test as matched - minimum success test count reached`() {
         val runs = listOf(
             generateTestRunRequest(
@@ -166,7 +166,7 @@ class ReportCreatorTest {
         ).isInstanceOf<TestCaseRequestMatchingReport.Result.Matched>()
     }
 
-    @Test
+
     fun `create summary - marks test as ignored - run contains ignored test`() {
         val runs = listOf(
             generateTestRunRequest(

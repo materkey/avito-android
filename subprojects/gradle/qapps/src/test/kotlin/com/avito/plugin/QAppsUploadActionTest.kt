@@ -66,7 +66,7 @@ class QAppsUploadActionTest {
         server.shutdown()
     }
 
-    @Test
+
     fun `action failed - when http request failed all attempts`() {
         server.dispatcher = object : Dispatcher() {
             override fun dispatch(request: RecordedRequest): MockResponse {
@@ -85,7 +85,7 @@ class QAppsUploadActionTest {
             .that(server.requestCount).isAtLeast(2)
     }
 
-    @Test
+
     fun `action success - successful request after failed`() {
         server.enqueue(failedResponse)
         server.enqueue(successResponse)
@@ -96,7 +96,7 @@ class QAppsUploadActionTest {
         assertThat(server.requestCount).isEqualTo(2)
     }
 
-    @Test
+
     fun `action success - request contains passed params`() {
         server.enqueue(successResponse)
 

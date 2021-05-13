@@ -32,7 +32,7 @@ class IntentionExecutionServiceTest {
 
     private val loggerFactory = StubLoggerFactory
 
-    @Test
+
     fun `schedule all tests to supported devices`() =
         runBlockingTest {
             val devices = Channel<Device>(Channel.UNLIMITED)
@@ -116,7 +116,7 @@ class IntentionExecutionServiceTest {
                 .isEqualTo(intentions.map { TestCaseRun.Result.Passed })
         }
 
-    @Test
+
     fun `reschedule test to another device - when device is broken while processing intention`() =
         runBlockingTest {
             val devices = Channel<Device>(Channel.UNLIMITED)

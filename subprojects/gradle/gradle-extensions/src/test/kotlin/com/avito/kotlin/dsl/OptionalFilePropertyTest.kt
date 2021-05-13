@@ -40,7 +40,7 @@ internal class OptionalFilePropertyTest {
         }
     }
 
-    @Test
+
     fun `optional file - passed to task - when non-empty file set`(@TempDir tempDir: File) {
 
         val project = ProjectBuilder.builder().build()
@@ -57,7 +57,7 @@ internal class OptionalFilePropertyTest {
         task.get().doStuff()
     }
 
-    @Test
+
     fun `optional file - resolved to null in task - when nothing is set`() {
 
         val project = ProjectBuilder.builder().build()
@@ -67,7 +67,7 @@ internal class OptionalFilePropertyTest {
         task.get().doStuff()
     }
 
-    @Test
+
     fun `optional file - resolved to null in task - when empty file is set`() {
 
         val project = ProjectBuilder.builder().build()

@@ -28,7 +28,7 @@ internal class WriteJUnitReportActionTest {
         file = File(temp.toFile(), "sample_report.xml")
     }
 
-    @Test
+
     fun `junit report - contains caseId data`() {
         mockData(
             TestRunResult(
@@ -41,7 +41,7 @@ internal class WriteJUnitReportActionTest {
         assertThat(rawFile).contains("caseId=\"8888\"")
     }
 
-    @Test
+
     fun `junit report - contains skipped case`() {
         mockData(
             TestRunResult(
@@ -54,7 +54,7 @@ internal class WriteJUnitReportActionTest {
         assertThat(rawFile).contains("<skipped/>")
     }
 
-    @Test
+
     fun `junit report - contains failure data with report viewer link`() {
         val failed = SimpleRunTest.createStubInstance(
             id = "id",
@@ -74,7 +74,7 @@ internal class WriteJUnitReportActionTest {
         assertThat(rawFile).contains("<failure>\nSomething went wrong\n$reportViewerUrl\n</failure>")
     }
 
-    @Test
+
     fun `junit report - contains test class and method names`() {
         mockData(
             TestRunResult(

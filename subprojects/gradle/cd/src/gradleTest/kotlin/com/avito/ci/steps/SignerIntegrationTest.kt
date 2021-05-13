@@ -75,7 +75,7 @@ class SignerIntegrationTest {
         webServer.shutdown()
     }
 
-    @Test
+    
     fun `fullCheck - failed if sign via service is failed`() {
         with(projectDir) {
             git("checkout -b newBranch")

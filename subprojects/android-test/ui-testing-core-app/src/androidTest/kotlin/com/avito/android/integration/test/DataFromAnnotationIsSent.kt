@@ -39,7 +39,7 @@ class DataFromAnnotationIsSent {
         )
     }
 
-    @Test
+    
     fun test() {
         simpleSuccessAssertion()
     }

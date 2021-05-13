@@ -17,7 +17,7 @@ class CdBuildConfigDeserializationTest {
         create()
     }
 
-    @Test
+    
     fun `build config deserialized correctly`() {
         val config = """
         {

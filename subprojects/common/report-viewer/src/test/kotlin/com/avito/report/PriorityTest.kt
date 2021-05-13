@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(StubReportsExtension::class)
 internal class PriorityTest {
 
-    @Test
+
     fun `priority major sent in prepared_data`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -26,7 +26,7 @@ internal class PriorityTest {
             .bodyMatches(hasJsonPath("$.params.prepared_data.priority_id", Matchers.equalTo(3)))
     }
 
-    @Test
+
     fun `priority minor sent in prepared_data`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),

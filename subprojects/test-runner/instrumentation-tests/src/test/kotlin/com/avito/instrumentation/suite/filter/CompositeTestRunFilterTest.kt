@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 internal class CompositeTestRunFilterTest {
 
-    @Test
+
     fun `exclude reason must be returned by first applied exclude filter`() {
         val compositionFilter = CompositionFilter(
             listOf(
@@ -37,7 +37,7 @@ internal class CompositeTestRunFilterTest {
             .isInstanceOf<Excluded.HasSkipSdkAnnotation>()
     }
 
-    @Test
+
     fun `if any one of filters return exclude then test will be excluded`() {
         val compositionFilter = CompositionFilter(
             listOf(

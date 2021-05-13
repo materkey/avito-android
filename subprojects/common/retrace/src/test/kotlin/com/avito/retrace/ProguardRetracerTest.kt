@@ -8,7 +8,7 @@ import java.nio.file.Files
 
 internal class ProguardRetracerTest {
 
-    @Test
+    
     fun retrace(@TempDir mappingDir: File) {
         val mappingFile = writeMapping(mappingDir)
         val result = ProguardRetracer.Impl(listOf(mappingFile)).retrace(STACKTRACE)

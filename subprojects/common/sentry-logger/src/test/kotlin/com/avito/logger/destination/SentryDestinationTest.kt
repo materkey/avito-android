@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream
 
 class SentryDestinationTest {
 
-    @Test
+
     fun `destination is serializable`() {
         val destination = SentryDestination(
             config = SentryConfig.Enabled(

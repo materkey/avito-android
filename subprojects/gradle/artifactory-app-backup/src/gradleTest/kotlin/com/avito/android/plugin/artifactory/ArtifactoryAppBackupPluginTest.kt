@@ -25,7 +25,7 @@ internal class ArtifactoryAppBackupPluginTest {
 
     private val mockWebServer = MockWebServerFactory.create()
 
-    @Test
+
     fun `artifactory plugin - captures app parameters`(@TempDir projectDir: File) {
         val moduleName = "app"
         val backupName = "backupName"
@@ -105,7 +105,7 @@ internal class ArtifactoryAppBackupPluginTest {
         }
     }
 
-    @Test
+
     fun `upload to artifactory - success - multiple files with same extension`(@TempDir projectDir: File) {
         val moduleName = "app"
         val backupName = "backupName"

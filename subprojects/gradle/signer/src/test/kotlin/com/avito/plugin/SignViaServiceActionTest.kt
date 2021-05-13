@@ -52,7 +52,7 @@ class SignViaServiceActionTest {
         server.shutdown()
     }
 
-    @Test
+
     fun `action failed - when http request failed`() {
         server.dispatcher = object : Dispatcher() {
             override fun dispatch(request: RecordedRequest): MockResponse {
@@ -67,7 +67,7 @@ class SignViaServiceActionTest {
         }
     }
 
-    @Test
+
     fun `action success - request contains passed params`() {
         server.enqueue(successResponse)
 

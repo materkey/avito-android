@@ -21,7 +21,7 @@ internal class UniqueRClassesTest {
         this.projectDir = projectDir
     }
 
-    @Test
+
     fun `success - unique package names`() {
         TestProjectGenerator(
             modules = listOf(
@@ -54,7 +54,7 @@ internal class UniqueRClassesTest {
         build.assertThat().tasksShouldBeTriggered(":app:checkUniqueAndroidPackages")
     }
 
-    @Test
+
     fun `success - allowed duplicate`() {
         TestProjectGenerator(
             modules = listOf(
@@ -95,7 +95,7 @@ internal class UniqueRClassesTest {
         build.assertThat().tasksShouldBeTriggered(":app:checkUniqueAndroidPackages")
     }
 
-    @Test
+
     fun `fail - duplicated package in implementation`() {
         TestProjectGenerator(
             modules = listOf(
@@ -131,7 +131,7 @@ internal class UniqueRClassesTest {
      * Test modules can also override resources in implementation modules
      * https://issuetracker.google.com/issues/175316324
      */
-    @Test
+
     fun `fail - duplicated package in test`() {
         TestProjectGenerator(
             modules = listOf(

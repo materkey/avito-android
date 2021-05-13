@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 
 internal class HasFailedTestDeterminerTest {
 
-    @Test
+    
     fun `determine - results OK - all tests success or skipped`() {
         val result = createImpl()
             .determine(
@@ -37,7 +37,7 @@ internal class HasFailedTestDeterminerTest {
         assertThat(result).isInstanceOf<HasFailedTestDeterminer.Result.NoFailed>()
     }
 
-    @Test
+    
     fun `determine - results OK - empty test results`() {
         val result = createImpl()
             .determine(runResult = listOf())
@@ -45,7 +45,7 @@ internal class HasFailedTestDeterminerTest {
         assertThat(result).isInstanceOf<HasFailedTestDeterminer.Result.NoFailed>()
     }
 
-    @Test
+    
     fun `determine - results OK - all tests reported`() {
         val result = createImpl()
             .determine(
@@ -68,7 +68,7 @@ internal class HasFailedTestDeterminerTest {
         assertThat(result).isInstanceOf<HasFailedTestDeterminer.Result.NoFailed>()
     }
 
-    @Test
+    
     fun `determine - results failure - one test failed`() {
         val result = createImpl()
             .determine(
@@ -92,7 +92,7 @@ internal class HasFailedTestDeterminerTest {
         assertThat(result).isInstanceOf<HasFailedTestDeterminer.Result.Failed>()
     }
 
-    @Test
+    
     fun `determine - results failed - suppress flaky is true`() {
         val result = createImpl(suppressFlaky = true)
             .determine(
@@ -122,7 +122,7 @@ internal class HasFailedTestDeterminerTest {
         }
     }
 
-    @Test
+    
     fun `determine - results failed - suppress flaky is false`() {
         val result = createImpl(suppressFlaky = false)
             .determine(
@@ -151,7 +151,7 @@ internal class HasFailedTestDeterminerTest {
         }
     }
 
-    @Test
+    
     fun `determine - results failed - suppress flaky is true but there is failed stable test`() {
         val result = createImpl(suppressFlaky = true)
             .determine(

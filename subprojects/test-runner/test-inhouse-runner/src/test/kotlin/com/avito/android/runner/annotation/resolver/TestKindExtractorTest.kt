@@ -9,21 +9,21 @@ import org.junit.jupiter.api.assertThrows
 
 class TestKindExtractorTest {
 
-    @Test
+
     fun `component type - component test`() {
         val kind = extract(ComponentTest::class.java)
 
         assertThat(kind).isEqualTo(Kind.UI_COMPONENT)
     }
 
-    @Test
+
     fun `unknown test type - test without type`() {
         val kind = extract(UnknownTest::class.java)
 
         assertThat(kind).isEqualTo(Kind.UNKNOWN)
     }
 
-    @Test
+
     fun `fail - test with multiple types`() {
 
         val error = assertThrows<IllegalArgumentException> {

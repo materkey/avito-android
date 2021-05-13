@@ -49,7 +49,7 @@ internal class ReportViewerExtensionTest {
         projectDir = temp.toFile()
     }
 
-    @Test
+    
     fun `report viewer extension - prefix - exists`() {
         generateProject(withRunIdBlock)
         runGit()
@@ -76,7 +76,7 @@ internal class ReportViewerExtensionTest {
         )
     }
 
-    @Test
+    
     fun `report viewer extension - prefix - does not exist`() {
         generateProject(withoutRunIdBlock)
         runGit()

@@ -6,7 +6,7 @@ import java.io.File
 
 internal class ConfigurationTest {
 
-    @Test
+
     fun `disable by property - no side effects`(@TempDir projectDir: File) {
         val result = BuildChecksTestProjectRunner(
             projectDir,
@@ -26,7 +26,7 @@ internal class ConfigurationTest {
         result.assertThat().tasksShouldNotBeTriggered("checkBuildEnvironment")
     }
 
-    @Test
+
     fun `all checks disabled by default - no side effects`(@TempDir projectDir: File) {
         val result = BuildChecksTestProjectRunner(
             projectDir,
@@ -38,7 +38,7 @@ internal class ConfigurationTest {
         result.assertThat().buildSuccessful()
     }
 
-    @Test
+
     fun `all checks disabled explicitly - no side effects`(@TempDir projectDir: File) {
         val result = BuildChecksTestProjectRunner(
             projectDir,
@@ -58,7 +58,7 @@ internal class ConfigurationTest {
         result.assertThat().buildSuccessful()
     }
 
-    @Test
+
     fun `custom project directory - no side effects`(@TempDir projectDir: File) {
         val result = BuildChecksTestProjectRunner(
             projectDir,

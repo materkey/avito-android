@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 class TestCaseReportTest {
 
-    @Test
+
     fun `success runs - returns number of passed test runs`() {
         val report = createTestCaseReport(
             runResults = listOf(
@@ -24,7 +24,7 @@ class TestCaseReportTest {
         assertThat(report.successRuns, Is(2))
     }
 
-    @Test
+
     fun `failed runs - returns number of failed test runs`() {
         val report = createTestCaseReport(
             runResults = listOf(
@@ -37,7 +37,7 @@ class TestCaseReportTest {
         assertThat(report.failedRuns, Is(2))
     }
 
-    @Test
+
     fun `total runs - returns number of test runs`() {
         val report = createTestCaseReport(
             runResults = listOf(
@@ -50,7 +50,7 @@ class TestCaseReportTest {
         assertThat(report.totalRuns, Is(3))
     }
 
-    @Test
+
     fun `duration - returns sum of run durations`() {
         val durations = listOf(100L, 200L, 300L)
         val report = createTestCaseReportWithDurations(durations)

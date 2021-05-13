@@ -22,7 +22,7 @@ internal class ExternalStorageTransportTest {
 
     private val loggerFactory = StubLoggerFactory
 
-    @Test
+    
     fun `sendReport - file written`(@TempDir tempDir: File) {
         val testMetadata = TestMetadata.createStubInstance(className = "com.Test", methodName = "test")
 
@@ -40,7 +40,7 @@ internal class ExternalStorageTransportTest {
         assertThat(reportFile.exists()).isTrue()
     }
 
-    @Test
+    
     fun `sendContent plainText - file with content written`(@TempDir tempDir: File) {
         val testMetadata = TestMetadata.createStubInstance()
 

@@ -79,7 +79,7 @@ class UploadCdBuildResultTaskActionTest {
         mockWebServer.shutdown()
     }
 
-    @Test
+
     fun `cd build result - was sent successfully`() {
         val expected = CdBuildResult(
             schemaVersion = schemaVersion,
@@ -122,7 +122,7 @@ class UploadCdBuildResultTaskActionTest {
             .containsHeader("Authorization", Credentials.basic(user, password))
     }
 
-    @Test
+
     fun `cd build result - failed if error`() {
         dispatcher.registerMock(
             Mock(
@@ -147,7 +147,7 @@ class UploadCdBuildResultTaskActionTest {
         assertThat(error).hasMessageThat().contains("Upload build result")
     }
 
-    @Test
+
     fun `cd build result - success if suppress error`() {
         dispatcher.registerMock(
             Mock(

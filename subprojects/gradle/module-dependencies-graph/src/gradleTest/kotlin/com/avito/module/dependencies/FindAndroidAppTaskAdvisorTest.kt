@@ -20,7 +20,7 @@ public class FindAndroidAppTaskAdvisorTest {
     private val appSecond = androidApp("appSecond", root)
     private val dependency = javaLib("dependency", root)
 
-    @Test
+
     public fun `one suitable app`() {
         val verdict = OneSuitableApp(ProjectWithDeps(app, setOf(dependency)))
         val advice = advisor.giveAdvice(verdict)
@@ -29,7 +29,7 @@ public class FindAndroidAppTaskAdvisorTest {
             .isEqualTo("In your project is only one suitable app :app")
     }
 
-    @Test
+
     public fun `multiple suitable apps with equal deps - should prefer both`() {
         val verdict = MultipleSuitableApps(
             setOf(
@@ -48,7 +48,7 @@ public class FindAndroidAppTaskAdvisorTest {
             )
     }
 
-    @Test
+
     public fun `multiple suitable apps with different deps - should prefer with least deps`() {
 
         val verdict = MultipleSuitableApps(
@@ -74,7 +74,7 @@ public class FindAndroidAppTaskAdvisorTest {
             )
     }
 
-    @Test
+
     public fun `no suitable apps have equal deps`() {
 
         val verdict = NoSuitableApps(
@@ -106,7 +106,7 @@ public class FindAndroidAppTaskAdvisorTest {
             )
     }
 
-    @Test
+
     public fun `no suitable apps one has least deps - choose it`() {
         val verdict = NoSuitableApps(
             result = setOf(
@@ -137,7 +137,7 @@ public class FindAndroidAppTaskAdvisorTest {
             )
     }
 
-    @Test
+
     public fun `no suitable apps one app has least missing deps - choose it`() {
         val verdict = NoSuitableApps(
             result = setOf(

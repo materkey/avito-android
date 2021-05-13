@@ -73,7 +73,7 @@ class FeatureAction(
 }
 
 // Now you can use simple mocks to test the action.
-@Test
+
 fun test() {
     val integrationApi = mock<IntegrationApi>()
     whenever(integrationApi.foo).thenReturn(bar())

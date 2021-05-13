@@ -71,7 +71,7 @@ internal class InstrumentationTestsActionIntegrationTest {
         apk = File(inputDir, "apk").apply { writeText("some") }
     }
 
-    @Test
+
     fun `action - ok - 0 tests to run, no previous reports`() {
         val configuration = InstrumentationConfiguration.Data.createStubInstance(
             name = "newUi",

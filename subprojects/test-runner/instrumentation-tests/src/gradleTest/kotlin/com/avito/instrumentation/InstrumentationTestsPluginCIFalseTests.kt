@@ -16,7 +16,7 @@ internal class InstrumentationTestsPluginCIFalseTests {
 
     private val instrumentationTask = ":app:instrumentationApi22"
 
-    @Test
+
     fun `k8s emulator target task is available with credentials`() {
         createProject(
             projectDir = projectDir,
@@ -46,7 +46,7 @@ internal class InstrumentationTestsPluginCIFalseTests {
             .tasksShouldBeTriggered(instrumentationTask)
     }
 
-    @Test
+
     fun `gradle configuration fails with k8s emulator target without credentials`() {
         createProject(
             projectDir = projectDir,
@@ -72,7 +72,7 @@ internal class InstrumentationTestsPluginCIFalseTests {
             .outputContains("Configuration api22 error: has kubernetes device target without kubernetes credentials")
     }
 
-    @Test
+
     fun `local emulator target task is always available`() {
         createProject(
             projectDir = projectDir,

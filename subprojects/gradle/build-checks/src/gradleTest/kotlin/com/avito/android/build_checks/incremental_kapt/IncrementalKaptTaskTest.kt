@@ -19,7 +19,7 @@ internal class IncrementalKaptTaskTest {
         this.projectDir = projectDir
     }
 
-    @Test
+
     fun `build success with no warnings - unsupported Java version`() {
         generateProject(mode = "none")
 
@@ -32,7 +32,7 @@ internal class IncrementalKaptTaskTest {
     }
 
     @Disabled("Can't change java version in tests, see commit message [MBS-9506]")
-    @Test
+
     fun `build success with warning - unsupported Java version`() {
         generateProject(mode = "warning")
 
@@ -45,7 +45,7 @@ internal class IncrementalKaptTaskTest {
     }
 
     @Disabled("Can't change java version in tests, see commit message [MBS-9506]")
-    @Test
+
     fun `build fail - unsupported Java version`() {
         generateProject(mode = "fail")
 
@@ -57,7 +57,7 @@ internal class IncrementalKaptTaskTest {
             )
     }
 
-    @Test
+
     fun `build success - supported Java version`() {
         generateProject(mode = "fail")
 
@@ -69,7 +69,7 @@ internal class IncrementalKaptTaskTest {
             )
     }
 
-    @Test
+
     fun `build success - Room not applied`() {
         generateProject(mode = "fail", applyRoomPlugin = false)
 
@@ -81,7 +81,7 @@ internal class IncrementalKaptTaskTest {
             )
     }
 
-    @Test
+
     fun `build success - without Room and unsupported Java`() {
         generateProject(mode = "fail", applyRoomPlugin = false)
 

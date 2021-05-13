@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(StubReportsExtension::class)
 internal class TestNameTest {
 
-    @Test
+    
     fun `report with dataSet - name contains dataset number - with testCaseId`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -30,7 +30,7 @@ internal class TestNameTest {
             .bodyMatches(hasJsonPath("$.params.report.test_name", equalTo("myTest#2")))
     }
 
-    @Test
+    
     fun `report with dataSet - name contains dataset number - no testCaseId`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -47,7 +47,7 @@ internal class TestNameTest {
             .bodyMatches(hasJsonPath("$.params.report.test_name", equalTo("someDataSet#2")))
     }
 
-    @Test
+    
     fun `report without dataSet - have testName without # - with testCaseId`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -64,7 +64,7 @@ internal class TestNameTest {
             .bodyMatches(hasJsonPath("$.params.report.test_name", equalTo("someTest")))
     }
 
-    @Test
+    
     fun `report without dataSet - have testName without # - no testCaseId`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),

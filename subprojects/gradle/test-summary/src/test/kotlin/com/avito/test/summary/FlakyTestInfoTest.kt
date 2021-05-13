@@ -11,7 +11,7 @@ internal class FlakyTestInfoTest {
 
     private val flakyTestInfo = FlakyTestInfo()
 
-    @Test
+
     fun `test info summarized`() {
         flakyTestInfo.addReport(
             report = Result.Success(

@@ -15,7 +15,7 @@ class BlameParserTest {
         blameParser = BlameParser()
     }
 
-    @Test
+    
     fun `read blame - parse values`() {
         val values = listOf(
             CodeElement(

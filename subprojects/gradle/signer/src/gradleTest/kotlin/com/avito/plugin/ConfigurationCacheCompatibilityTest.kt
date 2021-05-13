@@ -39,7 +39,7 @@ internal class ConfigurationCacheCompatibilityTest {
      * failed to unpack provider
      */
     @Disabled
-    @Test
+    
     fun `configuration with applied plugin - ok`(@TempDir projectDir: File) {
         TestProjectGenerator(
             modules = listOf(

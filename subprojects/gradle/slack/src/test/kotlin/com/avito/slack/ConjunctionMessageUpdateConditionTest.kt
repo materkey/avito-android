@@ -11,7 +11,7 @@ internal class ConjunctionMessageUpdateConditionTest {
         override fun matches(existingMessage: FoundMessage): Boolean = true
     }
 
-    @Test
+    
     fun `conjunction - returns true - for multiple true conditions`() {
         val irrelevantMessage = FoundMessage.createStubInstance()
 

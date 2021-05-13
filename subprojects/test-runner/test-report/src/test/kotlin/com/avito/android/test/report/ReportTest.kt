@@ -34,7 +34,7 @@ class ReportTest {
         report.startTestCase()
     }
 
-    @Test
+
     fun `report incident - step chain`() {
         report.stepFailed(
             StepException(
@@ -55,7 +55,7 @@ class ReportTest {
         assertThat(reportPackage.incident!!.chain[1].message).isEqualTo("No views in hierarchy found matching: with id: com.avito.android.dev:id/variant_list")
     }
 
-    @Test
+
     fun `failed test case - resourceManager chain`() {
         val gson = Gson()
         val chain = listOf(
@@ -120,7 +120,7 @@ class ReportTest {
         assertThat(reportPackage.incident!!.chain[3].data!!.toString()).isEqualTo("""{"request":{"url":"https://host.ru/some/thing","method":"POST","headers":{"Accept":"application/json","Content-Type":"application/json"}},"result":{"header":"HTTP/1.1 400 Bad Request\r\nServer: nginx\r\nDate: Sun, 19 May 2019 13:36:59 GMT\r\nContent-Type: application/json\r\nContent-Length: 75\r\nConnection: keep-alive\r\nKeep-Alive: timeout=75\r\nCache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0\r\nAllow: POST, OPTIONS\r\nX-Frame-Options: SAMEORIGIN\r\nVary: Origin\r\nX-XSS-Protection: 1; mode=block\r\nX-Content-Type-Options: nosniff\r\n\r\n","effective_url":"https://host.ru/some/thing","body":{"error":{"code":400,"message":"'turbo' is not one of ['fix', 'melting']"}}}}""")
     }
 
-    @Test
+
     fun `test assertion reported - no incident`() {
         step("step description") {
             assertion("assertion message") {}
@@ -137,7 +137,7 @@ class ReportTest {
             }
     }
 
-    @Test
+
     fun `test assertion reported with multiple preconditions - no incident`() {
         precondition("first precondition") {
             assertion("first precondition assertion") {}
@@ -181,7 +181,7 @@ class ReportTest {
             }
     }
 
-    @Test
+
     fun `duplicate entries should be merged - only in consequent groups`() {
         step("Test step") {
             repeat(2) {
@@ -215,7 +215,7 @@ class ReportTest {
         )
     }
 
-    @Test
+
     fun `duplicate entries should be merged - consequent entries with different timestamps`() {
         step("Test step") {
             report.addComment(

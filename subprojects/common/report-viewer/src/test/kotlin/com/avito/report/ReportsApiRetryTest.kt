@@ -37,7 +37,7 @@ internal class ReportsApiRetryTest {
         mockWebServer.shutdown()
     }
 
-    @Test
+    
     fun `getReport - retries - on error`() {
         repeat(retryCount) {
             mockWebServer.enqueue(MockResponse().setResponseCode(502))

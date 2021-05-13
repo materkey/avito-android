@@ -33,7 +33,7 @@ internal class UnitTestCheckTest {
         }
     }
 
-    @Test
+
     fun `no changes - unit tests isn't executed `() {
         val result = runTaskFastCheck()
         result.assertThat()
@@ -46,7 +46,7 @@ internal class UnitTestCheckTest {
             )
     }
 
-    @Test
+
     fun `android test is changed - unit tests isn't executed`() {
         with(projectDir) {
             file("${TestProjectGenerator.appA}/src/androidTest/kotlin/com/appA/SomeClass.kt").mutate()
@@ -63,7 +63,7 @@ internal class UnitTestCheckTest {
             )
     }
 
-    @Test
+
     fun `implementation is changed - unit tests is executed`() {
         with(projectDir) {
             file("${TestProjectGenerator.appA}/src/main/kotlin/com/appA/SomeClass.kt").mutate()
@@ -82,7 +82,7 @@ internal class UnitTestCheckTest {
             )
     }
 
-    @Test
+
     fun `unit test is changed - unit tests is executed`() {
         with(projectDir) {
             file("${TestProjectGenerator.appA}/src/test/kotlin/com/appA/SomeClass.kt").mutate()

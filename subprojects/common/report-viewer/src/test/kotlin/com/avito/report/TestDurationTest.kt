@@ -11,7 +11,7 @@ import java.util.Date
 @ExtendWith(StubReportsExtension::class)
 class TestDurationTest {
 
-    @Test
+    
     fun `startTime set`(reports: StubReportApi) {
         val now = Date().time
         reports.addTest(
@@ -27,7 +27,7 @@ class TestDurationTest {
             .bodyContains("\"start_time\":$now")
     }
 
-    @Test
+    
     fun `endTime set`(reports: StubReportApi) {
         val now = Date().time
         reports.addTest(

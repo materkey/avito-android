@@ -20,8 +20,8 @@ class CriticalPathTest {
         this.projectDir = tempDir
     }
 
-    @Test
-    fun `input-output dependent task - path has a dependent task`() {
+
+    fun `has a predecessor task - input-output`() {
         setupTasks(
             """
             abstract class ProducerTask @Inject constructor(objects: ObjectFactory) : DefaultTask() {
@@ -65,8 +65,8 @@ class CriticalPathTest {
         assertThat(tasks).containsExactly(":producerTask", ":consumerTask")
     }
 
-    @Test
-    fun `dependsOn dependent task - path has a dependent task`() {
+
+    fun `has a predecessor task - dependsOn`() {
         setupTasks(
             """
             ${delayTaskDeclaration()}
@@ -84,8 +84,8 @@ class CriticalPathTest {
         assertThat(tasks).containsExactly(":first", ":second")
     }
 
-    @Test
-    fun `mustRunAfter dependent task - path has a dependent task`() {
+
+    fun `has a predecessor task - mustRunAfter`() {
         setupTasks(
             """
             ${delayTaskDeclaration()}
@@ -104,13 +104,13 @@ class CriticalPathTest {
     }
 
     @Disabled("Undefined behaviour for shouldRunAfter. It can be ignored in parallel execution")
-    @Test
-    fun `shouldRunAfter dependent task - no expectations`() {
+
+    fun `contains a predecessor task - shouldRunAfter`() {
         // no op
     }
 
-    @Test
-    fun `independent routes - path has the longest one`() {
+
+    fun `has the longest task - independent routes`() {
         setupTasks(
             """
             ${delayTaskDeclaration()}
@@ -138,8 +138,8 @@ class CriticalPathTest {
         assertThat(tasks).containsExactly(":long_first", ":long_last")
     }
 
-    @Test
-    fun `parallel routes - path has the longest task`() {
+
+    fun `has the longest task  - parallel routes`() {
         setupTasks(
             """
             ${delayTaskDeclaration()}
@@ -165,8 +165,8 @@ class CriticalPathTest {
         assertThat(tasks).containsExactly(":first", ":intermediate_100", ":last")
     }
 
-    @Test
-    fun `disabled plugin - no report`() {
+
+    fun `no report  - disabled plugin`() {
         setupTasks(
             enabledPlugin = false,
             buildScript = """
@@ -196,7 +196,6 @@ class CriticalPathTest {
             }
             buildTrace {
                 enabled.set($enabledPlugin)
-                output.set(project.layout.projectDirectory.dir("output"))
             }
             $buildScript
             """.trimIndent()
@@ -232,7 +231,6 @@ class CriticalPathTest {
         val reader = CriticalPathSerialization(reportFile())
 
         return reader.read()
-            .operations
             .map { it.path }
             .toSet()
     }
@@ -251,5 +249,5 @@ class CriticalPathTest {
     }
 
     private fun reportFile(): File =
-        File(projectDir, "output/critical_path.json")
+        File(projectDir, "outputs/build-trace/critical_path.json")
 }

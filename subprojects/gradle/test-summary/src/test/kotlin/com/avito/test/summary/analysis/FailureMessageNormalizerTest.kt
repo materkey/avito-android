@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 
 class FailureMessageNormalizerTest {
 
-    @Test
+
     fun simple_regex_replacement() {
         val normalizer = RegexFailureMessageNormalizer(
             regex = Regex("Object@[0-9a-f]+"),
@@ -21,7 +21,7 @@ class FailureMessageNormalizerTest {
         )
     }
 
-    @Test
+
     fun regex_with_pattern_replacement() {
         val normalizer = RegexToPatternMessageNormalizer(
             regex = Regex("Parameter specified as non-null is null.+parameter (.+)"),
@@ -36,7 +36,7 @@ class FailureMessageNormalizerTest {
         )
     }
 
-    @Test
+
     fun `no views in hierarchy - replaced with short message with view id`() {
         val verdict = "[test run] В [testCase] Не удалось выполнить шаг No views in hierarchy found matching: " +
             "with id: com.avito.android.dev:id/advert_duplicate_screen_root\\n\\nView Hiera"

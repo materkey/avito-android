@@ -30,7 +30,7 @@ class ImpactMetricsSenderTest {
         sender = ImpactMetricsSender(projectsFinder, statsdSender, environmentInfo)
     }
 
-    @Test
+
     fun `send - modified modules and apps`() {
         val root = rootProject()
         val notChangedApp = androidApp(":app-not-changed", root)

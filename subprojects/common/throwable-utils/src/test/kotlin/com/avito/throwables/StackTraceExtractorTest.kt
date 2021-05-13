@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class StackTraceExtractorTest {
 
-    @Test
+    
     fun `stacktrace extracted from exception contains message`() {
         assertThat(Exception("message").stackTraceToString())
             .contains("java.lang.Exception: message")

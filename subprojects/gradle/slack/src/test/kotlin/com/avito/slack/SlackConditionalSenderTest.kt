@@ -11,7 +11,7 @@ internal class SlackConditionalSenderTest {
 
     private val timeProvider = StubTimeProvider()
 
-    @Test
+
     fun `todayMessage - returns true - for today message`() {
         val existingMessage = FoundMessage.createStubInstance(timestamp = "1564200000")
 
@@ -26,7 +26,7 @@ internal class SlackConditionalSenderTest {
         assertThat(result).isTrue()
     }
 
-    @Test
+
     fun `todayMessage - returns true - for today message in slack ts format`() {
         val existingMessage = FoundMessage.createStubInstance(timestamp = "1564200000.000005")
 

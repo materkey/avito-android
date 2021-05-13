@@ -13,7 +13,7 @@ internal class DataSetDuplicateCheckTest {
         detected = true
     }
 
-    @Test
+    
     fun `duplicate detected - if two methods in class has same dataSetNumber`() {
         DataSetDuplicateCheck(onDuplicateDetected).run {
             onNewMethodFound(
@@ -44,7 +44,7 @@ internal class DataSetDuplicateCheckTest {
         assertThat(detected).isTrue()
     }
 
-    @Test
+    
     fun `duplicate not detected - if two methods in class has different dataSetNumber`() {
         DataSetDuplicateCheck(onDuplicateDetected).run {
             onNewMethodFound(
@@ -75,7 +75,7 @@ internal class DataSetDuplicateCheckTest {
         assertThat(detected).isFalse()
     }
 
-    @Test
+    
     fun `duplicate not detected - if two methods from different classes has same dataSetNumber`() {
         DataSetDuplicateCheck(onDuplicateDetected).run {
             onNewMethodFound(

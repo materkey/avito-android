@@ -35,7 +35,7 @@ class SignServicePluginTest {
         mockWebServer.shutdown()
     }
 
-    @Test
+    
     fun `plugin apply - fails - configuration without host`() {
         generateTestProject(
             signServiceExtension = """
@@ -59,7 +59,7 @@ class SignServicePluginTest {
             .outputContains("host")
     }
 
-    @Test
+    
     fun `apk signing fails - without required params - when sign tasks in graph (on ci)`() {
         generateTestProject()
 
@@ -74,7 +74,7 @@ class SignServicePluginTest {
             .outputContains("can't sign")
     }
 
-    @Test
+    
     fun `apk signing skipped - without required params - with allowSkip`() {
         generateTestProject()
 
@@ -90,7 +90,7 @@ class SignServicePluginTest {
     /**
      * TODO: check whether this contract actual or not for a service or CI outputs
      */
-    @Test
+    
     fun `bundle path check`() {
         generateTestProject()
         mockWebServer.enqueue(MockResponse().setResponseCode(HttpCodes.OK))
@@ -109,7 +109,7 @@ class SignServicePluginTest {
         assertThat(body).contains("filename=\"app-release.aab\"")
     }
 
-    @Test
+    
     fun `apk signing task - runs after packaging`() {
         generateTestProject()
 
@@ -126,7 +126,7 @@ class SignServicePluginTest {
         ).inOrder()
     }
 
-    @Test
+    
     fun `apk signing task - adds signed version to outputs`() {
         generateTestProject()
         mockWebServer.enqueue(MockResponse().setResponseCode(HttpCodes.OK).setBody("SIGNED_CONTENT"))
@@ -146,7 +146,7 @@ class SignServicePluginTest {
         assertThat(signedApk.readText()).isEqualTo("SIGNED_CONTENT")
     }
 
-    @Test
+    
     fun `bundle signing task - replaces original output by signed version (HACK)`() {
         generateTestProject()
         mockWebServer.enqueue(MockResponse().setResponseCode(HttpCodes.OK).setBody("SIGNED_CONTENT"))

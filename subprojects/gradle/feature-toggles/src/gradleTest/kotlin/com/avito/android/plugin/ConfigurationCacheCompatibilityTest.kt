@@ -21,7 +21,7 @@ internal class ConfigurationCacheCompatibilityTest {
      * See https://docs.gradle.org/6.8/userguide/configuration_cache.html#config_cache:not_yet_implemented:java_serialization
      */
     @Disabled
-    @Test
+
     fun `configuration with applied plugin`(@TempDir projectDir: File) {
         TestProjectGenerator(
             modules = listOf(

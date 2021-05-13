@@ -10,7 +10,7 @@ import java.io.File
 
 internal class RoomConfigPluginTest {
 
-    @Test
+
     fun integration(@TempDir tempDir: File) {
         TestProjectGenerator(
             plugins = plugins {

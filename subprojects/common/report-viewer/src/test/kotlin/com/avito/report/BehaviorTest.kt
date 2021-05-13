@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(StubReportsExtension::class)
 internal class BehaviorTest {
 
-    @Test
+
     fun `behavior positive sent in prepared_data`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -26,7 +26,7 @@ internal class BehaviorTest {
             .bodyMatches(hasJsonPath("$.params.prepared_data.behavior_id", Matchers.equalTo(2)))
     }
 
-    @Test
+
     fun `behavior negative sent in prepared_data`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),

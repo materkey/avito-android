@@ -29,7 +29,7 @@ class FastCheckChangesInSharedModule {
         generateProjectWithImpactAnalysis(projectDir)
     }
 
-    @Test
+
     fun `fastCheck runs all applications build tasks - changed implementation in dependent module`() {
         mutateFile("${TestProjectGenerator.sharedModule}/src/main/kotlin/SomeClass.kt")
 
@@ -41,7 +41,7 @@ class FastCheckChangesInSharedModule {
         )
     }
 
-    @Test
+
     fun `fastCheck runs only unit tests - changed unit test in dependent module`() {
         mutateFile("${TestProjectGenerator.sharedModule}/src/test/kotlin/SomeClass.kt")
 
