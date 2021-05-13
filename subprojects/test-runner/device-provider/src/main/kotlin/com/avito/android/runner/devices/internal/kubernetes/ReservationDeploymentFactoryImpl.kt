@@ -20,6 +20,7 @@ import com.fkorotkov.kubernetes.newVolumeMount
 import com.fkorotkov.kubernetes.resources
 import com.fkorotkov.kubernetes.securityContext
 import com.fkorotkov.kubernetes.spec
+import io.fabric8.kubernetes.api.model.ContainerPort
 import io.fabric8.kubernetes.api.model.PodSpec
 import io.fabric8.kubernetes.api.model.Quantity
 import io.fabric8.kubernetes.api.model.apps.Deployment
@@ -74,6 +75,7 @@ internal class ReservationDeploymentFactoryImpl(
             deploymentName = deploymentName,
             count = count
         ) {
+            hostNetwork = true
             containers = listOf(
                 newContainer {
                     name = emulator.name.toValidKubernetesName()
@@ -82,6 +84,10 @@ internal class ReservationDeploymentFactoryImpl(
                     securityContext {
                         privileged = true
                     }
+                    ports = listOf(ContainerPort().apply {
+                        containerPort = 5555
+                        hostPort = 5555
+                    })
 
                     resources {
                         limits = mutableMapOf<String, Quantity>().apply {
@@ -160,7 +166,7 @@ internal class ReservationDeploymentFactoryImpl(
             .plus("deploymentName" to deploymentName)
 
         return newDeployment {
-            apiVersion = "extensions/v1beta1"
+            apiVersion = "apps/v1"
             metadata {
                 name = deploymentName
                 labels = deploymentMatchLabels

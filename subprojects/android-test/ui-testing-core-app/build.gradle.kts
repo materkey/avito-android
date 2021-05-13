@@ -111,16 +111,6 @@ instrumentation {
             memoryLimit = "4Gi"
         )
 
-        val emulator29 = CloudEmulator(
-            name = "api29",
-            api = 29,
-            model = "Android_SDK_built_for_x86_64",
-            image = emulatorImage(29, "915c1f20be"),
-            cpuCoresRequest = "1",
-            cpuCoresLimit = "1.3",
-            memoryLimit = "4Gi"
-        )
-
         configurationsContainer.register("ui") {
             reportSkippedTests = true
             filter = "ci"
@@ -136,25 +126,7 @@ instrumentation {
 
                     testsCountBasedReservation {
                         device = emulator22
-                        maximum = 50
-                        minimum = 2
-                        testsPerEmulator = 3
-                    }
-                }
-            }
-
-            targetsContainer.register("api29") {
-                deviceName = "API29"
-
-                scheduling {
-                    quota {
-                        retryCount = 1
-                        minimumSuccessCount = 1
-                    }
-
-                    testsCountBasedReservation {
-                        device = emulator29
-                        maximum = 50
+                        maximum = 2
                         minimum = 2
                         testsPerEmulator = 3
                     }
