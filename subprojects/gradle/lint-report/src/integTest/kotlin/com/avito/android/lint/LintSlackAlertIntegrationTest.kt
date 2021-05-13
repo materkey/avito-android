@@ -40,7 +40,7 @@ internal class LintSlackAlertIntegrationTest {
         )
     )
 
-    @Test
+    
     fun integrationTest() {
         val parser = LintResultsParser(loggerFactory)
 

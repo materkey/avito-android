@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test
 
 internal class FilterFactoryImplTest {
 
-    @Test
+
     fun `when filterData is empty then filters always contains ExcludedBySdk and ExcludeAnnotationFilter`() {
         val factory = StubFilterFactory.create()
 
@@ -36,7 +36,7 @@ internal class FilterFactoryImplTest {
             )
     }
 
-    @Test
+
     fun `when filterData contains included annotations then filters have IncludeAnnotationFilter`() {
         val annotation = "Annotation"
         val factory = StubFilterFactory.create(
@@ -54,7 +54,7 @@ internal class FilterFactoryImplTest {
             .containsAtLeastElementsIn(listOf(IncludeAnnotationsFilter(setOf(annotation))))
     }
 
-    @Test
+
     fun `when filterData contains prefixes then filters have IncludeBySignatures, ExcludeBySignatures`() {
         val includedPrefix = "included_prefix"
         val excludedPrefix = "excluded_prefix"
@@ -93,7 +93,7 @@ internal class FilterFactoryImplTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+
     fun `when filterData includePrevious statuses and Report return list without that status then filters contain IncludeTestSignaturesFilters#Previous with empty signatures`() {
         val factory = StubFilterFactory.create(
             filter = InstrumentationFilter.Data.createStub(
@@ -118,7 +118,7 @@ internal class FilterFactoryImplTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+
     fun `when filterData - includePrevious statuses and Report failed - then filters contain defaults`() {
         val report = StubReport()
         report.getTestsResult = Result.Failure(IllegalStateException("something went wrong"))
@@ -144,7 +144,7 @@ internal class FilterFactoryImplTest {
         )
     }
 
-    @Test
+
     fun `when filterData previousStatuses is empty then filters don't contain PreviousRun filters`() {
         val factory = StubFilterFactory.create(
             filter = InstrumentationFilter.Data.createStub(
@@ -165,7 +165,7 @@ internal class FilterFactoryImplTest {
         }
     }
 
-    @Test
+
     fun `when filterData report is empty then filters don't contain Report filters`() {
         val factory = StubFilterFactory.create(
             filter = InstrumentationFilter.Data.createStub()
@@ -181,7 +181,7 @@ internal class FilterFactoryImplTest {
         }
     }
 
-    @Test
+
     fun `when filterData report is present and statuses empty then filters don't contain Report filter`() {
         val report = StubReport()
         report.getTestsResult = Result.Success(

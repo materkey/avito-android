@@ -20,7 +20,7 @@ class DataFromAnnotationMethodIsSent {
         )
     }
 
-    @Test
+
     @Description("annotation_in_method_data_sent")
     fun test() {
         simpleSuccessAssertion()

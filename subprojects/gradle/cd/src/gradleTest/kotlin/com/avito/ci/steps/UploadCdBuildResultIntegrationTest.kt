@@ -129,7 +129,7 @@ class RealTest {
         }
     }
 
-    @Test
+
     fun `upload cd build result - success send in integration`() {
         val configFileName = "xxx"
         val outputPath = "path"
@@ -231,7 +231,7 @@ class RealTest {
             .containsHeader("Authorization", Credentials.basic(artifactoryUser, artifactoryPassword))
     }
 
-    @Test
+
     fun `upload cd build result - sending task skipped`() {
         val configFileName = "xxx"
         val outputPath = "path"

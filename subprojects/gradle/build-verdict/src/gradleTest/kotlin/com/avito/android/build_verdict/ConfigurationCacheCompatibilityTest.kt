@@ -29,7 +29,7 @@ internal class ConfigurationCacheCompatibilityTest {
      * See https://docs.gradle.org/6.8/userguide/configuration_cache.html#config_cache:requirements:build_listeners
      */
     @Disabled
-    @Test
+
     fun `configuration with applied plugin`(@TempDir projectDir: File) {
         TestProjectGenerator(
             plugins = plugins {

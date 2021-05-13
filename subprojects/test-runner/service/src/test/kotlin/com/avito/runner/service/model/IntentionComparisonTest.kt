@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 class IntentionComparisonTest {
 
-    @Test
+
     fun `intentions are equal when have the same state and action`() {
         val sharedAction = generateInstrumentationTestAction()
 
@@ -33,7 +33,7 @@ class IntentionComparisonTest {
         assertThat(firstIntention.hashCode()).isEqualTo(theSameIntention.hashCode())
     }
 
-    @Test
+
     fun `intentions are different when have different layers`() {
         val sharedAction = generateInstrumentationTestAction()
 

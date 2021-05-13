@@ -20,7 +20,7 @@ class CriticalPathTest {
         this.projectDir = tempDir
     }
 
-    @Test
+
     fun `has a predecessor task - input-output`() {
         setupTasks(
             """
@@ -65,7 +65,7 @@ class CriticalPathTest {
         assertThat(tasks).containsExactly(":producerTask", ":consumerTask")
     }
 
-    @Test
+
     fun `has a predecessor task - dependsOn`() {
         setupTasks(
             """
@@ -84,7 +84,7 @@ class CriticalPathTest {
         assertThat(tasks).containsExactly(":first", ":second")
     }
 
-    @Test
+
     fun `has a predecessor task - mustRunAfter`() {
         setupTasks(
             """
@@ -104,12 +104,12 @@ class CriticalPathTest {
     }
 
     @Disabled("Undefined behaviour for shouldRunAfter. It can be ignored in parallel execution")
-    @Test
+
     fun `contains a predecessor task - shouldRunAfter`() {
         // no op
     }
 
-    @Test
+
     fun `has the longest task - independent routes`() {
         setupTasks(
             """
@@ -138,7 +138,7 @@ class CriticalPathTest {
         assertThat(tasks).containsExactly(":long_first", ":long_last")
     }
 
-    @Test
+
     fun `has the longest task  - parallel routes`() {
         setupTasks(
             """
@@ -165,7 +165,7 @@ class CriticalPathTest {
         assertThat(tasks).containsExactly(":first", ":intermediate_100", ":last")
     }
 
-    @Test
+
     fun `no report  - disabled plugin`() {
         setupTasks(
             enabledPlugin = false,

@@ -14,7 +14,7 @@ internal class ConfigurationCacheCompatibilityTest {
      * TODO blocked by agp 4.2
      */
     @Disabled
-    @Test
+
     fun `configuration with applied plugin - ok`(@TempDir projectDir: File) {
         TestProjectGenerator(
             modules = listOf(

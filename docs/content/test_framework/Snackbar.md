@@ -65,7 +65,7 @@ class SomeTest {
     @get:Rule
     private val rule = SnackbarRule() 
 
-    @Test  
+      
     fun test() {
         // test logic
   

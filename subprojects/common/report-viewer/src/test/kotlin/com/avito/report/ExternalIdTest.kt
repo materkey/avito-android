@@ -14,7 +14,7 @@ import java.util.UUID
 @ExtendWith(StubReportsExtension::class)
 internal class ExternalIdTest {
 
-    @Test
+    
     fun `externalId sent in prepared_data`(reports: StubReportApi) {
         val externalId = UUID.randomUUID().toString()
         reports.addTest(
@@ -28,7 +28,7 @@ internal class ExternalIdTest {
             .bodyMatches(hasJsonPath("$.params.prepared_data.external_id", Matchers.equalTo(externalId)))
     }
 
-    @Test
+    
     fun `externalId contains dataSetNumber if present`(reports: StubReportApi) {
         val externalId = UUID.randomUUID().toString()
         reports.addTest(
@@ -45,7 +45,7 @@ internal class ExternalIdTest {
             .bodyMatches(hasJsonPath("$.params.prepared_data.external_id", Matchers.equalTo("${externalId}_3")))
     }
 
-    @Test
+    
     fun `externalId doesnt sent if not set`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),

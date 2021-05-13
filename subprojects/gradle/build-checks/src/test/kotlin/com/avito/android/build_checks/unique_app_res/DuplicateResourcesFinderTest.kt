@@ -22,7 +22,7 @@ internal class DuplicateResourcesFinderTest {
         packageAwareRFile = File(tempDir.toFile(), "package-aware-r.txt")
     }
 
-    @Test
+
     fun `empty result - no duplicates`() {
         val symbolsA = readSymbols(
             """
@@ -47,7 +47,7 @@ internal class DuplicateResourcesFinderTest {
         assertThat(duplicates).isEmpty()
     }
 
-    @Test
+
     fun `empty result - ignored resource type`() {
         val symbolsA = readSymbols(
             """
@@ -71,7 +71,7 @@ internal class DuplicateResourcesFinderTest {
         assertThat(duplicates).isEmpty()
     }
 
-    @Test
+
     fun `empty result - ignored specific resource`() {
         val symbolsA = readSymbols(
             """
@@ -97,7 +97,7 @@ internal class DuplicateResourcesFinderTest {
         assertThat(duplicates).isEmpty()
     }
 
-    @Test
+
     fun `duplicates - the same layout name`() {
         val symbolsA = readSymbols(
             """

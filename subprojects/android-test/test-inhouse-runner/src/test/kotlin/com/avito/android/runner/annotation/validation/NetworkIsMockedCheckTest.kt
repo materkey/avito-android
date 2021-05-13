@@ -12,14 +12,14 @@ import org.junit.jupiter.api.assertThrows
 
 class NetworkIsMockedCheckTest {
 
-    @Test
+
     fun `success - valid network usage`() {
         validate(ComponentMockWebServerApiTest::class.java)
         validate(ComponentMockApiTest::class.java)
         validate(E2ERealNetworkTest::class.java)
     }
 
-    @Test
+
     fun `fail - component test with real network`() {
         val error = assertThrows<IllegalStateException> {
             validate(ComponentRealNetworkTest::class.java)

@@ -23,7 +23,7 @@ internal class CheckAndroidSdkVersionTest {
         projectDir = File(tmpDir, "project").apply { mkdirs() }
     }
 
-    @Test
+    
     fun `fail - no android sdk specified`() {
         androidHome?.delete()
         androidHome = null
@@ -41,7 +41,7 @@ internal class CheckAndroidSdkVersionTest {
             .outputContains("Can't find ANDROID_HOME")
     }
 
-    @Test
+    
     fun `fail - no android sdk in specified path`() {
         androidHome?.delete()
 
@@ -57,7 +57,7 @@ internal class CheckAndroidSdkVersionTest {
             .outputContains("ANDROID_HOME is not found")
     }
 
-    @Test
+    
     fun `fail - not specified versions`() {
         val result = runCheck(
             extension = """
@@ -70,7 +70,7 @@ internal class CheckAndroidSdkVersionTest {
             .outputContains("buildChecks.androidSdk.compileSdkVersion must be set")
     }
 
-    @Test
+    
     fun `fail - no SDK platform with specified version`() {
         givenAndroidSdkPlatform(version = 28, revision = 1)
 
@@ -86,7 +86,7 @@ internal class CheckAndroidSdkVersionTest {
             .outputContains("Android SDK platform 29 is not found")
     }
 
-    @Test
+    
     fun `fail - an old platform revision`() {
         givenAndroidSdkPlatform(version = 29, revision = 4)
 
@@ -105,7 +105,7 @@ internal class CheckAndroidSdkVersionTest {
             )
     }
 
-    @Test
+    
     fun `success - the same platform revision`() {
         givenAndroidSdkPlatform(version = 29, revision = 5)
 
@@ -118,7 +118,7 @@ internal class CheckAndroidSdkVersionTest {
         result.assertThat().buildSuccessful()
     }
 
-    @Test
+    
     fun `warning - a newer platform revision`() {
         givenAndroidSdkPlatform(version = 29, revision = 6)
 

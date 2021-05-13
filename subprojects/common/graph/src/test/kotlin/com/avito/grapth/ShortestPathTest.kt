@@ -8,14 +8,14 @@ import org.junit.jupiter.api.Test
 
 class ShortestPathTest {
 
-    @Test
+
     fun `zero operations - empty path`() {
         val longestPath = path(emptySet())
 
         assertThat(longestPath).isEmpty()
     }
 
-    @Test
+
     fun `one operation - path with it`() {
         val operation = SimpleOperation(id = "id")
 
@@ -24,7 +24,7 @@ class ShortestPathTest {
         assertThat(longestPath).containsExactly(operation)
     }
 
-    @Test
+
     fun `consecutive operations - all of them`() {
         val a1 = SimpleOperation(id = "a1")
         val a2 = SimpleOperation(id = "a2", predecessors = setOf("a1"))
@@ -35,7 +35,7 @@ class ShortestPathTest {
         assertThat(longestPath).containsExactly(a1, a2, a3)
     }
 
-    @Test
+
     fun `independent chains - the shortest chain`() {
         val a1 = SimpleOperation(id = "a1", duration = 2.0)
         val a2 = SimpleOperation(id = "a2", duration = 3.0, predecessors = setOf("a1"))
@@ -48,7 +48,7 @@ class ShortestPathTest {
         assertThat(longestPath).containsExactly(a1, a2)
     }
 
-    @Test
+
     fun `alternative parallel routes - the shortest route`() {
         val start = SimpleOperation(id = "start")
         val intermediate1 = SimpleOperation(id = "intermediate1", duration = 1.0, predecessors = setOf("start"))

@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test
 
 class TestExecutionStateTest {
 
-    @Test
+
     fun `verdict from state must be SendResult after 1 success run when minimal passed count is 1`() {
         val state = provideTestExecutionState(
             retry = provideSchedulingBasedRetryManager(
@@ -38,7 +38,7 @@ class TestExecutionStateTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+
     fun `verdict from state must be ReRun with intention with retry number instrumentation param 1 after 1 failed run when retry quota is 2`() {
         val state = provideTestExecutionState(
             retry = provideSchedulingBasedRetryManager(
@@ -63,7 +63,7 @@ class TestExecutionStateTest {
             .hasSize(1)
     }
 
-    @Test
+
     fun `verdict from state must be Run with 10 intentions when retry quota is 20 and minimal passed count is 10`() {
         val minimalPassedCount = 10
         val state = provideTestExecutionState(
@@ -84,7 +84,7 @@ class TestExecutionStateTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+
     fun `verdict from state must be Run with 1 intentions 2 times when retry quota is 20 and minimal passed count is 10 and 2 runs failed`() {
         val minimalPassedCount = 10
         val state = provideTestExecutionState(
@@ -114,7 +114,7 @@ class TestExecutionStateTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+
     fun `verdict from state must be Run with 0 intentions 2 times when retry quota is 20 and minimal passed count is 10 and 2 runs passed`() {
         val minimalPassedCount = 10
         val state = provideTestExecutionState(
@@ -149,7 +149,7 @@ class TestExecutionStateTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+
     fun `verdict from state must be Run with 0 intentions 2 times when retry quota is 20 and minimal failed count is 10 and 2 runs failed`() {
         val minimalFailedCount = 10
 
@@ -185,7 +185,7 @@ class TestExecutionStateTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+
     fun `dont have redundant intentions when have minimalFailedCount = 10 minimalPassedCount = 10 and retryQuota = 19`() {
         val minimalSuccessCount = 10
         val minimalFailedCount = 10
@@ -251,7 +251,7 @@ class TestExecutionStateTest {
             .isTrue()
     }
 
-    @Test
+
     fun `verdict must be Run with intention with executionNumber 1`() {
         val state = provideTestExecutionState(
             retry = provideSchedulingBasedRetryManager(
@@ -276,7 +276,7 @@ class TestExecutionStateTest {
             .isEqualTo(1)
     }
 
-    @Test
+
     fun `verdict must be Run with intention with executionNumber 2`() {
         val state = provideTestExecutionState(
             retry = provideSchedulingBasedRetryManager(
@@ -307,7 +307,7 @@ class TestExecutionStateTest {
             .isEqualTo(2)
     }
 
-    @Test
+
     fun `verdict must be Run with intentions with executionNumbers 1, 2`() {
         val state = provideTestExecutionState(
             retry = provideSchedulingBasedRetryManager(
@@ -339,7 +339,7 @@ class TestExecutionStateTest {
             .isEqualTo(2)
     }
 
-    @Test
+
     fun `verdict must be Run with intention with executionNumber 5`() {
         val state = provideTestExecutionState(
             retry = provideSchedulingBasedRetryManager(

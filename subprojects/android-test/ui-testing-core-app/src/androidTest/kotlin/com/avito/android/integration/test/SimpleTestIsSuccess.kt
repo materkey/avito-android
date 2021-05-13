@@ -12,7 +12,7 @@ import org.junit.Test
 @IntegrationTest
 class SimpleTestIsSuccess {
 
-    @Test
+
     fun test() {
         simpleSuccessAssertion()
     }

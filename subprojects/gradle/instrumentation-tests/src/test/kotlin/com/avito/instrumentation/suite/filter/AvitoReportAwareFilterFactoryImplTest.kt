@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test
  */
 internal class AvitoReportAwareFilterFactoryImplTest {
 
-    @Test
+    
     fun `when filterData report is present and has excludes then filters contain Report exclude filter`() {
         val report = StubReport()
 
@@ -73,7 +73,7 @@ internal class AvitoReportAwareFilterFactoryImplTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+    
     fun `when filterData excludePrevious statuses and Report return list then filters contain ExcludeTestSignaturesFilters#Previous with included statuses`() {
         val report = StubReport()
 
@@ -122,7 +122,7 @@ internal class AvitoReportAwareFilterFactoryImplTest {
         )
     }
 
-    @Test
+    
     fun `when filterData report is present and has includes then filters contain Report include filter`() {
         val report = StubReport()
 
@@ -174,7 +174,7 @@ internal class AvitoReportAwareFilterFactoryImplTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+    
     fun `when filterData includePrevious statuses and Report return list then filters contain IncludeTestSignaturesFilters#Previous with included statuses`() {
         val report = StubReport()
 

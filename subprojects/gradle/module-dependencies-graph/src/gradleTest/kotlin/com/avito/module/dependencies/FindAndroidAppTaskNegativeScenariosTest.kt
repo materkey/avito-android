@@ -16,14 +16,14 @@ internal class FindAndroidAppTaskNegativeScenariosTest {
         DependenciesGraphTestProject.generate(projectDir)
     }
 
-    @Test
+
     fun `no modules - fail`() {
         gradlew(projectDir, "findAndroidApp", expectFailure = true)
             .assertThat()
             .outputContains("No value has been specified for property 'modules'")
     }
 
-    @Test
+
     fun `incorrect module name - fail`() {
         gradlew(projectDir, "findAndroidApp", "--modules=stub", expectFailure = true)
             .assertThat()
@@ -31,7 +31,7 @@ internal class FindAndroidAppTaskNegativeScenariosTest {
             .outputContains("module 'stub' must contain : and be absolute")
     }
 
-    @Test
+
     fun `not existed module - fail`() {
         gradlew(projectDir, "findAndroidApp", "--modules=:stub", expectFailure = true)
             .assertThat()

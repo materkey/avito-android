@@ -31,7 +31,7 @@ class FastCheckNoChanges {
         }
     }
 
-    @Test
+
     fun `fastCheck - does not trigger any of assembleDebug tasks - thre is no changes`() {
         val result = runTask("fastCheck")
 

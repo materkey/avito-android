@@ -21,7 +21,7 @@ class BuildPropertiesPluginTest {
         projectDir = tempPath.toFile()
     }
 
-    @Test
+
     fun `assemble - creates build info properties`() {
         TestProjectGenerator(
             modules = listOf(
@@ -49,7 +49,7 @@ class BuildPropertiesPluginTest {
         assertThat(properties.getProperty("BUILD_NUMBER")).isEqualTo("1")
     }
 
-    @Test
+
     fun `assemble - creates backward compatible build info properties`() {
         TestProjectGenerator(
             modules = listOf(

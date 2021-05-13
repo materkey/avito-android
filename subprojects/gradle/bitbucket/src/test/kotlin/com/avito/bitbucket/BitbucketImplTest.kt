@@ -32,7 +32,7 @@ internal class BitbucketImplTest {
     )
         .also { dispatcher -> mockWebServer.dispatcher = dispatcher }
 
-    @Test
+    
     fun addInsights(@TempDir tempDir: File) {
         TestProjectGenerator(modules = listOf(KotlinModule("app"))).generateIn(tempDir)
 

@@ -23,14 +23,14 @@ class TestProjectGeneratorTest {
         projectDir = tempDir.toFile()
     }
 
-    @Test
+
     fun `settings include generated`() {
         TestProjectGenerator(modules = listOf(AndroidAppModule("app"))).generateIn(projectDir)
 
         assertThat(projectDir.file("settings.gradle").readLines()).contains("include(':app')")
     }
 
-    @Test
+
     fun `settings include generated for inner module`() {
         TestProjectGenerator(
             modules = listOf(
@@ -53,7 +53,7 @@ class TestProjectGeneratorTest {
         )
     }
 
-    @Test
+
     fun `settings include generated for inner inner module`() {
         TestProjectGenerator(
             modules = listOf(
@@ -82,7 +82,7 @@ class TestProjectGeneratorTest {
         )
     }
 
-    @Test
+
     fun `generating default test project is successful`() {
         TestProjectGenerator().generateIn(projectDir)
         gradlew(
@@ -93,7 +93,7 @@ class TestProjectGeneratorTest {
             .buildSuccessful()
     }
 
-    @Test
+
     fun `generating empty test project is successful`() {
         TestProjectGenerator(
             modules = emptyList()
@@ -106,7 +106,7 @@ class TestProjectGeneratorTest {
             .buildSuccessful()
     }
 
-    @Test
+
     fun `generating test project with all module types is successful`() {
         val androidApp = AndroidAppModule(
             "app",

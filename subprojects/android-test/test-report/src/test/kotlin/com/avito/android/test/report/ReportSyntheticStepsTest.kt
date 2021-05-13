@@ -33,7 +33,7 @@ class ReportSyntheticStepsTest {
         report.startTestCase()
     }
 
-    @Test
+
     fun `when add Entries after steps than synthetic step will be created`() {
         // when
         step("Real step")
@@ -53,7 +53,7 @@ class ReportSyntheticStepsTest {
         )
     }
 
-    @Test
+
     fun `when add htmlEntry before steps - synthetic step will be added to preconditions`() {
         // when
         report.addEntriesOutOfStep()
@@ -72,7 +72,7 @@ class ReportSyntheticStepsTest {
         )
     }
 
-    @Test
+
     fun `when add htmlEntry between steps than synthetic step will be created`() {
         // when
         step("Real step")

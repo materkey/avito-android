@@ -20,7 +20,7 @@ class SuspiciousTogglesCollectorTest {
         collector = SuspiciousTogglesCollector(loggerFactory, developerToTeam = mapOf())
     }
 
-    @Test
+    
     fun `collect toggles - merge json and code toggles`() {
 
         val jsonTogglesList = listOf(

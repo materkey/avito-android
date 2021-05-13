@@ -22,7 +22,7 @@ internal class CollectTeamcityMetricsActionTest {
 
     private val buildId = "BUILD_ID"
 
-    @Test
+
     fun `send build metric`() {
         val teamcity: TeamcityApi = mock()
         val graphite = StubGraphiteSender()

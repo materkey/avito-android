@@ -7,7 +7,7 @@ import org.junit.jupiter.api.assertThrows
 
 internal class GetMandatoryStringPropertyTest {
 
-    @Test
+
     fun `getMandatoryStringProperty - throws exception - on empty string if not allowed`() {
         val project = ProjectBuilder.builder().build()
         project.extensions.extraProperties["someProperty"] = ""
@@ -18,7 +18,7 @@ internal class GetMandatoryStringPropertyTest {
     }
 
     // todo throw by default
-    @Test
+
     fun `getMandatoryStringProperty - returns empty value - on empty string value by default`() {
         val project = ProjectBuilder.builder().build()
         project.extensions.extraProperties["someProperty"] = ""
@@ -27,7 +27,7 @@ internal class GetMandatoryStringPropertyTest {
         assertThat(value).isEqualTo("")
     }
 
-    @Test
+
     fun `getMandatoryStringProperty - returns empty value - on empty string if allowed`() {
         val project = ProjectBuilder.builder().build()
         project.extensions.extraProperties["someProperty"] = ""
@@ -36,7 +36,7 @@ internal class GetMandatoryStringPropertyTest {
         assertThat(value).isEqualTo("")
     }
 
-    @Test
+
     fun `getMandatoryStringProperty - throws exception - on no property`() {
         val project = ProjectBuilder.builder().build()
 
@@ -45,7 +45,7 @@ internal class GetMandatoryStringPropertyTest {
         }
     }
 
-    @Test
+
     fun `getMandatoryStringProperty - returns correct value`() {
         val project = ProjectBuilder.builder().build()
         project.extensions.extraProperties["someProperty"] = "12345"

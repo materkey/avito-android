@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test
 
 internal class VerdictDeterminerImplTest {
 
-    @Test
+
     fun `verdict - success - empty test suite`() {
         val verdictDeterminer = createVerdictDeterminer()
 
@@ -31,7 +31,7 @@ internal class VerdictDeterminerImplTest {
         assertThat(verdict).isInstanceOf<Verdict.Success.OK>()
     }
 
-    @Test
+
     fun `verdict - lost - test results doesn't contain test from initial suite`() {
         val verdictDeterminer = createVerdictDeterminer()
 
@@ -63,7 +63,7 @@ internal class VerdictDeterminerImplTest {
     /**
      * we should consider to fail on this case
      */
-    @Test
+
     fun `verdict - lost - test results contains more tests than initial suite`() {
         val verdictDeterminer = createVerdictDeterminer()
 
@@ -95,7 +95,7 @@ internal class VerdictDeterminerImplTest {
         assertThat(verdict).isInstanceOf<Verdict.Success.OK>()
     }
 
-    @Test
+
     fun `verdict - success - single success test`() {
         val verdictDeterminer = createVerdictDeterminer()
 
@@ -114,7 +114,7 @@ internal class VerdictDeterminerImplTest {
         assertThat(verdict).isInstanceOf<Verdict.Success.OK>()
     }
 
-    @Test
+
     fun `verdict - fail - single failed test`() {
         val verdictDeterminer = createVerdictDeterminer(
             suppressFlaky = false,
@@ -138,7 +138,7 @@ internal class VerdictDeterminerImplTest {
         }
     }
 
-    @Test
+
     fun `verdict - suppressed - single failed test with suppress failure`() {
         val verdictDeterminer = createVerdictDeterminer(
             suppressFlaky = false,
@@ -160,7 +160,7 @@ internal class VerdictDeterminerImplTest {
         assertThat(verdict).isInstanceOf<Verdict.Success.Suppressed>()
     }
 
-    @Test
+
     fun `verdict - suppressed - single failed flaky test with suppress flaky`() {
         val verdictDeterminer = createVerdictDeterminer(
             suppressFlaky = true,
@@ -183,7 +183,7 @@ internal class VerdictDeterminerImplTest {
         assertThat(verdict).isInstanceOf<Verdict.Success.Suppressed>()
     }
 
-    @Test
+
     fun `verdict - failed - single failed stable test with suppress flaky`() {
         val verdictDeterminer = createVerdictDeterminer(
             suppressFlaky = true,
@@ -208,7 +208,7 @@ internal class VerdictDeterminerImplTest {
         }
     }
 
-    @Test
+
     fun `verdict - lost - single lost test`() {
         val verdictDeterminer = createVerdictDeterminer()
 

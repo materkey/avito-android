@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(StubReportsExtension::class)
 internal class DataSetTest {
 
-    @Test
+
     fun `data_set doesnt sent for empty map`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -26,7 +26,7 @@ internal class DataSetTest {
             .bodyDoesntContain("\"data_set\"")
     }
 
-    @Test
+
     fun `data_set_number sent`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -39,7 +39,7 @@ internal class DataSetTest {
             .bodyContains("\"data_set_number\":\"1\"")
     }
 
-    @Test
+
     fun `data_set object sent`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -53,7 +53,7 @@ internal class DataSetTest {
             .bodyContains("\"data_set\":{\"vas\":\"premium\"}}")
     }
 
-    @Test
+
     fun `data_set without data_set_number throws an exception`(reports: StubReportApi) {
         val exception = assertThrows(IllegalArgumentException::class.java) {
             reports.addTest(

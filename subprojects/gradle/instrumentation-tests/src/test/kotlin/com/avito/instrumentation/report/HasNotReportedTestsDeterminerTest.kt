@@ -16,7 +16,7 @@ internal class HasNotReportedTestsDeterminerTest {
 
     private val timeProvider = StubTimeProvider()
 
-    @Test
+    
     fun `determine - AllTestsReported - when all tests found in report`() {
         val result = LegacyNotReportedTestsDeterminer(timeProvider)
             .determine(
@@ -44,7 +44,7 @@ internal class HasNotReportedTestsDeterminerTest {
         assertThat(result).isInstanceOf<HasNotReportedTestsDeterminer.Result.AllTestsReported>()
     }
 
-    @Test
+    
     fun `determine - ThereWereMissedTests - when not all tests found in report`() {
         val result = LegacyNotReportedTestsDeterminer(timeProvider)
             .determine(

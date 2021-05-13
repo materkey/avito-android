@@ -37,7 +37,7 @@ class DeviceWorkerTest {
 
     private val loggerFactory = StubLoggerFactory
 
-    @Test
+
     fun `returns application installed event and 4 passed intentions for 4 tests with of 2 applications`() =
         runBlockingTest {
             val compatibleWithDeviceState = State(
@@ -124,7 +124,7 @@ class DeviceWorkerTest {
                 .isEqualTo(intentions)
         }
 
-    @Test
+
     fun `fail with device died event - device is freeze before processing intentions`() =
         runBlockingTest {
             val freezeDevice = StubDevice(
@@ -162,7 +162,7 @@ class DeviceWorkerTest {
                 .isInstanceOf<DeviceWorkerMessage.WorkerDied>()
         }
 
-    @Test
+
     fun `returns failed message - device is freeze while processing first intention`() =
         runBlockingTest {
             val compatibleWithDeviceState = State(

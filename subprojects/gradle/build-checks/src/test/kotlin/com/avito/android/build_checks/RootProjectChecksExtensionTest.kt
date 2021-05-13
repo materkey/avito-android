@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 
 internal class RootProjectChecksExtensionTest {
 
-    @Test
+
     fun `all default checks are enabled - default config`() {
         val extension = RootProjectChecksExtension()
         val checks = extension.enabledChecks()

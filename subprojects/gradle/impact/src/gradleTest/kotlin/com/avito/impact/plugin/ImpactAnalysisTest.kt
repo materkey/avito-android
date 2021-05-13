@@ -38,7 +38,7 @@ class ImpactAnalysisTest {
     }
 
     @Disabled("TODO: it seems here must be no changes")
-    @Test
+    
     fun `no changed modules - no changed files on the same branch`() {
         generateProject(
             modules = listOf(
@@ -55,7 +55,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `no changed modules - no changed files on another branch`() {
         generateProject(
             modules = listOf(
@@ -74,7 +74,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `no changed modules - changed only ignored files`() {
         generateProject(
             modules = listOf(
@@ -111,7 +111,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `all modules changed as fallback - unknown change`() {
         generateProject(
             modules = listOf(
@@ -134,7 +134,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `changed module - changed sources (not committed)`() {
         generateProject(
             modules = listOf(
@@ -156,7 +156,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `changed module - changed sources (committed)`() {
         generateProject(
             modules = listOf(
@@ -180,7 +180,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `transitive changes - changed implementation dependency`() {
         generateProject(
             modules = listOf(
@@ -211,7 +211,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `transitive changes - changed transitive implementation dependency`() {
         generateProject(
             modules = listOf(
@@ -253,7 +253,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `transitive changes - changed transitive test dependency`() {
         generateProject(
             modules = listOf(
@@ -289,7 +289,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `transitive changes - changed transitive androidTest dependency`() {
         generateProject(
             modules = listOf(
@@ -328,7 +328,7 @@ class ImpactAnalysisTest {
     // Checking problems with circular dependencies.
     // Gradle has no problems but we build graph manually.
     // https://avito-tech.github.io/avito-android/docs/architecture/modules/#modules-for-test-fixtures
-    @Test
+    
     fun `transitive changes - changed androidTest fixtures`() {
         generateProject(
             modules = listOf(
@@ -369,7 +369,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `transitive changes - changed implementation platform dependency`() {
         generateProject(
             modules = listOf(
@@ -408,7 +408,7 @@ class ImpactAnalysisTest {
     /**
      * it could be improved, but for now parent/build.gradle is just a fallback
      */
-    @Test
+    
     fun `all child and dependent modules changed - parent module gradle configuration changed`() {
         generateProject(
             modules = listOf(
@@ -449,7 +449,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `all modules changed - root gradle configuration changed`() {
         generateProject(
             modules = listOf(
@@ -481,7 +481,7 @@ class ImpactAnalysisTest {
         )
     }
 
-    @Test
+    
     fun `transitive changes - changed androidTest platform dependency`() {
         generateProject(
             modules = listOf(

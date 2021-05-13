@@ -22,7 +22,7 @@ internal class TestSuiteProviderTest {
         annotations = emptyList()
     )
 
-    @Test
+
     fun `test suite - dont skip tests`() {
         val testSuiteProvider = createTestSuiteProvider()
 
@@ -33,7 +33,7 @@ internal class TestSuiteProviderTest {
         assertThat(result.testsToRun.map { it.test.name }).containsExactly(simpleTestInApk.testName)
     }
 
-    @Test
+
     fun `test suite - skip test - if rerun enabled and test passed in previous run`() {
         val report = StubReport()
         val testSuiteProvider = createTestSuiteProvider(

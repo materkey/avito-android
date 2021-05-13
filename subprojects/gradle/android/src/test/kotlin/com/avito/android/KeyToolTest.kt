@@ -11,7 +11,7 @@ internal class KeyToolTest {
     private val irrelevant = ExistingFile.Stub
 
     @Suppress("MaxLineLength")
-    @Test
+    
     fun `parseBundleSignature - returns lowercased SHA-1 from keytool output`() {
         val keytoolOutput = """
             Signer #1:
@@ -43,7 +43,7 @@ internal class KeyToolTest {
         assertThat(actual).isEqualTo(Result.Success(expected))
     }
 
-    @Test
+    
     fun `parseBundleSignature - returns null - keytool output is incorrect`() {
         val keytoolOutput = """
             There is no valid output

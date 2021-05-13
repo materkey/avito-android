@@ -33,7 +33,7 @@ internal class StepsTest {
         )
     )
 
-    @Test
+
     fun `step contains title`(reports: StubReportApi) {
         testRequest(reports)
             .singleRequestCaptured()
@@ -45,7 +45,7 @@ internal class StepsTest {
             )
     }
 
-    @Test
+
     fun `step contains number`(reports: StubReportApi) {
         testRequest(reports)
             .singleRequestCaptured()
@@ -57,7 +57,7 @@ internal class StepsTest {
             )
     }
 
-    @Test
+
     fun `step contains timestamp`(reports: StubReportApi) {
         testRequest(reports)
             .singleRequestCaptured()
@@ -69,7 +69,7 @@ internal class StepsTest {
             )
     }
 
-    @Test
+
     fun `step contains entry with type`(reports: StubReportApi) {
         testRequest(reports)
             .singleRequestCaptured()
@@ -81,7 +81,7 @@ internal class StepsTest {
             )
     }
 
-    @Test
+
     fun `step contains entry with timestamp`(reports: StubReportApi) {
         testRequest(reports)
             .singleRequestCaptured()
@@ -93,7 +93,7 @@ internal class StepsTest {
             )
     }
 
-    @Test
+
     fun `step contains comment entry with title`(reports: StubReportApi) {
         testRequest(reports)
             .singleRequestCaptured()

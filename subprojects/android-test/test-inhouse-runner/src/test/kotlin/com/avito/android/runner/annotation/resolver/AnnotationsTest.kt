@@ -13,7 +13,7 @@ import ru.avito.util.matcher.containsValueWithType
 
 class AnnotationsTest {
 
-    @Test
+
     fun `getAnnotationsSubset - only subset item returned`() {
         assertThat(
             Annotations.getAnnotationsSubset(
@@ -28,7 +28,7 @@ class AnnotationsTest {
         )
     }
 
-    @Test
+
     fun `getAnnotationsSubset - only used subset items returned`() {
         assertThat(
             Annotations.getAnnotationsSubset(
@@ -48,7 +48,7 @@ class AnnotationsTest {
         )
     }
 
-    @Test
+
     fun `getAnnotationsSubset - empty - for empty subset`() {
         assertThat(
             Annotations.getAnnotationsSubset(
@@ -59,7 +59,7 @@ class AnnotationsTest {
         )
     }
 
-    @Test
+
     fun `getAnnotationsSubset - method annotation wins`() {
         val annotations = Annotations.getAnnotationsSubset(
             ClassWithAnnotation::class.java,

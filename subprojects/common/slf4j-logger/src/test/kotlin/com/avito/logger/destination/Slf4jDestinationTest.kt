@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream
 
 internal class Slf4jDestinationTest {
 
-    @Test
+
     fun `destination is serializable`() {
         val destination = Slf4jDestination("name")
 

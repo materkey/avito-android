@@ -29,7 +29,7 @@ class GitLocalStateTest {
         }
     }
 
-    @Test
+    
     fun `on target branch`() {
         repoDir.git("checkout develop")
 
@@ -40,7 +40,7 @@ class GitLocalStateTest {
         assertThat(state.isOnDefaultBranch).isTrue()
     }
 
-    @Test
+    
     fun `on feature branch - without target branch reference`() {
         repoDir.git("checkout feature")
 
@@ -51,7 +51,7 @@ class GitLocalStateTest {
         assertThat(state.isOnDefaultBranch).isFalse()
     }
 
-    @Test
+    
     fun `on feature branch - with target branch reference`() {
         repoDir.git("checkout feature")
 

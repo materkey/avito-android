@@ -11,7 +11,7 @@ import java.nio.file.Paths
 
 internal class QAppsPluginTest {
 
-    @Test
+
     fun `plugin applied - with necessary parameters provided`(@TempDir projectDir: File) {
         createProject(
             projectDir,
@@ -25,7 +25,7 @@ internal class QAppsPluginTest {
         result.assertThat().buildSuccessful()
     }
 
-    @Test
+
     fun `plugin apply fails - without required params - in ci`(@TempDir projectDir: File) {
         createProject(
             projectDir,

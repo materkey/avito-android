@@ -43,7 +43,7 @@ class RequestIncidentPresenterTest {
   ]
 }"""
 
-    @Test
+    
     fun dataIsJsonObject() {
         val result = RequestIncidentPresenter().customize(RequestIncidentException("kk", sampleJson, null))
 

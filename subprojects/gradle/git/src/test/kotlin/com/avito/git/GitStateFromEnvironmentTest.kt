@@ -49,7 +49,7 @@ class GitStateFromEnvironmentTest {
         }
     }
 
-    @Test
+    
     fun `on target branch`() {
         localRepo.git("checkout develop")
 
@@ -60,7 +60,7 @@ class GitStateFromEnvironmentTest {
         assertThat(state.isOnDefaultBranch).isTrue()
     }
 
-    @Test
+    
     fun `on feature branch - no target branch - without target branch reference`() {
         localRepo.git("checkout feature")
 
@@ -71,7 +71,7 @@ class GitStateFromEnvironmentTest {
         assertThat(state.isOnDefaultBranch).isFalse()
     }
 
-    @Test
+    
     fun `on feature branch - use origin target reference - if available`() {
         val remoteFeatureCommit: String
         with(remoteRepo) {
@@ -93,7 +93,7 @@ class GitStateFromEnvironmentTest {
         assertThat(state.isOnDefaultBranch).isFalse()
     }
 
-    @Test
+    
     fun `on feature branch - use local target reference - if origin is not available`() {
         with(remoteRepo) {
             git("checkout develop")

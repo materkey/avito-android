@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 internal class GetTestResultsActionTest {
 
-    @Test
+
     fun `action - getTestResultAction success`() {
         val reportCoordinates = ReportCoordinates.createStubInstance()
         val reportViewer = StubReportViewer()

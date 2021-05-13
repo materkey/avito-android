@@ -22,13 +22,11 @@ class BitmapMatcherTest {
         Screen.bitmapScreen.imageViewBitmap.checks.withImage(image)
     }
 
-    @Test
     fun matches_sameVector() {
         val image = getDrawable(R.drawable.red).toBitmap()
         Screen.bitmapScreen.imageViewVector.checks.withImage(image)
     }
 
-    @Test
     fun fails_differentImageSize() {
         val image = getDrawable(R.drawable.ic_check_black_24dp).toBitmap()
 
@@ -40,7 +38,6 @@ class BitmapMatcherTest {
         )
     }
 
-    @Test
     fun fails_differentImage() {
         val image = getDrawable(R.drawable.blue).toBitmap()
 

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 internal class FindAndroidAppTaskInMainTest : BaseFindAndroidAppTaskTest() {
 
-    @Test
+
     override fun `find one suitable app - advice this app`() {
         gradlew(projectDir, "findAndroidApp", "--modules=:LeafF", "--configuration=main")
             .assertThat()
@@ -13,7 +13,7 @@ internal class FindAndroidAppTaskInMainTest : BaseFindAndroidAppTaskTest() {
             .outputContains("In your project is only one suitable app :RootA")
     }
 
-    @Test
+
     override fun `find multiple same suitable apps - advice that you could choose both`() {
         gradlew(projectDir, "findAndroidApp", "--modules=:NodeC", "--configuration=main")
             .assertThat()
@@ -26,7 +26,7 @@ internal class FindAndroidAppTaskInMainTest : BaseFindAndroidAppTaskTest() {
             )
     }
 
-    @Test
+
     override fun `find multiple suitable apps - advice with that has the least dependencies`() {
         gradlew(projectDir, "findAndroidApp", "--modules=:LeafE", "--configuration=main")
             .assertThat()
@@ -39,7 +39,7 @@ internal class FindAndroidAppTaskInMainTest : BaseFindAndroidAppTaskTest() {
             )
     }
 
-    @Test
+
     override fun `don't find any suitable app - advice that there are no apps`() {
         gradlew(projectDir, "findAndroidApp", "--modules=:UniqueA", "--configuration=main")
             .assertThat()

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 internal class ExcludeFlakyTest {
 
-    @Test
+
     fun include_stable() {
         val result = ExcludeByFlakyFilter().filter(
             TestsFilter.Test.createStub(
@@ -23,7 +23,7 @@ internal class ExcludeFlakyTest {
             .isEqualTo(TestsFilter.Result.Included)
     }
 
-    @Test
+
     fun exclude_flaky() {
         val result = ExcludeByFlakyFilter().filter(
             TestsFilter.Test.createStub(
@@ -34,7 +34,7 @@ internal class ExcludeFlakyTest {
         assertThat(result).isInstanceOf<TestsFilter.Result.Excluded.HasFlakyAnnotation>()
     }
 
-    @Test
+
     fun exclude_flaky_in_integration_with_filter_factory() {
         val filterFactory = StubFilterFactory.create(
             filter = InstrumentationFilter.Data.createStub(
@@ -51,7 +51,7 @@ internal class ExcludeFlakyTest {
         assertThat(result).isInstanceOf<TestsFilter.Result.Excluded.HasFlakyAnnotation>()
     }
 
-    @Test
+
     fun include_stable_in_integration_with_filter_factory() {
         val filterFactory = StubFilterFactory.create(
             filter = InstrumentationFilter.Data.createStub(
@@ -69,7 +69,7 @@ internal class ExcludeFlakyTest {
             .isEqualTo(TestsFilter.Result.Included)
     }
 
-    @Test
+
     fun include_flaky_in_integration_with_filter_factory() {
         val filterFactory = StubFilterFactory.create(
             filter = InstrumentationFilter.Data.createStub(

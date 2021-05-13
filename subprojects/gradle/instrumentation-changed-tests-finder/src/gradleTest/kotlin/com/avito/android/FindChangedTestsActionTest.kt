@@ -60,11 +60,11 @@ internal class FindChangedTestsActionTest {
             
             class TestGroup {
             
-                @Test
+                
                 fun testOne() {
                 }
                 
-                @Test
+                
                 fun testTwo() {
                 }
             }
@@ -80,7 +80,7 @@ internal class FindChangedTestsActionTest {
             
             class AnotherTest {
             
-                @Test
+                
                 fun test() {
                 }
             }
@@ -96,14 +96,14 @@ internal class FindChangedTestsActionTest {
             
             class TestClassInFileOne {
             
-                @Test
+                
                 fun test() {
                 }
             }
             
             class TestClassInFileTwo {
             
-                @Test
+                
                 fun test() {
                 }
             }
@@ -118,7 +118,7 @@ internal class FindChangedTestsActionTest {
         targetCommit = git.tryParseRev("develop").getOrThrow()
     }
 
-    @Test
+    
     fun `finds modified file's class`() {
         git.checkout(branchName = "changes", create = true).getOrThrow()
         mutateKotlinFile(anotherTestFile)
@@ -139,7 +139,7 @@ internal class FindChangedTestsActionTest {
         file.appendText("\n private fun newFun() { }")
     }
 
-    @Test
+    
     fun `finds added file's class`() {
         git.checkout(branchName = "addition", create = true).getOrThrow()
         androidTestDir.file(
@@ -151,7 +151,7 @@ internal class FindChangedTestsActionTest {
             
             class NewTest {
             
-                @Test
+                
                 fun test() {
                 }
             }
@@ -170,7 +170,7 @@ internal class FindChangedTestsActionTest {
         assertThat(output.readText()).isEqualTo("com.avito.android.test.NewTest")
     }
 
-    @Test
+    
     fun `finds all tests in modified file with multiple classes`() {
         git.checkout(branchName = "multiple-classes", create = true).getOrThrow()
         mutateKotlinFile(multipleClassesTestFile)
@@ -189,7 +189,7 @@ internal class FindChangedTestsActionTest {
         )
     }
 
-    @Test
+    
     fun `finds nothing if nothing changes`() {
         gradlew(projectDir, changedTestsFinderTaskName, "-PtargetCommit=$targetCommit")
             .assertThat()

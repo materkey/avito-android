@@ -34,13 +34,13 @@ class TestSuiteLoaderTest {
         testSuiteLoader = TestSuiteLoaderImpl(dexFileExtractor)
     }
 
-    @Test
+
     fun `load test suite - returns error - on incorrect file`() {
         val result = testSuiteLoader.loadTestSuite(File("."))
         assertThat(result).isFailure()
     }
 
-    @Test
+
     fun `load test suite - returns one test case - class with test annotated method`() {
         givenClasses(
             createClass("Lru/avito/Test;") {
@@ -60,7 +60,7 @@ class TestSuiteLoaderTest {
         assertThat(tests.first().testName.methodName).isEqualTo("test1")
     }
 
-    @Test
+
     fun `load test suite - does not returns test cases - class contains method without annotations`() {
         givenClasses(
             createClass("Lru/avito/Test;") {
@@ -78,7 +78,7 @@ class TestSuiteLoaderTest {
         assertThat(tests).isFailure()
     }
 
-    @Test
+
     fun `load test suite - returns all test cases - multiple classes with test annotated methods`() {
         givenClasses(
             createClass("Lru/avito/Test1;") {
@@ -117,7 +117,7 @@ class TestSuiteLoaderTest {
         }
     }
 
-    @Test
+
     fun `load test suite - returns test cases with class annotation - class with custom annotation`() {
         givenClasses(
             createClass("Lru/avito/Test;") {
@@ -152,7 +152,7 @@ class TestSuiteLoaderTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+
     fun `load test suite - returns test cases with class annotation - multiple methods in class with custom annotation`() {
         givenClasses(
             createClass("Lru/avito/Test;") {
@@ -207,7 +207,7 @@ class TestSuiteLoaderTest {
         )
     }
 
-    @Test
+
     fun `load tests - returns test case - method with annotation`() {
         givenClasses(
             createClass("Lru/avito/Test;") {
@@ -237,7 +237,7 @@ class TestSuiteLoaderTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+
     fun `load tests - returns test case - class with annotation and include annotation filter contains this + other annotation`() {
         givenClasses(
             createClass("Lru/avito/Test;") {

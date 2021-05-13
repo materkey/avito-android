@@ -22,7 +22,7 @@ internal class UniqueAppResourcesTest {
         this.projectDir = projectDir
     }
 
-    @Test
+
     fun `success - unique resources`() {
         TestProjectGenerator(
             plugins = plugins {
@@ -59,7 +59,7 @@ internal class UniqueAppResourcesTest {
         build.assertThat().tasksShouldBeTriggered(":app:checkUniqueResources")
     }
 
-    @Test
+
     fun `fail - duplicated string resource`() {
         val resFileCreator: File.() -> Unit = {
             val projectName = this.name
@@ -110,7 +110,7 @@ internal class UniqueAppResourcesTest {
             .outputContains("string 'title' in packages: [lib_a, lib_b]")
     }
 
-    @Test
+
     fun `success - ignore duplicated resource type`() {
         val resFileCreator: File.() -> Unit = {
             val projectName = this.name
@@ -161,7 +161,7 @@ internal class UniqueAppResourcesTest {
         build.assertThat().tasksShouldBeTriggered(":app:checkUniqueResources")
     }
 
-    @Test
+
     fun `success - ignore specific resources`() {
         val resFileCreator: File.() -> Unit = {
             val projectName = this.name
@@ -214,7 +214,7 @@ internal class UniqueAppResourcesTest {
         build.assertThat().tasksShouldBeTriggered(":app:checkUniqueResources")
     }
 
-    @Test
+
     fun `fail - invalid resource type in a config`() {
         TestProjectGenerator(
             plugins = plugins {

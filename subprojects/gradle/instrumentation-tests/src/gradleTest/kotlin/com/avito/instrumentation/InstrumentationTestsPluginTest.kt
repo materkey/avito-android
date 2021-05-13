@@ -12,7 +12,7 @@ import java.io.File
 
 internal class InstrumentationTestsPluginTest {
 
-    @Test
+
     fun `run instrumentation by name - ok - in application project`(@TempDir projectDir: File) {
         val moduleName = "app"
 
@@ -35,7 +35,7 @@ internal class InstrumentationTestsPluginTest {
             }
     }
 
-    @Test
+
     fun `run instrumentation by name - ok - in library project`(@TempDir projectDir: File) {
         val moduleName = "lib"
 

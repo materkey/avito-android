@@ -17,7 +17,7 @@ internal class MockDispatcherTest {
 
     private val dispatcher = MockDispatcher(loggerFactory = loggerFactory)
 
-    @Test
+    
     fun `dispatcher - dispatch last matching response - if multiple registered conditions matches`() {
         val sameRequest: RequestData.() -> Boolean = { path.contains("xxx") }
 
@@ -39,7 +39,7 @@ internal class MockDispatcherTest {
         assertThat(response.getBody()?.readUtf8()).isEqualTo("Second registered")
     }
 
-    @Test
+    
     fun `dispatcher - find matching request - if multiple registered request has same path but different body`() {
         dispatcher.registerMock(
             Mock(
@@ -64,7 +64,7 @@ internal class MockDispatcherTest {
      * see MBS-7636
      */
     @Disabled("Used only for manual debugging of concurrency problems on dispatcher internal collections")
-    @Test
+    
     fun `dispatcher - register and dispatching mocks - accessed concurrently`() {
         var throwable: Throwable? = null
 

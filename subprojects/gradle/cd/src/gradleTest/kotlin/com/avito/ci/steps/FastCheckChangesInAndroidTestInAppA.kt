@@ -37,7 +37,7 @@ class FastCheckChangesInAndroidTestInAppA {
         }
     }
 
-    @Test
+
     fun `fastCheck triggers assemble task only in $appA`() {
         val result = runTask("fastCheck")
 

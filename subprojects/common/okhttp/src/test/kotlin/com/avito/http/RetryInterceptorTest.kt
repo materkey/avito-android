@@ -42,7 +42,7 @@ internal class RetryInterceptorTest {
         server.shutdown()
     }
 
-    @Test
+
     fun `request success - response is successful`() {
         server.enqueue(MockResponse().setResponseCode(200))
 

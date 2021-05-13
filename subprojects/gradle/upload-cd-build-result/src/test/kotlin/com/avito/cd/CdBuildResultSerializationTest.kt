@@ -48,7 +48,7 @@ class CdBuildResultSerializationTest {
         create()
     }
 
-    @Test
+    
     fun `build result serialized correctly`() {
         val serializedBuildResult = gson.toJson(
             CdBuildResult(

@@ -16,7 +16,7 @@ internal class LegacyVerdictDeterminerTest {
 
     private val verdictDeterminer = LegacyVerdictDeterminerFactory.create()
 
-    @Test
+
     fun `has 1 unsuppresed test`() {
         val verdict = verdictDeterminer.determine(
             failed = HasFailedTestDeterminer.Result.Failed(
@@ -37,7 +37,7 @@ internal class LegacyVerdictDeterminerTest {
         )
     }
 
-    @Test
+
     fun `has 1 unsuppresed test with 2 apis`() {
         val verdict = verdictDeterminer.determine(
             failed = HasFailedTestDeterminer.Result.Failed(

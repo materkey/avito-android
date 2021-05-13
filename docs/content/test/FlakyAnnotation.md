@@ -40,7 +40,7 @@ This annotation can be added both to the whole class and to a separate test:
 ```kotlin
 class MyAwesomeTests {
     @Flaky
-    @Test
+    
     fun foobar() {
         // ...
     }

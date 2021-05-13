@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 class DeepCauseMatcherTest {
 
-    @Test
+
     fun `deepCauseMatcher - matches - first level cause`() {
         assertThat(
             Exception(Error("text")),
@@ -15,7 +15,7 @@ class DeepCauseMatcherTest {
         )
     }
 
-    @Test
+
     fun `deepCauseMatcher - matches - N level cause`() {
         assertThat(
             Exception(Exception(Exception(IllegalArgumentException("text")))),
@@ -23,7 +23,7 @@ class DeepCauseMatcherTest {
         )
     }
 
-    @Test
+
     fun `deepCauseMatcher - fails - maxDepth + 1 level cause`() {
         Assertions.assertThrows(AssertionError::class.java, {
             assertThat(
@@ -33,7 +33,7 @@ class DeepCauseMatcherTest {
         }, "reached max level of depth")
     }
 
-    @Test
+
     fun `deepCauseMatcher - fails - no class match`() {
         Assertions.assertThrows(AssertionError::class.java, {
             assertThat(
@@ -43,7 +43,7 @@ class DeepCauseMatcherTest {
         }, "Throwable cause at level: 3 is null")
     }
 
-    @Test
+
     fun `deepCauseMatcher - fails - no text match`() {
         Assertions.assertThrows(AssertionError::class.java, {
             assertThat(

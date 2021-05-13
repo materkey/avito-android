@@ -10,7 +10,7 @@ internal class GsonReportParserTest {
 
     private val parser = GsonReportParser()
 
-    @Test
+
     fun `parse - failed with illegal state - empty file`(@TempDir tempDir: File) {
         val emptyFile = File(tempDir, "report.json").apply {
             createNewFile()

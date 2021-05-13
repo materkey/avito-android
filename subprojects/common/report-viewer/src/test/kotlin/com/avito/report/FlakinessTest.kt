@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(StubReportsExtension::class)
 class FlakinessTest {
 
-    @Test
+
     fun `prepared data contains flakiness - test is stable`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -38,7 +38,7 @@ class FlakinessTest {
             )
     }
 
-    @Test
+
     fun `prepared data contains flakiness - test is flaky`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),

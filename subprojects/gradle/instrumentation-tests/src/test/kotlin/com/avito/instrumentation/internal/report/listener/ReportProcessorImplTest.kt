@@ -36,7 +36,7 @@ internal class ReportProcessorImplTest {
     private val timeProvider = StubTimeProvider()
     private val gson = GsonReportParser.reportGson
 
-    @Test
+
     fun `process - returns test with no status and contains timeout message - on test run timeout`() {
         val testCase = TestCase(className = "com.avito.Test", methodName = "test", deviceName = "29")
 
@@ -60,7 +60,7 @@ internal class ReportProcessorImplTest {
         }
     }
 
-    @Test
+
     fun `process - returns ok test with logcat stub - logcat upload not needed`(@TempDir tempDir: File) {
         val testStaticData = TestStaticDataPackage.createStubInstance()
 
@@ -97,7 +97,7 @@ internal class ReportProcessorImplTest {
         }
     }
 
-    @Test
+
     fun `process - returns ok test with logcat stub - no logcat`(@TempDir tempDir: File) {
         val testStaticData = TestStaticDataPackage.createStubInstance()
 

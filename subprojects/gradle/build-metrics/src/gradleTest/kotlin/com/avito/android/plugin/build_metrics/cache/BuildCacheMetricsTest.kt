@@ -47,7 +47,7 @@ internal class BuildCacheMetricsTest : BuildCacheTestFixture() {
         )
     }
 
-    @Test
+    
     fun `metrics - local cache - hit`() {
         val result = warmupAndBuild(
             ":cacheHitTask",
@@ -64,7 +64,7 @@ internal class BuildCacheMetricsTest : BuildCacheTestFixture() {
         }
     }
 
-    @Test
+    
     fun `metrics - local cache - miss`() {
         val result = warmupAndBuild(
             ":cacheMissTask",
@@ -81,7 +81,7 @@ internal class BuildCacheMetricsTest : BuildCacheTestFixture() {
         }
     }
 
-    @Test
+    
     fun `metrics - local cache - non cacheable`() {
         val result = warmupAndBuild(
             ":nonCacheableTask",
@@ -98,7 +98,7 @@ internal class BuildCacheMetricsTest : BuildCacheTestFixture() {
         }
     }
 
-    @Test
+    
     fun `metrics - remote cache - hit`() {
         val result = warmupAndBuild(
             ":cacheHitTask",
@@ -115,7 +115,7 @@ internal class BuildCacheMetricsTest : BuildCacheTestFixture() {
         }
     }
 
-    @Test
+    
     fun `metrics - remote cache - miss`() {
         val result = warmupAndBuild(
             ":cacheMissTask",
@@ -132,7 +132,7 @@ internal class BuildCacheMetricsTest : BuildCacheTestFixture() {
         }
     }
 
-    @Test
+    
     fun `metrics - remote cache - non cacheable`() {
         val result = warmupAndBuild(
             ":nonCacheableTask",

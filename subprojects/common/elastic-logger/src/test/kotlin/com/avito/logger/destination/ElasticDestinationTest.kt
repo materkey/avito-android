@@ -8,7 +8,7 @@ import java.net.URL
 
 internal class ElasticDestinationTest {
 
-    @Test
+
     fun `destination is serializable`() {
         val destination = ElasticDestination(
             config = ElasticConfig.Enabled(

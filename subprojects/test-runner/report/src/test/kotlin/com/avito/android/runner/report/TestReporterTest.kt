@@ -13,7 +13,7 @@ internal class TestReporterTest {
     private val device: String = "device"
     private val buildId: String = "123552"
 
-    @Test
+    
     fun `every lost tests reported by separate request when batch size is 1`() {
         val reportsApi = StubReportsApi()
         val reporter = LegacyReport.createStubInstance(

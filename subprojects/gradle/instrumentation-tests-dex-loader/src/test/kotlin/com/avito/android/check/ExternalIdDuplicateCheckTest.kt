@@ -14,7 +14,7 @@ internal class ExternalIdDuplicateCheckTest {
         detected = true
     }
 
-    @Test
+
     fun `detector - detects nothing - for different ids`() {
 
         val detector = ExternalIdDuplicateCheck(onDuplicateDetected)
@@ -46,7 +46,7 @@ internal class ExternalIdDuplicateCheckTest {
         assertThat(detected).isFalse()
     }
 
-    @Test
+
     fun `detector - detects duplicate - for two different test classes with same externalId`() {
 
         val detector = ExternalIdDuplicateCheck(onDuplicateDetected)
@@ -80,7 +80,7 @@ internal class ExternalIdDuplicateCheckTest {
         assertThat(detected).isTrue()
     }
 
-    @Test
+
     fun `detector - detects duplicate - for test class and different class method with same externalId`() {
 
         val detector = ExternalIdDuplicateCheck(onDuplicateDetected)
@@ -114,7 +114,7 @@ internal class ExternalIdDuplicateCheckTest {
         assertThat(detected).isTrue()
     }
 
-    @Test
+
     fun `detector - detects duplicate - for two different test methods with same externalId`() {
 
         val detector = ExternalIdDuplicateCheck(onDuplicateDetected)
@@ -148,7 +148,7 @@ internal class ExternalIdDuplicateCheckTest {
         assertThat(detected).isTrue()
     }
 
-    @Test
+
     fun `detector - detects duplicate - for two different test methods with class has externalId`() {
 
         val detector = ExternalIdDuplicateCheck(onDuplicateDetected)
@@ -182,7 +182,7 @@ internal class ExternalIdDuplicateCheckTest {
         assertThat(detected).isTrue()
     }
 
-    @Test
+
     fun `detector - ignores duplicate - for two different test methods with dataSetNumbers and class has externalId`() {
 
         val detector = ExternalIdDuplicateCheck(onDuplicateDetected)
@@ -227,7 +227,7 @@ internal class ExternalIdDuplicateCheckTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+
     fun `detector - detects duplicate - for two different test methods one with dataSetNumber and class has externalId`() {
 
         val detector = ExternalIdDuplicateCheck(onDuplicateDetected)

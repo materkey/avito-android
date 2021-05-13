@@ -33,7 +33,7 @@ class ProsectorPluginTest {
         server.shutdown()
     }
 
-    @Test
+    
     fun `plugin generates tasks for default android variants`() {
         createTestAndroidProject(
             "app",
@@ -49,7 +49,7 @@ class ProsectorPluginTest {
         assertThat(result.output).contains("prosectorUploadRelease")
     }
 
-    @Test
+    
     fun `prosectorUpload task - tolerate to unknown host exception`() {
         createTestAndroidProject(
             "app",
@@ -65,7 +65,7 @@ class ProsectorPluginTest {
         result.assertThat().buildSuccessful()
     }
 
-    @Test
+    
     fun `release analysis meta passed correctly`() {
         createTestAndroidProject(
             "app",

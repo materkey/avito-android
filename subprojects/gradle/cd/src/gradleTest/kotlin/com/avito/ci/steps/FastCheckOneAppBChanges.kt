@@ -37,7 +37,7 @@ class FastCheckOneAppBChanges {
         }
     }
 
-    @Test
+    
     fun `fastCheck triggers build only in appA`() {
         val result = runTask("fastCheck")
 

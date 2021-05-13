@@ -13,14 +13,14 @@ class VisibilityTest {
     @get:Rule
     val exception: ExpectedException = ExpectedException.none()
 
-    @Test
+    
     fun isVisible_success_forVisibleElement() {
         rule.launchActivity(null)
 
         Screen.visibility.label.checks.isVisible()
     }
 
-    @Test
+    
     fun isVisible_fail_forInVisibleElement() {
         rule.launchActivity(null)
 

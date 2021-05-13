@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 internal class TestRunEnvironmentKtTest {
 
-    @Test
+
     fun `statsdconfig enabled - if required params passed`() {
         val params = StubArgsProvider()
 
@@ -20,7 +20,7 @@ internal class TestRunEnvironmentKtTest {
         assertThat(result).isInstanceOf<StatsDConfig.Enabled>()
     }
 
-    @Test
+
     fun `statsdconfig disabled - at least one required arg not available`() {
         val params = StubArgsProvider()
 

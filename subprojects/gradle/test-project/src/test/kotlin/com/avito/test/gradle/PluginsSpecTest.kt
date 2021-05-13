@@ -6,7 +6,7 @@ import org.junit.Test
 
 class PluginsSpecTest {
 
-    @Test
+
     fun `formatting - plugin with only id`() {
         val plugin = plugins {
             id("plugin-id")
@@ -19,7 +19,7 @@ class PluginsSpecTest {
         )
     }
 
-    @Test
+
     fun `formatting - plugin with version`() {
         val plugin = plugins {
             id("plugin-id").version("1.0")
@@ -32,7 +32,7 @@ class PluginsSpecTest {
         )
     }
 
-    @Test
+
     fun `formatting - disabled plugin`() {
         val plugin = plugins {
             id("plugin-id").apply(false)
@@ -45,7 +45,7 @@ class PluginsSpecTest {
         )
     }
 
-    @Test
+
     fun `formatting - disabled plugin with version`() {
         val plugin = plugins {
             id("plugin-id").version("1.0").apply(false)
@@ -58,7 +58,7 @@ class PluginsSpecTest {
         )
     }
 
-    @Test
+
     fun `formatting - multiple specs`() {
         val firstSpec = plugins {
             id("one")

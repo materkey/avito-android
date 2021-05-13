@@ -51,7 +51,7 @@ internal class PropertyExtensionsKtTest {
         Providers.of(Unit).map { UUID.randomUUID().toString() }
     }
 
-    @Test
+
     fun `late initialization - lazy project property`() {
         val project = childProject()
 
@@ -68,14 +68,14 @@ internal class PropertyExtensionsKtTest {
         assertThat(error).hasMessageThat().contains("is already set")
     }
 
-    @Test
+
     fun `produced value is cached - lazy project property`() {
         val project = childProject()
 
         assertStableValue { project.perProjectProperty }
     }
 
-    @Test
+
     fun `cached value is not clashed with project property - lazy project property`() {
         val project = childProject()
 
@@ -85,7 +85,7 @@ internal class PropertyExtensionsKtTest {
         assertThat(project.intProperty).isEqualTo(0)
     }
 
-    @Test
+
     fun `per project value - lazy project property`() {
         val project = childProject()
         val rootProject = project.rootProject
@@ -96,7 +96,7 @@ internal class PropertyExtensionsKtTest {
         assertThat(projectValue).isNotEqualTo(rootValue)
     }
 
-    @Test
+
     fun `single value - lazy project property`() {
         val project = childProject()
         val rootProject = project.rootProject
@@ -107,42 +107,42 @@ internal class PropertyExtensionsKtTest {
         assertThat(projectValue).isSameInstanceAs(rootValue)
     }
 
-    @Test
+
     fun `single value - lazy project provider property`() {
         val project = childProject()
 
         assertStableProvidedValue { project.providerProperty }
     }
 
-    @Test
+
     fun `single value - lazy transformed project provider property`() {
         val project = childProject()
 
         assertStableProvidedValue { project.transformedProviderProperty }
     }
 
-    @Test
+
     fun `different values - lazy project providers property`() {
         val project = childProject()
 
         assertDifferentProvidedValues { project.providersProperty }
     }
 
-    @Test
+
     fun `different values - lazy project mapped provider property`() {
         val project = childProject()
 
         assertDifferentProvidedValues { project.mappedProviderProperty }
     }
 
-    @Test
+
     fun `different values - lazy project providers shortcut property`() {
         val project = childProject()
 
         assertDifferentProvidedValues { project.providersShortcutProperty }
     }
 
-    @Test
+
     fun `different values - lazy project providers of Unit property`() {
         val project = childProject()
 

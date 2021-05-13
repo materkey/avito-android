@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 
 internal class DynamicVersionTest {
 
-    @Test
+
     fun `non dynamic dependency versions`() {
         listOf(
             "1.0",
@@ -18,7 +18,7 @@ internal class DynamicVersionTest {
         }
     }
 
-    @Test
+
     fun `dynamic dependency versions`() {
         listOf(
             // Range

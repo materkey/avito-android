@@ -20,7 +20,7 @@ class BuildVerdictPluginConfigurationPhaseTest : BaseBuildVerdictTest() {
         PlainTextVerdictCases.Configuration(temp)
     }
 
-    @Test
+    
     fun `configuration success`() {
         generateProject()
 
@@ -35,7 +35,7 @@ class BuildVerdictPluginConfigurationPhaseTest : BaseBuildVerdictTest() {
         assertBuildVerdictFileExist(false)
     }
 
-    @Test
+    
     fun `configuration fails - illegal method`() {
         generateProject(
             AndroidAppModule(
@@ -86,7 +86,7 @@ class BuildVerdictPluginConfigurationPhaseTest : BaseBuildVerdictTest() {
         )
     }
 
-    @Test
+    
     fun `configuration fails - wrong project dependency`() {
         generateProject(
             KotlinModule(

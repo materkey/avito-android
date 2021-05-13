@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 class IncidentChainTest {
 
-    @Test
+
     fun `chain - contain three elements - two cause deep`() {
         val rootException = Exception("root", Exception("firstLevelDeep", Exception("secondLevelDeep")))
 
@@ -24,7 +24,7 @@ class IncidentChainTest {
             )
     }
 
-    @Test
+
     fun `chain - contains both elements - root custom and cause`() {
         val rootException = AppCrashException(Exception("firstLevelDeep"))
 
@@ -42,7 +42,7 @@ class IncidentChainTest {
             )
     }
 
-    @Test
+
     fun `chain - contains both elements - root testcase and cause`() {
         val rootException = StepException(
             isPrecondition = true,

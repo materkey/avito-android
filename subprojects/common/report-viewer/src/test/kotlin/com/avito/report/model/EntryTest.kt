@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 internal class EntryTest {
 
-    @Test
+
     fun `serialize deserialize test`() {
         val entryList = mutableListOf(
             Entry.Comment("comment", 12345),

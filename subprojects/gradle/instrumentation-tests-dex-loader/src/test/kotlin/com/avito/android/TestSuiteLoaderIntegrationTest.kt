@@ -15,7 +15,7 @@ class TestSuiteLoaderIntegrationTest {
         testSuiteLoader = TestSuiteLoaderImpl()
     }
 
-    @Test
+    
     fun `load test suite - returns all test cases - without annotation filter`() {
         val actualTests = testSuiteLoader.loadTestSuite(getTestApk()).getOrThrow()
 
@@ -94,14 +94,14 @@ class TestSuiteLoaderIntegrationTest {
     }
 
     @Suppress("MaxLineLength")
-    @Test
+    
     fun `get tests - pass - when parsed apk contains test classes without CaseId annotation and missed case if is allowed`() {
         testSuiteLoader = TestSuiteLoaderImpl()
         val suite = testSuiteLoader.loadTestSuite(getTestApkWithoutAnnotations()).getOrThrow()
         assertThat(suite.size).isEqualTo(9)
     }
 
-    @Test
+    
     fun `get tests - returns annotation with values`() {
         testSuiteLoader = TestSuiteLoaderImpl()
         val suite = testSuiteLoader.loadTestSuite(getTestApkWithAnnotationWithValues()).getOrThrow()
@@ -146,7 +146,7 @@ class TestSuiteLoaderIntegrationTest {
      *           stringValue = "on method",
      *           multipleIntValue = [10,20,30]
      *       )
-     *       @Test
+     *       
      *       fun methodWithAnnotation() { }
      *   }
      *
@@ -161,23 +161,23 @@ class TestSuiteLoaderIntegrationTest {
      * {@code
      *
      * class TestClass {
-     *      @Test fun someTest1()
-     *      @Test fun someTest2()
-     *      @Ignore @Test fun ignoredTest1()
-     *      @Ignore @Test fun ignoredTest2()
+     *       fun someTest1()
+     *       fun someTest2()
+     *      @Ignore  fun ignoredTest1()
+     *      @Ignore  fun ignoredTest2()
      * }
      *
      * @FunctionalTest
      * class AnnotatedClass {
-     *      @Test fun someTest1()
-     *      @Test fun someTest2()
-     *      @Ignore @Test fun ignoredTest1()
-     *      @Ignore @Test fun ignoredTest2()
+     *       fun someTest1()
+     *       fun someTest2()
+     *      @Ignore  fun ignoredTest1()
+     *      @Ignore  fun ignoredTest2()
      * }
      *
      * @Ignore
      * class IgnoredClass {
-     *      @Test fun someTest1()
+     *       fun someTest1()
      * }
      *
      * }
@@ -194,25 +194,25 @@ class TestSuiteLoaderIntegrationTest {
      *
      * @CaseId(0)
      * class TestClass {
-     *     @Test fun someTest1() {}
-     *     @Test fun someTest2() {}
-     *     @Ignore @Test fun ignoredTest1() {}
-     *     @Ignore @Test fun ignoredTest2() {}
+     *      fun someTest1() {}
+     *      fun someTest2() {}
+     *     @Ignore  fun ignoredTest1() {}
+     *     @Ignore  fun ignoredTest2() {}
      * }
      *
      * @FunctionalTest
      * @CaseId(0)
      * class AnnotatedClass {
-     *     @Test fun someTest1() {}
-     *     @Test fun someTest2() {}
-     *     @Ignore @Test fun ignoredTest1() {}
-     *     @Ignore @Test fun ignoredTest2() {}
+     *      fun someTest1() {}
+     *      fun someTest2() {}
+     *     @Ignore  fun ignoredTest1() {}
+     *     @Ignore  fun ignoredTest2() {}
      * }
      *
      * @Ignore
      * @CaseId(0)
      * class IgnoredClass {
-     *     @Test fun someTest1() {}
+     *      fun someTest1() {}
      * }
      *
      * }

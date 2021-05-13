@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test
 
 internal class AppendMetadataFormatterTest {
 
-    @Test
+    
     fun `formatter - appends tag`() {
         val metadata = LoggerMetadata("Tag")
         val result = format(metadata)
         assertThat(result).isEqualTo("[Tag] some message")
     }
 
-    @Test
+    
     fun `formatter - appends empty tag`() {
         val metadata = LoggerMetadata("")
         val formatter = AppendMetadataFormatter(metadata)
@@ -21,28 +21,28 @@ internal class AppendMetadataFormatterTest {
         assertThat(result).isEqualTo("[] some message")
     }
 
-    @Test
+    
     fun `formatter - appends plugin name`() {
         val metadata = LoggerMetadata("Tag", pluginName = "MyPlugin")
         val result = format(metadata)
         assertThat(result).isEqualTo("[Tag|MyPlugin] some message")
     }
 
-    @Test
+    
     fun `formatter - appends plugin name and project path`() {
         val metadata = LoggerMetadata("Tag", pluginName = "MyPlugin", projectPath = ":app")
         val result = format(metadata)
         assertThat(result).isEqualTo("[Tag|MyPlugin@:app] some message")
     }
 
-    @Test
+    
     fun `formatter - appends plugin name task name and project path`() {
         val metadata = LoggerMetadata("Tag", pluginName = "MyPlugin", projectPath = ":app", taskName = "check")
         val result = format(metadata)
         assertThat(result).isEqualTo("[Tag|MyPlugin@:app:check] some message")
     }
 
-    @Test
+    
     fun `formatter - appends tag and project path`() {
         val metadata = LoggerMetadata("Tag", projectPath = ":app")
         val result = format(metadata)

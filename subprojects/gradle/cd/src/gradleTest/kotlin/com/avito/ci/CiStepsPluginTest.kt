@@ -367,7 +367,7 @@ class CiStepsPluginTest {
         }
     }
 
-    @Test
+    
     fun `sendCdBuildResult Triggered after publish and instrumentationTests and deployToGooglePlay`() {
         val configFileName = "xxx"
         val cdBuildConfig = """
@@ -404,7 +404,7 @@ class CiStepsPluginTest {
             }
     }
 
-    @Test
+    
     fun `sendCdBuildResult Triggered after publish and instrumentationTests and without deployTask`() {
         val configFileName = "xxx"
         val cdBuildConfig = """
@@ -433,7 +433,7 @@ class CiStepsPluginTest {
             }
     }
 
-    @Test
+    
     fun `sendCdBuildResult not Triggered`() {
         val result = runTask(":appA:release")
 
@@ -444,7 +444,7 @@ class CiStepsPluginTest {
             }
     }
 
-    @Test
+    
     fun `verify artifacts fails if file is missed`() {
         val result = runTask(":appA:releaseVerifyArtifacts", dryRun = false, expectedFailure = true)
 
@@ -453,7 +453,7 @@ class CiStepsPluginTest {
         }
     }
 
-    @Test
+    
     fun `deployToGooglePlay Triggered after verifyArtifactsTask`() {
         val configFileName = "xxx"
         val buildType = "release"
@@ -490,7 +490,7 @@ class CiStepsPluginTest {
             }
     }
 
-    @Test
+    
     fun `Configuration failed when deployments have two deployment with same build variant`() {
         val configFileName = "xxx"
         val buildType = "release"
@@ -529,7 +529,7 @@ class CiStepsPluginTest {
             .outputContains("Must be one deploy per variant")
     }
 
-    @Test
+    
     fun `deployToGooglePlay not Triggered`() {
         val result = runTask(":appA:release")
         result.assertThat().apply {

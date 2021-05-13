@@ -9,7 +9,7 @@ import java.io.File
 
 internal class CheckGradleDaemonTaskTest {
 
-    @Test
+    
     fun `checkGradleDaemon - passes - when no buildSrc in project`(@TempDir projectDir: File) {
         TestProjectGenerator(
             plugins = plugins {

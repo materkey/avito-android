@@ -21,7 +21,7 @@ internal class SlackSummaryComposerTest {
 
     private val composer: SlackSummaryComposer = SlackSummaryComposerImpl("http://localhost/")
 
-    @Test
+
     fun `slack message - contains manual tests count`() {
         val crossDeviceSuite = CrossDeviceSuite(
             listOf(
@@ -36,7 +36,7 @@ internal class SlackSummaryComposerTest {
         assertThat(message.getOrThrow()).contains("Ручные тесты: 2")
     }
 
-    @Test
+
     fun `slack message - contains automated tests count`() {
         val crossDeviceSuite = CrossDeviceSuite(
             listOf(
@@ -53,7 +53,7 @@ internal class SlackSummaryComposerTest {
         assertThat(message.getOrThrow()).contains("*Автотесты*: 3")
     }
 
-    @Test
+
     fun `slack message - contains success tests count and percentage`() {
         val crossDeviceSuite = CrossDeviceSuite(
             listOf(
@@ -76,7 +76,7 @@ internal class SlackSummaryComposerTest {
         )
     }
 
-    @Test
+
     fun `slack message - contains skipped tests count and percentage`() {
         val crossDeviceSuite = CrossDeviceSuite(
             listOf(
@@ -94,7 +94,7 @@ internal class SlackSummaryComposerTest {
         )
     }
 
-    @Test
+
     fun `slack message - contains lost tests count and percentage`() {
         val crossDeviceSuite = CrossDeviceSuite(
             listOf(
@@ -113,7 +113,7 @@ internal class SlackSummaryComposerTest {
         )
     }
 
-    @Test
+
     fun `slack message - contains all failed tests count and percentage`() {
         val crossDeviceSuite = CrossDeviceSuite(
             listOf(
@@ -131,7 +131,7 @@ internal class SlackSummaryComposerTest {
         assertThat(message.getOrThrow()).contains(":red_circle: *Тесты упали на всех девайсах*: 2 (50%)")
     }
 
-    @Test
+
     fun `slack message - contains failed tests on some devices count and percentage`() {
         val crossDeviceSuite = CrossDeviceSuite(
             listOf(
@@ -149,7 +149,7 @@ internal class SlackSummaryComposerTest {
         assertThat(message.getOrThrow()).contains(":warning: *Тесты упали только на некоторых девайсах*: 2 (50%)")
     }
 
-    @Test
+
     fun `slack message - contains failures with count`() {
         val crossDeviceSuite = CrossDeviceSuite(
             listOf(
@@ -189,7 +189,7 @@ internal class SlackSummaryComposerTest {
         assertThat(message.getOrThrow()).contains("И еще *1*")
     }
 
-    @Test
+
     fun `slack message - contains @channel - if mention enabled and there are failed tests`() {
         val suiteWithFailure = CrossDeviceSuite(
             listOf(
@@ -208,7 +208,7 @@ internal class SlackSummaryComposerTest {
         assertThat(message.getOrThrow()).contains("<!channel>")
     }
 
-    @Test
+
     fun `slack message - does not contain @channel - if mention enabled and there are no failed tests`() {
         val greenSuite = CrossDeviceSuite(
             listOf(
@@ -223,7 +223,7 @@ internal class SlackSummaryComposerTest {
         assertThat(message.getOrThrow()).doesNotContain("<!channel>")
     }
 
-    @Test
+
     fun `slack message - does not contain @channel - if mention disabled and there are failed tests`() {
         val suiteWithFailure = CrossDeviceSuite(
             listOf(

@@ -9,7 +9,7 @@ import kotlin.reflect.full.createInstance
 
 internal class BuildChecksExtensionTest {
 
-    @Test
+
     fun `no checks - enableByDefault is false`() {
         val extension = CustomBuildChecksExtension().apply {
             enableByDefault = false
@@ -19,7 +19,7 @@ internal class BuildChecksExtensionTest {
         assertThat(checks).isEmpty()
     }
 
-    @Test
+
     fun `enable single check`() {
         val extension = CustomBuildChecksExtension().apply {
             enableByDefault = false
@@ -31,7 +31,7 @@ internal class BuildChecksExtensionTest {
         assertHasInstance<ConcreteCustomCheck>(checks)
     }
 
-    @Test
+
     fun `disable single check`() {
         val extension = CustomBuildChecksExtension().apply {
             customCheck { it.enabled = false }

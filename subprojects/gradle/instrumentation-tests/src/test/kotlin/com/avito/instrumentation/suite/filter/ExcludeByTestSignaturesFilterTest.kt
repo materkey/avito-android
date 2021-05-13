@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 internal class ExcludeByTestSignaturesFilterTest {
 
-    @Test
+
     fun `when signature matches testName and testDevice then test is excluded`() {
         val filter = createIncludeTestSignatureFilter(
             signatures = setOf(TestsFilter.Signatures.TestSignature("testName", "deviceName"))
@@ -25,7 +25,7 @@ internal class ExcludeByTestSignaturesFilterTest {
         assertThat(actual).isInstanceOf<TestsFilter.Result.Excluded.MatchesExcludeSignature>()
     }
 
-    @Test
+
     fun `when testName startWith signatureName and testDevice equals signatureDevice then test is excluded`() {
         val filter = createIncludeTestSignatureFilter(
             signatures = setOf(TestsFilter.Signatures.TestSignature("testName", "deviceName"))
@@ -40,7 +40,7 @@ internal class ExcludeByTestSignaturesFilterTest {
         assertThat(actual).isInstanceOf<TestsFilter.Result.Excluded.MatchesExcludeSignature>()
     }
 
-    @Test
+
     fun `when signature matches testName and signature device is null then test is excluded`() {
         val filter = createIncludeTestSignatureFilter(
             signatures = setOf(TestsFilter.Signatures.TestSignature("testName", null))
@@ -55,7 +55,7 @@ internal class ExcludeByTestSignaturesFilterTest {
         assertThat(actual).isInstanceOf<TestsFilter.Result.Excluded.MatchesExcludeSignature>()
     }
 
-    @Test
+
     fun `when signature matches name and signature device doesn't match testDevice then test is included`() {
         val filter = createIncludeTestSignatureFilter(
             signatures = setOf(TestsFilter.Signatures.TestSignature("testName", "deviceName1"))
@@ -70,7 +70,7 @@ internal class ExcludeByTestSignaturesFilterTest {
         assertThat(actual).isInstanceOf<TestsFilter.Result.Included>()
     }
 
-    @Test
+
     fun `when testName doesn't startWith signatureName then test is included`() {
         val filter = createIncludeTestSignatureFilter(
             signatures = setOf(TestsFilter.Signatures.TestSignature("differentTestName", "deviceName"))

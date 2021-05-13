@@ -10,7 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(StubReportsExtension::class)
 class TestCaseIdTest {
 
-    @Test
+
     fun `testCaseId doesnt sent if null`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -25,7 +25,7 @@ class TestCaseIdTest {
             .bodyDoesntContain("\"test_case_id\"")
     }
 
-    @Test
+
     fun `grouping_key sent for dataSet without testCaseId`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),

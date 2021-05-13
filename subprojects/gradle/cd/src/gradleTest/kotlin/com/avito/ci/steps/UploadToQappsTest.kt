@@ -27,7 +27,7 @@ class UploadToQappsTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(HttpCodes.OK))
     }
 
-    @Test
+    
     fun `upload to qapps - no cd build config`() {
         generateProject()
 
@@ -42,7 +42,7 @@ class UploadToQappsTest {
             .taskWithOutcome(":app:qappsUploadDebug", TaskOutcome.SUCCESS)
     }
 
-    @Test
+    
     fun `upload to qapps - cd build config with qapps deployment`() {
         generateProject()
         val configFile = createCdConfig(withQapps = true)
@@ -59,7 +59,7 @@ class UploadToQappsTest {
             .taskWithOutcome(":app:qappsUploadDebug", TaskOutcome.SUCCESS)
     }
 
-    @Test
+    
     fun `skip upload to qapps - cd build config without qapps deployment`() {
         generateProject()
         val configFile = createCdConfig(withQapps = false)

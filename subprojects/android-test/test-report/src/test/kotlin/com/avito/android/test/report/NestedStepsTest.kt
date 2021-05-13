@@ -22,7 +22,7 @@ class NestedStepsTest {
         report.startTestCase()
     }
 
-    @Test
+
     fun `WHEN we create a nested step THEN we should FAIL`() {
         val error = assertThrows(StepException::class.java) {
             step("Outer step") {
@@ -35,7 +35,7 @@ class NestedStepsTest {
             .containsMatch(".+Inner step.+Outer step.+Nested steps are not supported")
     }
 
-    @Test
+
     fun `WHEN we create a precondition inside a step THEN we should FAIL`() {
         val error = assertThrows(StepException::class.java) {
             step("Outer step") {
@@ -48,7 +48,7 @@ class NestedStepsTest {
             .containsMatch(".+precondition.+Outer step.+Preconditions inside steps are not supported")
     }
 
-    @Test
+
     fun `WHEN we create a step and current step is Synthetic THEN we should overwrite the current step`() {
         // WHEN
         report.addComment("Comment") // that leads to the Synthetic step creation

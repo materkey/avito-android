@@ -55,7 +55,7 @@ class ChangesDetectorTest {
         }
     }
 
-    @Test
+    
     fun `detect all changes - finds them all`() {
         val changedFiles = detectChanges(rootDir)
 
@@ -68,7 +68,7 @@ class ChangesDetectorTest {
         )
     }
 
-    @Test
+    
     fun `detect all changes - ignore unstaged files`() {
         rootDir.dir("project") {
             file("Unstaged.kt", content = "unstaged file")
@@ -80,7 +80,7 @@ class ChangesDetectorTest {
             .that(unstagedChange).isNull()
     }
 
-    @Test
+    
     fun `detect changes in subdirectory - finds changes only in that directory`() {
         val changedFiles = detectChanges(rootDir, targetDir = rootDir.dir("project"))
 
@@ -92,7 +92,7 @@ class ChangesDetectorTest {
         )
     }
 
-    @Test
+    
     fun `detect changes with exclusion - finds all changes without excluded directories`() {
         val changedFiles = detectChanges(
             rootDir,
@@ -104,7 +104,7 @@ class ChangesDetectorTest {
         )
     }
 
-    @Test
+    
     fun `detect changes with custom ignore - finds all changes without ignored`() {
         val patterns = setOf("*.md", "project/*")
         val changedFiles = detectChanges(rootDir, ignorePatterns = patterns)

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.assertThrows
 
 internal class ReportFriendlyFailureHandlerTest {
 
-    @Test
+
     fun `failureHandler - removes view hierarchy`() {
         val exception = assertThrows<NoMatchingViewException> {
             ReportFriendlyFailureHandler().handle(

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class ReflectionTests {
 
-    @Test
+    
     fun `getFieldByReflection returns value of private field`() {
         class Holder {
             @Suppress("UnusedPrivateMember", "VarCouldBeVal")

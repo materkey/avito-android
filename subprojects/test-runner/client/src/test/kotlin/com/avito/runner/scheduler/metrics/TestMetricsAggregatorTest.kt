@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 internal class TestMetricsAggregatorTest {
 
-    @Test
+    
     fun `initial delay - is diff between suite start and first test start`() {
         val aggregator = createTestMetricsAggregator(
             testSuiteStartedTime = 10,
@@ -30,7 +30,7 @@ internal class TestMetricsAggregatorTest {
         assertThat(result).isEqualTo(15)
     }
 
-    @Test
+    
     fun `end delay - is diff between last test finish and suite finish`() {
         val aggregator = createTestMetricsAggregator(
             testSuiteEndedTime = 50,
@@ -49,7 +49,7 @@ internal class TestMetricsAggregatorTest {
         assertThat(result).isEqualTo(15)
     }
 
-    @Test
+    
     fun `suite time - is diff between first test start and last test finish`() {
         val aggregator = createTestMetricsAggregator(
             deviceTimestamps = mapOf(
@@ -69,7 +69,7 @@ internal class TestMetricsAggregatorTest {
         assertThat(result).isEqualTo(35)
     }
 
-    @Test
+    
     fun `total time - is diff between suite started and suite finished`() {
         val aggregator = createTestMetricsAggregator(
             testSuiteStartedTime = 10,
@@ -81,7 +81,7 @@ internal class TestMetricsAggregatorTest {
         assertThat(result).isEqualTo(34)
     }
 
-    @Test
+    
     fun `median queue time - is median value for all tests between suite start and test claimed a device`() {
         val aggregator = createTestMetricsAggregator(
             testSuiteStartedTime = 5,
@@ -102,7 +102,7 @@ internal class TestMetricsAggregatorTest {
         assertThat(result).isEqualTo(7) // median is 7.5, but rounded (ok for unix time)
     }
 
-    @Test
+    
     fun `median install time - is median value for all tests between device claim and test start`() {
         val aggregator = createTestMetricsAggregator(
             deviceTimestamps = mapOf(
@@ -122,7 +122,7 @@ internal class TestMetricsAggregatorTest {
         assertThat(result).isEqualTo(4)
     }
 
-    @Test
+    
     fun `median device utilization - is median value for all valuable work to total work`() {
         val aggregator = createTestMetricsAggregator(
             deviceTimestamps = mapOf(

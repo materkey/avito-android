@@ -12,7 +12,7 @@ class IgnoreSettingsTest {
         class NotMatched(pattern: String, path: String) : Case(pattern, path)
     }
 
-    @Test
+
     fun patterns() {
         // just simple integration checks for contract, see other cases in the library itself
         listOf(

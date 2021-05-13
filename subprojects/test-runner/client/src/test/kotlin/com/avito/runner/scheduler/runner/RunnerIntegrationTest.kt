@@ -49,7 +49,7 @@ class RunnerIntegrationTest {
 
     private val loggerFactory = StubLoggerFactory
 
-    @Test
+
     fun `all tests passed - for 1 successful device`() =
         runBlockingTest {
             val runner = provideRunner(
@@ -71,7 +71,7 @@ class RunnerIntegrationTest {
         }
 
     @Suppress("MaxLineLength")
-    @Test
+
     fun `all tests passed by first and second devices - for first device that complete half of tests and failed and second connected later device that complete all remaining tests`() =
         runBlockingTest {
             val runner = provideRunner(
@@ -153,7 +153,7 @@ class RunnerIntegrationTest {
             )
         }
 
-    @Test
+
     fun `all tests passed by first device - for 1 successful and 1 freeze device`() =
         runBlockingTest {
             val devices = Channel<Device>(Channel.UNLIMITED)
@@ -186,7 +186,7 @@ class RunnerIntegrationTest {
             )
         }
 
-    @Test
+
     fun `all tests passed by first device - for 1 successful and 1 failed to get status device`() =
         runBlockingTest {
             val devices = Channel<Device>(Channel.UNLIMITED)
@@ -216,7 +216,7 @@ class RunnerIntegrationTest {
             )
         }
 
-    @Test
+
     fun `all tests passed by first device - when second device failed on application installing`() =
         runBlockingTest {
             val devices = Channel<Device>(Channel.UNLIMITED)
@@ -258,7 +258,7 @@ class RunnerIntegrationTest {
             )
         }
 
-    @Test
+
     fun `test passed after retry of failed test`() = runBlockingTest {
         val devices = Channel<Device>(Channel.UNLIMITED)
         val runner = provideRunner(
@@ -320,7 +320,7 @@ class RunnerIntegrationTest {
         )
     }
 
-    @Test
+
     fun `test passed after retry of failed test when minimal passed count is 2 and retry quota is 4`() =
         runBlockingTest {
             val devices = Channel<Device>(Channel.UNLIMITED)
@@ -407,7 +407,7 @@ class RunnerIntegrationTest {
             )
         }
 
-    @Test
+
     fun `test completed after 1 success and 1 fail for that requirements with retryCount 4`() =
         runBlockingTest {
             val devices = Channel<Device>(Channel.UNLIMITED)
@@ -475,7 +475,7 @@ class RunnerIntegrationTest {
             )
         }
 
-    @Test
+
     fun `devices channel closed - run failed`() {
         val exception = assertThrows<IllegalStateException>() {
             runBlockingTest {

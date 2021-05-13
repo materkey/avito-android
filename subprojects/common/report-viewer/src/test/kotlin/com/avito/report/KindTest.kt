@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(StubReportsExtension::class)
 internal class KindTest {
 
-    @Test
+
     fun `kind e2e sent`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -26,7 +26,7 @@ internal class KindTest {
             .bodyMatches(hasJsonPath("$.params.kind", Matchers.equalTo("e2e")))
     }
 
-    @Test
+
     fun `kind component sent`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),
@@ -39,7 +39,7 @@ internal class KindTest {
             .bodyMatches(hasJsonPath("$.params.kind", Matchers.equalTo("ui-component")))
     }
 
-    @Test
+
     fun `kind manual sent`(reports: StubReportApi) {
         reports.addTest(
             reportCoordinates = ReportCoordinates.createStubInstance(),

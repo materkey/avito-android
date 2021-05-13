@@ -23,7 +23,7 @@ class IntentionsRouterTest {
         router = IntentionsRouter(loggerFactory = loggerFactory)
     }
 
-    @Test
+
     fun `api level state layer affects routing`() = runBlocking {
         val api20State = State(
             layers = listOf(
@@ -84,7 +84,7 @@ class IntentionsRouterTest {
         assertThat(results21).isEqualTo(expected21Intentions)
     }
 
-    @Test
+
     fun `all layers except api level do not affect routing`() = runBlocking {
         val api20StateWithInstalledApplications = State(
             layers = listOf(

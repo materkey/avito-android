@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertThrows
 
 internal class MedianKtTest {
 
-    @Test
+    
     fun `odd number of elements`() {
         val elements = listOf(5, 10, 5)
 
@@ -15,7 +15,7 @@ internal class MedianKtTest {
         assertThat(result).isEqualTo(5)
     }
 
-    @Test
+    
     fun `even number of elements`() {
         val elements = listOf(5, 10, 5, 25)
 
@@ -24,7 +24,7 @@ internal class MedianKtTest {
         assertThat(result).isEqualTo(7.5)
     }
 
-    @Test
+    
     fun `one element`() {
         val elements = listOf(10)
 
@@ -33,7 +33,7 @@ internal class MedianKtTest {
         assertThat(result).isEqualTo(10)
     }
 
-    @Test
+    
     fun `no elements`() {
         val elements = emptyList<Int>()
 

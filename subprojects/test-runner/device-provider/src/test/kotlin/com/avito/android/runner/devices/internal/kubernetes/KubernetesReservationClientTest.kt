@@ -43,7 +43,7 @@ internal class KubernetesReservationClientTest {
         )
     }
 
-    @Test
+    
     fun `empty reservations - throws exception`() {
         val client = client()
         val exception = assertThrows<IllegalArgumentException> {
@@ -55,7 +55,7 @@ internal class KubernetesReservationClientTest {
             .isEqualTo("Must have at least one reservation but empty")
     }
 
-    @Test
+    
     fun `creating deployment fail - throws exception`() {
         val client = client()
         val message = "Failed to create deployment"
@@ -69,7 +69,7 @@ internal class KubernetesReservationClientTest {
             .isEqualTo(message)
     }
 
-    @Test
+    
     @Timeout(1, unit = TimeUnit.SECONDS)
     fun `creating second deployment fail - throws exception`() {
         val client = client(dispatcher = Dispatchers.Default)
@@ -97,7 +97,7 @@ internal class KubernetesReservationClientTest {
             .isEqualTo(message)
     }
 
-    @Test
+    
     fun `claim twice - throws exception`() {
         val client = client()
         val exception = assertThrows<CancellationException> {
@@ -112,7 +112,7 @@ internal class KubernetesReservationClientTest {
             .isEqualTo("Unable claim reservation. State is already started")
     }
 
-    @Test
+    
     fun `get one pod then fail - success`() {
         val client = client()
         val results = LinkedList(
@@ -130,7 +130,7 @@ internal class KubernetesReservationClientTest {
         }
     }
 
-    @Test
+    
     @Timeout(1, unit = TimeUnit.SECONDS)
     fun `devices channel cancel - success`() {
         val client = client(dispatcher = Dispatchers.Default)
@@ -143,7 +143,7 @@ internal class KubernetesReservationClientTest {
         }
     }
 
-    @Test
+    
     @Timeout(1, unit = TimeUnit.SECONDS)
     fun `claim then release - success`() {
         val client = client(dispatcher = Dispatchers.Default)

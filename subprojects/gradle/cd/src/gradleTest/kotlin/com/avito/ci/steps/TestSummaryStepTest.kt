@@ -12,7 +12,7 @@ import java.io.File
 
 internal class TestSummaryStepTest {
 
-    @Test
+
     fun testSummary(@TempDir projectDir: File) {
         generateProject(
             projectDir,
@@ -38,7 +38,7 @@ internal class TestSummaryStepTest {
             .inOrder()
     }
 
-    @Test
+
     fun flakyReport(@TempDir projectDir: File) {
         generateProject(
             projectDir,

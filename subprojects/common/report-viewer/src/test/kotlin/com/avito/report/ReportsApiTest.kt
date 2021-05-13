@@ -19,7 +19,7 @@ internal class ReportsApiTest {
 
     private val loggerFactory = StubLoggerFactory
 
-    @Test
+
     fun `getReport - returns NotFound - when throws exception with no data`() {
         mockWebServer.enqueue(
             MockResponse()
@@ -38,7 +38,7 @@ internal class ReportsApiTest {
         assertThat(result).isFailure()
     }
 
-    @Test
+
     fun `getReport - returns Error - when throws exception with no data`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(500))
 
@@ -49,7 +49,7 @@ internal class ReportsApiTest {
         assertThat(result).isFailure()
     }
 
-    @Test
+
     fun `getReport - returns Report`() {
         mockWebServer.enqueue(
             MockResponse()
@@ -63,7 +63,7 @@ internal class ReportsApiTest {
         }
     }
 
-    @Test
+
     fun `getTestsForRunId - returns ok`() {
         mockWebServer.enqueue(
             MockResponse().setBody(fileFromJarResources<ReportsApiTest>("getReport.json").readText())
@@ -81,7 +81,7 @@ internal class ReportsApiTest {
         }
     }
 
-    @Test
+
     fun `pushPreparedData - returns ok`() {
         mockWebServer.enqueue(
             MockResponse().setBody(fileFromJarResources<ReportsApiTest>("pushPreparedData.json").readText())

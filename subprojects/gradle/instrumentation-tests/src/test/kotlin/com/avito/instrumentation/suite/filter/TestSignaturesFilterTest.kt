@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 internal class TestSignaturesFilterTest {
 
-    @Test
+
     fun `when testName equals signatureName then test will match signature`() {
         val testName = "TestClass.method"
         val test = TestsFilter.Test.createStub(testName)
@@ -21,7 +21,7 @@ internal class TestSignaturesFilterTest {
         assertThat(test.matched(setOf(signature))).isTrue()
     }
 
-    @Test
+
     fun `when testName starts with signatureName then test will match signature`() {
         val className = "TestClass"
         val testName = "$className.method"
@@ -32,7 +32,7 @@ internal class TestSignaturesFilterTest {
         assertThat(test.matched(setOf(signature))).isTrue()
     }
 
-    @Test
+
     fun `when testName starts with signatureName and device name is different then test will not match signature`() {
         val className = "TestClass"
         val testName = "$className.method"
@@ -47,7 +47,7 @@ internal class TestSignaturesFilterTest {
         assertThat(test.matched(setOf(signature))).isFalse()
     }
 
-    @Test
+
     fun `when include contains emptySet then all tests will be excluded`() {
         val result = IncludeByTestSignaturesFilter(
             source = TestsFilter.Signatures.Source.Code,
@@ -58,7 +58,7 @@ internal class TestSignaturesFilterTest {
         assertThat(result).isInstanceOf<TestsFilter.Result.Excluded.DoesNotMatchIncludeSignature>()
     }
 
-    @Test
+
     fun `when test matched signature then it will be excluded`() {
         val result = IncludeByTestSignaturesFilter(
             source = TestsFilter.Signatures.Source.Code,
@@ -73,7 +73,7 @@ internal class TestSignaturesFilterTest {
         assertThat(result).isInstanceOf<TestsFilter.Result.Included>()
     }
 
-    @Test
+
     fun `when test signature has deviceName then test will be matched using deviceName`() {
         val result = IncludeByTestSignaturesFilter(
             source = TestsFilter.Signatures.Source.Code,
@@ -89,7 +89,7 @@ internal class TestSignaturesFilterTest {
         assertThat(result).isInstanceOf<TestsFilter.Result.Excluded.DoesNotMatchIncludeSignature>()
     }
 
-    @Test
+
     fun `when test signature has deviceName then test will be matched using name`() {
         val result = IncludeByTestSignaturesFilter(
             source = TestsFilter.Signatures.Source.Code,

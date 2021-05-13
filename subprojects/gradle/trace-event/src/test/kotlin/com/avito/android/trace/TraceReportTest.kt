@@ -18,7 +18,7 @@ class TraceReportTest {
     }
 
     @ExperimentalPathApi
-    @Test
+    
     fun `deserialize serialized data`() {
         val events = listOf(
             DurationEvent(
