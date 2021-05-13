@@ -15,7 +15,7 @@ public abstract class InstrumentationConfiguration(public val name: String) {
 
     public var runOnlyChangedTests: Boolean = false
 
-    public var kubernetesNamespace: String = "android-emulator"
+    public var kubernetesNamespace: String = "default"
 
     public var timeoutInSeconds: Long = 6000L // 100min
 
