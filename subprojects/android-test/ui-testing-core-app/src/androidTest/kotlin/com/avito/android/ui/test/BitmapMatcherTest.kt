@@ -40,7 +40,6 @@ class BitmapMatcherTest {
         )
     }
 
-    @Test
     fun fails_differentImage() {
         val image = getDrawable(R.drawable.blue).toBitmap()
 

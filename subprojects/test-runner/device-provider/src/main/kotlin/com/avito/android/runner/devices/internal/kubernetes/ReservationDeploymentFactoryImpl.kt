@@ -74,7 +74,6 @@ internal class ReservationDeploymentFactoryImpl(
             deploymentName = deploymentName,
             count = count
         ) {
-            hostNetwork = true
             containers = listOf(
                 newContainer {
                     name = emulator.name.toValidKubernetesName()
