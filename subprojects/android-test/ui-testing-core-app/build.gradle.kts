@@ -63,9 +63,9 @@ instrumentation {
 
     testReport {
         reportViewer {
-            reportApiUrl = getOptionalStringProperty("avito.report.url") ?: "http://stub"
-            reportViewerUrl = getOptionalStringProperty("avito.report.viewerUrl") ?: "http://stub"
-            fileStorageUrl = getOptionalStringProperty("avito.fileStorage.url") ?: "http://stub"
+            reportApiUrl = getOptionalStringProperty("avito.report.url") ?: "https://dc-report.free.beeceptor.com"
+            reportViewerUrl = getOptionalStringProperty("avito.report.viewerUrl") ?: "https://reportviewerurl.free.beeceptor.com"
+            fileStorageUrl = getOptionalStringProperty("avito.fileStorage.url") ?: "https://filestorageurl.free.beeceptor.com"
         }
     }
 

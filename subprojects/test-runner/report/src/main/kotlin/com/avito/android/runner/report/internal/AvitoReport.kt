@@ -39,7 +39,7 @@ internal class AvitoReport(
             test = testAttempt.testResult
         ).fold(
             { logger.info("Test ${testAttempt.testResult.name} successfully reported") },
-            { logger.critical("Can't report test ${testAttempt.testResult.name}", it) }
+            { logger.critical("Can't report test ${testAttempt.testResult.name} ${it.stackTraceToString()}", it) }
         )
     }
 
