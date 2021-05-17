@@ -1,5 +1,6 @@
 package com.avito.android.ui.test
 
+import android.util.Log
 import com.avito.android.test.annotations.UIComponentTest
 import com.avito.android.test.app.core.screenRule
 import com.avito.android.ui.ButtonsOverRecyclerWithCollapsingToolbarActivity
@@ -16,5 +17,6 @@ class ButtonsOverRecyclerWithCollapsingToolbarTest {
     @Test
     fun listElement_elementClicked_whenThereIsOverlappedButtonInScreenWithCollapsingToolbar() {
         Screen.buttonsOverRecycler.list.cellAt(90).click()
+        Log.i("testy", "testy listElement_elementClicked_whenThereIsOverlappedButtonInScreenWithCollapsingToolbar")
     }
 }
