@@ -318,7 +318,7 @@ abstract class InHouseInstrumentationTestRunner :
     private fun shouldRecordVideo(testMetadata: TestMetadata): Boolean {
         return when (testMetadata.kind) {
             Kind.UI_COMPONENT, Kind.E2E -> true
-            else -> false
+            else -> true
         }
     }
 
