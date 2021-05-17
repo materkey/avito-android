@@ -60,6 +60,7 @@ internal class TestArtifactsProcessorImpl(
                     }
 
                     val stdout = async {
+                        println("testy stdout")
                         logcatProcessor.process(logcatBuffer?.getStdout(), isUploadNeeded = isTestFailed)
                     }
 
