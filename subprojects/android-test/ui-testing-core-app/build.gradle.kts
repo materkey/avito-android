@@ -81,7 +81,7 @@ instrumentation {
     )
 
     instrumentationParams = mapOf(
-        "videoRecording" to "failed",
+        "videoRecording" to "all",
         "jobSlug" to "FunctionalTests"
     )
 
