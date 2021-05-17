@@ -168,13 +168,15 @@ internal interface TestsSchedulerFactory {
                     reportParser = reportParser,
                     testArtifactsUploader = testArtifactsUploader,
                     dispatcher = dispatcher,
-                    logcatProcessor = logcatProcessor
+                    logcatProcessor = logcatProcessor,
+                    loggerFactory = params.loggerFactory
                 )
             } else {
                 LegacyTestArtifactsProcessor(
                     reportParser = reportParser,
                     logcatProcessor = logcatProcessor,
-                    dispatcher = dispatcher
+                    dispatcher = dispatcher,
+                    loggerFactory = params.loggerFactory
                 )
             }
         }

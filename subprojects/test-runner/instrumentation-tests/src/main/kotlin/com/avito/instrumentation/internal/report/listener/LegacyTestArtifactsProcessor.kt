@@ -1,6 +1,8 @@
 package com.avito.instrumentation.internal.report.listener
 
 import com.avito.android.Result
+import com.avito.logger.LoggerFactory
+import com.avito.logger.create
 import com.avito.report.TestArtifactsProviderFactory
 import com.avito.report.model.AndroidTest
 import com.avito.report.model.TestStaticData
@@ -15,8 +17,11 @@ import java.io.File
 internal class LegacyTestArtifactsProcessor(
     private val reportParser: ReportParser,
     private val logcatProcessor: LogcatProcessor,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
+    private val loggerFactory: LoggerFactory
 ) : TestArtifactsProcessor {
+
+    private val logger = loggerFactory.create<LegacyTestArtifactsProcessor>()
 
     override fun process(
         reportDir: File,
@@ -48,7 +53,9 @@ internal class LegacyTestArtifactsProcessor(
                         AndroidTest.Completed.create(
                             testStaticData = testStaticData,
                             testRuntimeData = testRuntimeData,
-                            stdout = stdout.await(),
+                            stdout = stdout.await().also {
+                                logger.debug("testy LegacyTestArtifactsProcessor $it")
+                            },
                             stderr = stderr.await()
                         )
                     }
