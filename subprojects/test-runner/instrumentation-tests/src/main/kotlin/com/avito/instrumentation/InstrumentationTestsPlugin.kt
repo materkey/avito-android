@@ -50,7 +50,7 @@ public class InstrumentationTestsPlugin : Plugin<Project> {
         project.createInstrumentationPluginExtension()
         project.applyTestTasks()
 
-        val uploadAllTestArtifacts = project.getBooleanProperty("avito.report.fromRunner", default = false)
+        val uploadAllTestArtifacts = project.getBooleanProperty("avito.report.fromRunner", default = true)
 
         project.withAndroidModule { baseExtension ->
             setupLocalInstrumentationArguments(
