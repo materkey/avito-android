@@ -60,13 +60,8 @@ dependencies {
 val avitoRegistry = getOptionalStringProperty("avito.registry")
 
 instrumentation {
-
-    testReport {
-        reportViewer {
-            reportApiUrl = getOptionalStringProperty("avito.report.url") ?: "https://dc-report.free.beeceptor.com"
-            reportViewerUrl = getOptionalStringProperty("avito.report.viewerUrl") ?: "https://reportviewerurl.free.beeceptor.com"
-            fileStorageUrl = getOptionalStringProperty("avito.fileStorage.url") ?: "https://filestorageurl.free.beeceptor.com"
-        }
+    experimental {
+        useInMemoryReport.set(true)
     }
 
     sentryDsn = getOptionalStringProperty("avito.instrumentaion.sentry.dsn") ?: "http://stub-project@stub-host/0"
