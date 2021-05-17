@@ -2,6 +2,7 @@ package com.avito.android.ui.test
 
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
+import com.avito.android.test.annotations.UIComponentTest
 import com.avito.android.test.app.core.screenRule
 import com.avito.android.test.util.toBitmap
 import com.avito.android.ui.BitmapActivity
@@ -28,6 +29,7 @@ class BitmapMatcherTest {
         Screen.bitmapScreen.imageViewVector.checks.withImage(image)
     }
 
+    @UIComponentTest
     @Test
     fun fails_differentImageSize() {
         val image = getDrawable(R.drawable.ic_check_black_24dp).toBitmap()
