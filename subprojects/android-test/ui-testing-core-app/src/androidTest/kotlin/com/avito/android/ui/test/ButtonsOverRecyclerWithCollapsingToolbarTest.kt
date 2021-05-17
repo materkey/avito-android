@@ -18,5 +18,6 @@ class ButtonsOverRecyclerWithCollapsingToolbarTest {
     fun listElement_elementClicked_whenThereIsOverlappedButtonInScreenWithCollapsingToolbar() {
         Screen.buttonsOverRecycler.list.cellAt(90).click()
         Log.i("testy", "testy listElement_elementClicked_whenThereIsOverlappedButtonInScreenWithCollapsingToolbar")
+        throw Exception("testys")
     }
 }
