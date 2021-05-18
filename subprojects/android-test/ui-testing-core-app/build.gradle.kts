@@ -77,7 +77,7 @@ instrumentation {
         "SystemDialogsManager:*",
         "AndroidJUnitRunner:*",
         "ito.android.de:*", // по этому тэгу система пишет логи об использовании hidden/restricted api https://developer.android.com/distribute/best-practices/develop/restrictions-non-sdk-interfaces
-        "*:E"
+        "*:V"
     )
 
     instrumentationParams = mapOf(
