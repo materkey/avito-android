@@ -18,12 +18,9 @@ class VideoFeatureImplementation(
     private val canRecord: Boolean = Build.VERSION.SDK_INT >= 23 && videoFeatureValue is VideoFeatureValue.Enabled
 ) : VideoFeature {
 
-    override fun videoRecordingEnabled(shouldRecord: Boolean): Boolean = shouldRecord && canRecord
+    override fun videoRecordingEnabled(shouldRecord: Boolean): Boolean = true
 
-    override fun videoUploadingEnabled(shouldRecord: Boolean, incident: Incident?): Boolean =
-        videoRecordingEnabled(shouldRecord) &&
-            (videoFeatureValue is VideoFeatureValue.Enabled.All ||
-                videoFeatureValue is VideoFeatureValue.Enabled.OnlyFailed && incident != null)
+    override fun videoUploadingEnabled(shouldRecord: Boolean, incident: Incident?): Boolean = true
 }
 
 sealed class VideoFeatureValue {

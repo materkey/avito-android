@@ -26,6 +26,7 @@ class VideoCaptureTestListener(
     private var savedIncident: Incident? = null
 
     override fun beforeTestStart(state: Started) {
+        logger.debug("testy beforeTestStart")
         if (videoFeature.videoRecordingEnabled(shouldRecord)) {
             logger.debug("Video recording feature enabled. Recording starting")
             videoCapturer.start().fold(
@@ -43,10 +44,12 @@ class VideoCaptureTestListener(
     }
 
     override fun afterIncident(incident: Incident) {
+        logger.debug("testy afterIncident")
         savedIncident = incident
     }
 
     override fun beforeTestFinished(state: Started) {
+        logger.debug("testy beforeTestFinished")
         if (videoFeature.videoUploadingEnabled(shouldRecord, savedIncident)) {
             logger.debug("Video uploading enabled. Recording stopping...")
             videoCapturer.stop().fold(
@@ -82,5 +85,6 @@ class VideoCaptureTestListener(
     ) {
         val videoUploadResult = video.get()
         state.video = Video(fileAddress = videoUploadResult.fileAddress)
+        logger.debug("testy waitUploads $videoUploadResult ${state.video}")
     }
 }
