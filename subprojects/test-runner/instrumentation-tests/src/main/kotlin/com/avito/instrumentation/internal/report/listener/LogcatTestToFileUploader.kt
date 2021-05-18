@@ -26,8 +26,8 @@ internal class LogcatTestToFileUploader(
     }
 
     override suspend fun upload(file: File, type: Entry.File.Type): Result<HttpUrl> {
-        val outputFile = File(outputDir, "file-instrumentation-logcat-${Random.nextInt()}.txt")
-        return outputFile.appendText(file.asRequestBody("text/plain".toMediaType()).toPlainText() ?: "null").let {
+        val outputFile = File(outputDir, "file-instrumentation-logcat-${Random.nextInt()}.mp4")
+        return file.copyTo(outputFile, overwrite = true).let {
             Result.Success(
                 HttpUrl.Builder()
                     .scheme("https")
