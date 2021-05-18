@@ -53,6 +53,7 @@ internal class TestArtifactsProcessorImpl(
                     }
 
                     val video = async {
+                        logger.debug("testy video ${testRuntimeData.video} ${testRuntimeData.video?.fileAddress}")
                         reportArtifactsUploader.processVideo(testRuntimeData.video)
                     }
 
