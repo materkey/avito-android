@@ -3,7 +3,6 @@ package com.avito.android.runner
 import android.os.Bundle
 import androidx.test.runner.AndroidJUnitRunner
 import com.avito.logger.LoggerFactory
-import com.avito.logger.create
 
 abstract class InstrumentationTestRunner : AndroidJUnitRunner(), OrchestratorDelegate {
 
@@ -17,17 +16,13 @@ abstract class InstrumentationTestRunner : AndroidJUnitRunner(), OrchestratorDel
         return emptyList()
     }
 
-
-    val logger = loggerFactory.create<InstrumentationTestRunner>()
     /**
      * WARNING: Shouldn't crash in this method.
      * Otherwise we can't pass an error to the report
      */
     final override fun onCreate(arguments: Bundle) {
-        logger.debug("testy InstrumentationTestRunner onCreate")
         instrumentationArguments = arguments
         val isRealRun = isRealRun(arguments)
-        logger.debug("testy InstrumentationTestRunner isRealRun = $isRealRun onCreate")
         if (isRealRun) {
             beforeOnCreate(arguments)
             delegateRegistry = DelegatesRegistry(
