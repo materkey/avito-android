@@ -40,6 +40,7 @@ class BitmapMatcherTest {
         assertThat(error).hasMessageThat().containsMatch(
             "Bitmaps has different sizes: actual \\[\\d+x\\d+\\], compared \\[\\d+x\\d+\\]"
         )
+        throw Exception("temporary force fail")
     }
 
     fun fails_differentImage() {
