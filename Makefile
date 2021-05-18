@@ -103,6 +103,7 @@ __check_defined = \
 
 clean:
 	rm -rf `find . -type d -name build`
+	rm -rf subprojects/outputs/ui-testing-core-app/instrumentation/ui
 
 unsafe_clean:
 	git clean -fdx
