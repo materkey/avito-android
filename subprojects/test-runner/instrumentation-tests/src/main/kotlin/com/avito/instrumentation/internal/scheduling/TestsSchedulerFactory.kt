@@ -14,7 +14,7 @@ import com.avito.instrumentation.internal.report.listener.GsonReportParser
 import com.avito.instrumentation.internal.report.listener.LegacyTestArtifactsProcessor
 import com.avito.instrumentation.internal.report.listener.LogcatProcessor
 import com.avito.instrumentation.internal.report.listener.LogcatTestLifecycleListener
-import com.avito.instrumentation.internal.report.listener.LogcatTestToFileUploader
+import com.avito.instrumentation.internal.report.listener.ToFileTestUploader
 import com.avito.instrumentation.internal.report.listener.ReportParser
 import com.avito.instrumentation.internal.report.listener.ReportProcessor
 import com.avito.instrumentation.internal.report.listener.ReportProcessorImpl
@@ -33,9 +33,9 @@ import com.avito.time.TimeProvider
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import okhttp3.HttpUrl.Companion.toHttpUrl
 import java.io.File
 import java.nio.file.Files
+import okhttp3.HttpUrl.Companion.toHttpUrl
 
 internal interface TestsSchedulerFactory {
 
@@ -126,17 +126,20 @@ internal interface TestsSchedulerFactory {
 
             val retracer: ProguardRetracer = ProguardRetracer.Impl(params.proguardMappings)
 
-            val artifactsUploader: TestArtifactsUploader = LogcatTestToFileUploader(
-                outputDir = params.outputDir
-            )
-            //
-            // val artifactsUploader: TestArtifactsUploader = AvitoFileStorageUploader(
-            //     RemoteStorageFactory.create(
-            //         endpoint = params.fileStorageUrl.toHttpUrl(),
-            //         httpClientProvider = httpClientProvider,
-            //         isAndroidRuntime = false
-            //     )
-            // )
+            val artifactsUploader: TestArtifactsUploader =
+                if (params.useInMemoryReport) {
+                    ToFileTestUploader(
+                        outputDir = params.outputDir
+                    )
+                } else {
+                    AvitoFileStorageUploader(
+                        RemoteStorageFactory.create(
+                            endpoint = params.fileStorageUrl.toHttpUrl(),
+                            httpClientProvider = httpClientProvider,
+                            isAndroidRuntime = false
+                        )
+                    )
+                }
 
             val logcatUploader = LogcatProcessor.Impl(
                 testArtifactsUploader = artifactsUploader,
