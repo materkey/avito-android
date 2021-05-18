@@ -14,7 +14,7 @@ internal class LogcatTestToFileUploader(
 ) : TestArtifactsUploader {
 
     override suspend fun upload(content: String, type: Entry.File.Type): Result<HttpUrl> {
-        val outputFile = File(outputDir, "instrumentation-logcat-${Random.nextInt()}.txt")
+        val outputFile = File(outputDir, "content-instrumentation-logcat-${Random.nextInt()}.txt")
         return outputFile.appendText(content).let {
             Result.Success(
                 HttpUrl.Builder()
@@ -26,7 +26,7 @@ internal class LogcatTestToFileUploader(
     }
 
     override suspend fun upload(file: File, type: Entry.File.Type): Result<HttpUrl> {
-        val outputFile = File(outputDir, "instrumentation-logcat-${Random.nextInt()}.txt")
+        val outputFile = File(outputDir, "file-instrumentation-logcat-${Random.nextInt()}.txt")
         return outputFile.appendText(file.asRequestBody("text/plain".toMediaType()).toPlainText() ?: "null").let {
             Result.Success(
                 HttpUrl.Builder()
