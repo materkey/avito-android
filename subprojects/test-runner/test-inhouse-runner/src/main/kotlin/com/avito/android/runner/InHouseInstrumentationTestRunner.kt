@@ -189,7 +189,6 @@ abstract class InHouseInstrumentationTestRunner :
     }
 
     override fun beforeOnCreate(arguments: Bundle) {
-        logger.debug("testy beforeOnCreate")
         injectTestMetadata(instrumentationArguments)
         logger.debug("Instrumentation arguments: $instrumentationArguments")
         val environment = testRunEnvironment.asRunEnvironmentOrThrow()
