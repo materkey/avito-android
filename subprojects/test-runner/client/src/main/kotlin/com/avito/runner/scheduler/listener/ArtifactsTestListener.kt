@@ -62,7 +62,13 @@ internal class ArtifactsTestListener(
                     // todo move this knowledge under adb layer
                     device.pull(from = dir.toPath() / ".", to = tempDirectory)
                     logger.debug("materkey: pull outputDir ${outputDir.toPath()}")
-                    device.pull(from = dir.toPath() / ".", to = outputDir.toPath())
+                    device.pull(
+                        from = dir.toPath() / ".",
+                        to = outputFolder(
+                            output = outputDir,
+                            outputDirectoryName = "test-${test.className}-${test.methodName}-${test.deviceName}-${System.nanoTime()}"
+                        ).toPath()
+                    )
                 }
                 TestResult.Complete(artifacts)
             }
@@ -86,4 +92,9 @@ internal class ArtifactsTestListener(
             logger.warn("Can't clear temp directory: $tempDirectory", error)
         }
     }
+
+    private fun outputFolder(output: File, outputDirectoryName: String): File = File(
+        output,
+        outputDirectoryName
+    ).apply { mkdirs() }
 }
