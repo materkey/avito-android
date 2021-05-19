@@ -45,7 +45,7 @@ internal class TestArtifactsProcessorImpl(
         logger.debug("testy TestArtifactsProcessorImpl before provideReportFile()")
 
         return reportFileProvider.provideReportFile().flatMap { reportJson ->
-            logger.debug("testy TestArtifactsProcessorImpl before reportJson")
+            logger.debug("testy TestArtifactsProcessorImpl before reportJson ${reportJson.readText()}")
             reportParser.parse(reportJson)
         }.map { testRuntimeData ->
             logger.debug("testy TestArtifactsProcessorImpl in map")
