@@ -96,11 +96,11 @@ instrumentation {
             tasks.named("check").dependsOn(tasks.named("instrumentationUi"))
         }
 
-        val emulator29 = CloudEmulator(
-            name = "api29",
-            api = 29,
-            model = "Android_SDK_built_for_x86_64",
-            image = emulatorImage(29, "915c1f20be"),
+        val emulator22 = CloudEmulator(
+            name = "api22",
+            api = 22,
+            model = "Android_SDK_built_for_x86",
+            image = emulatorImage(22, "740eb9a948"),
             cpuCoresRequest = "1",
             cpuCoresLimit = "1.3",
             memoryLimit = "4Gi"
@@ -110,8 +110,8 @@ instrumentation {
             reportSkippedTests = true
             filter = "ci"
 
-            targetsContainer.register("api29") {
-                deviceName = "API29"
+            targetsContainer.register("api22") {
+                deviceName = "API22"
 
                 scheduling {
                     quota {
@@ -120,10 +120,10 @@ instrumentation {
                     }
 
                     testsCountBasedReservation {
-                        device = emulator29
+                        device = emulator22
                         maximum = 5
                         minimum = 2
-                        testsPerEmulator = 3
+                        testsPerEmulator = 1
                     }
                 }
             }
