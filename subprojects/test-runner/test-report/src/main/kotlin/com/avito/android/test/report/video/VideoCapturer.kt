@@ -45,6 +45,7 @@ class VideoCapturerImpl(
             } else {
                 val (stdout, stdoutError) = testArtifactsProvider.generateFile("video-output", "txt", create = true)
 
+                stdout?.createNewFile()
                 if (stdoutError != null) {
                     Result.Failure(IllegalStateException("Can't create video output file", videoError))
                 } else {
