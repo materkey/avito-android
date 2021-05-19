@@ -96,7 +96,7 @@ public abstract class InstrumentationTestsTask @Inject constructor(
     public val parameters: Property<ExecutionParameters> = objects.property()
 
     @Input
-    public val uploadAllTestArtifacts: Property<Boolean> = objects.property<Boolean>().convention(false)
+    public val uploadAllTestArtifacts: Property<Boolean> = objects.property<Boolean>().convention(true)
 
     @Internal
     public val reportViewerProperty: Property<Data.ReportViewer> = objects.property(Data.ReportViewer::class.java)
