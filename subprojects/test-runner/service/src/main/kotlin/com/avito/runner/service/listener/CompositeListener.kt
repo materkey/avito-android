@@ -33,7 +33,8 @@ class CompositeListener(
         result: TestCaseRun.Result,
         durationMilliseconds: Long,
         executionNumber: Int,
-        testArtifactsDir: Result<File>
+        testArtifactsDir: Result<File>,
+        outputDir: File
     ) {
         listeners.forEach {
             it.finished(
@@ -43,7 +44,8 @@ class CompositeListener(
                 result = result,
                 durationMilliseconds = durationMilliseconds,
                 executionNumber = executionNumber,
-                testArtifactsDir = testArtifactsDir
+                testArtifactsDir = testArtifactsDir,
+                outputDir = outputDir
             )
         }
     }
