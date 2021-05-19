@@ -30,19 +30,25 @@ internal class TestArtifactsProcessorImpl(
         testStaticData: TestStaticData,
         logcatBuffer: LogcatBuffer?
     ): Result<AndroidTest> {
+        logger.debug("testy TestArtifactsProcessorImpl start process()")
 
         val reportFileProvider = TestArtifactsProviderFactory.createForTempDir(reportDir)
+        logger.debug("testy TestArtifactsProcessorImpl createForTempDir")
 
         val reportArtifactsUploader = ReportArtifactsUploader(
             testArtifactsUploader = testArtifactsUploader,
             testArtifactsProvider = reportFileProvider
         )
+        logger.debug("testy TestArtifactsProcessorImpl ReportArtifactsUploader()")
 
         val scope = CoroutineScope(CoroutineName("test-artifacts-${testStaticData.name}") + dispatcher)
+        logger.debug("testy TestArtifactsProcessorImpl before provideReportFile()")
 
         return reportFileProvider.provideReportFile().flatMap { reportJson ->
+            logger.debug("testy TestArtifactsProcessorImpl before reportJson")
             reportParser.parse(reportJson)
         }.map { testRuntimeData ->
+            logger.debug("testy TestArtifactsProcessorImpl in map")
 
             runBlocking {
                 withContext(scope.coroutineContext) {
