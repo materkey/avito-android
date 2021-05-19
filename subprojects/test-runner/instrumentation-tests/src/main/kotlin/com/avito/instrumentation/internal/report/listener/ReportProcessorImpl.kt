@@ -38,6 +38,7 @@ internal class ReportProcessorImpl(
         executionNumber: Int,
         logcatBuffer: LogcatBuffer?
     ): AndroidTest {
+        logger.debug("materkey: createTestReport")
 
         val testFromSuite = requireNotNull(testSuite[test]) { "Can't find test in suite: ${test.testName}" }
 
@@ -45,6 +46,7 @@ internal class ReportProcessorImpl(
             is TestResult.Complete ->
                 result.artifacts
                     .flatMap { reportDir ->
+                        logger.debug("materkey: createTestReport before process()")
                         testArtifactsProcessor.process(
                             reportDir = reportDir,
                             testStaticData = testFromSuite,

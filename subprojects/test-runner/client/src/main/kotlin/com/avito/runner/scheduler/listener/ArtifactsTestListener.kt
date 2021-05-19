@@ -73,6 +73,7 @@ internal class ArtifactsTestListener(
                 )
         }
 
+        logger.debug("materkey: before finished ${test.methodName}")
         lifecycleListener.finished(
             result = testResult,
             test = test,

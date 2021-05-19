@@ -1,5 +1,6 @@
 package com.avito.runner.service.worker
 
+import com.android.ddmlib.Log
 import com.avito.android.Result
 import com.avito.coroutines.extensions.Dispatchers
 import com.avito.report.TestArtifactsProviderFactory
@@ -171,6 +172,7 @@ internal class DeviceWorker(
 
         val testArtifactsDir = reportFileProvider.provideReportDir()
 
+        Log.i("DeviceWorker", "materkey: before finished ${action.test.methodName}")
         testListener.finished(
             device = device,
             test = action.test,
