@@ -12,7 +12,7 @@ internal class ToFileTestUploader(
     private val success: Result<HttpUrl>
         get() = Result.Success(
             HttpUrl.Builder()
-                .host("stub")
+                .host("http://stub")
                 .build()
         )
 
