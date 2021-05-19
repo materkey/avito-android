@@ -45,7 +45,8 @@ internal class ArtifactsTestListener(
         result: TestCaseRun.Result,
         durationMilliseconds: Long,
         executionNumber: Int,
-        testArtifactsDir: Result<File>
+        testArtifactsDir: Result<File>,
+        outputDir: File
     ) {
         val tempDirectory = createTempDirectory()
 
@@ -59,7 +60,7 @@ internal class ArtifactsTestListener(
                     //  - from: /sdcard/Android/someDir/ to: /xx ; will copy to /xx/someDir/ and not recursive
                     //  - from: /sdcard/android/someDir/. to: /xx ; will copy to /xx and recursive
                     // todo move this knowledge under adb layer
-                    device.pull(from = dir.toPath() / ".", to = tempDirectory)
+                    device.pull(from = dir.toPath() / ".", to = outputDir.toPath())
                 }
                 TestResult.Complete(artifacts)
             }

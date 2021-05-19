@@ -26,6 +26,7 @@ interface TestListener {
         result: TestCaseRun.Result,
         durationMilliseconds: Long,
         executionNumber: Int,
-        testArtifactsDir: Result<File>
+        testArtifactsDir: Result<File>,
+        outputDir: File
     )
 }

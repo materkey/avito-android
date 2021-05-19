@@ -178,7 +178,8 @@ internal class DeviceWorker(
             result = deviceTestCaseRun.testCaseRun.result,
             durationMilliseconds = deviceTestCaseRun.testCaseRun.durationMilliseconds,
             executionNumber = action.executionNumber,
-            testArtifactsDir = testArtifactsDir
+            testArtifactsDir = testArtifactsDir,
+            outputDir = outputDirectory
         )
 
         testArtifactsDir.map { dir ->
