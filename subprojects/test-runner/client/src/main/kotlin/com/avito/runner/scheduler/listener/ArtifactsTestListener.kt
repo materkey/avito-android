@@ -60,6 +60,8 @@ internal class ArtifactsTestListener(
                     //  - from: /sdcard/Android/someDir/ to: /xx ; will copy to /xx/someDir/ and not recursive
                     //  - from: /sdcard/android/someDir/. to: /xx ; will copy to /xx and recursive
                     // todo move this knowledge under adb layer
+                    device.pull(from = dir.toPath() / ".", to = tempDirectory)
+                    logger.debug("materkey: pull outputDir ${outputDir.toPath()}")
                     device.pull(from = dir.toPath() / ".", to = outputDir.toPath())
                 }
                 TestResult.Complete(artifacts)
