@@ -29,7 +29,7 @@ internal class DirectTestArtifactsProvider(
 
     override fun generateFile(name: String, extension: String, create: Boolean): Result<File> {
         return provideReportDir().map { dir ->
-            File(dir, "$name.$extension")
+            File(dir, "$name.$extension").also { it.createNewFile() }
         }
     }
 
