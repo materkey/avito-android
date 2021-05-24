@@ -84,7 +84,7 @@ class VideoCaptureTestListener(
         video: FutureValue<Entry.File>
     ) {
         val videoUploadResult = video.get()
-        state.video = Video(fileAddress = videoUploadResult.fileAddress)
+        // state.video = Video(fileAddress = videoUploadResult.fileAddress) // comment reason: to fix LOST in verdict
         logger.debug("testy waitUploads $videoUploadResult ${state.video}")
     }
 }

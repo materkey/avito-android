@@ -52,7 +52,7 @@ internal class ReportProcessorImpl(
                         )
                     }
                     .rescue { throwable ->
-                        val errorMessage = "Can't get report from file: $test"
+                        val errorMessage = "Can't get report from file: $test ${testArtifactsProcessor.javaClass} ${throwable.printStackTrace()}"
 
                         logger.warn(errorMessage, throwable)
 

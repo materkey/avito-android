@@ -126,7 +126,7 @@ internal class TestExecutorImpl(
                     action(devicesProvider.provideFor(reservations, this))
                     logger.info("Devices: Action completed for configuration: $configurationName")
                 } catch (e: Throwable) {
-                    logger.critical("Error during action in $configurationName job", e)
+                    logger.critical("Error during action in $configurationName job ${e.printStackTrace()}", e)
                 } finally {
                     withContext(NonCancellable) {
                         logger.info("Devices: Starting releasing devices for configuration: $configurationName...")
