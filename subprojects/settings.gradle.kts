@@ -263,17 +263,6 @@ dependencyResolutionManagement {
             }
         }
 
-        // for kotlinx-cli https://github.com/Kotlin/kotlinx-cli/issues/23
-        exclusiveContent {
-            forRepository {
-                maven {
-                    setUrlOrProxy("KotlinX", "https://kotlin.bintray.com/kotlinx")
-                }
-            }
-            filter {
-                includeGroup("org.jetbrains.kotlinx")
-            }
-        }
         exclusiveContent {
             forRepository {
                 maven {
