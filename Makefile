@@ -129,7 +129,7 @@ help:
 	$(docker_command) ./gradlew $(project) $(log_level) $(params) help
 
 publish_to_maven_local:
-	$(docker_command) ./gradlew $(project) $(log_level) $(params) publishToMavenLocal -PprojectVersion=2021.15.1-dc-4
+	$(docker_command) ./gradlew $(project) $(log_level) $(params) publishToMavenLocal -PprojectVersion=2021.15.1-dc-5
 
 stage_ui_tests:
 	make publish_to_maven_local
