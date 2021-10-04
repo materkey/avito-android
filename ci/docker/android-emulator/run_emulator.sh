@@ -41,9 +41,16 @@ fi
 
 emulator_arguments+=(-no-boot-anim -no-audio -partition-size 2048)
 
+if [[ -z "${QEMU_ARGS}" ]]; then
+    echo "QEMU arguments: Use defaults"
+else
+    echo "QEMU arguments: ${QEMU_ARGS}"
+    qemu_arguments=("-qemu ${QEMU_ARGS}")
+fi
+
 # emulator uses adb so we make sure that server is running
 adb start-server
 
 cd /opt/android-sdk/emulator
 echo "Run ${binary_name} binary for emulator ${emulator_name} with abi: x86 (Version: ${VERSION})"
-echo "no" | ./qemu/linux-x86_64/${binary_name} "${emulator_arguments[@]}"
+echo "no" | ./qemu/linux-x86_64/${binary_name} "${emulator_arguments[@]}" "${qemu_arguments[@]}"
