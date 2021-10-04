@@ -24,6 +24,7 @@ import com.avito.instrumentation.internal.finalizer.verdict.VerdictDeterminer
 import com.avito.instrumentation.internal.finalizer.verdict.VerdictDeterminerImpl
 import com.avito.instrumentation.metrics.InstrumentationMetricsSender
 import com.avito.logger.LoggerFactory
+import com.avito.logger.create
 import com.avito.report.ReportLinkGenerator
 import com.avito.runner.service.worker.device.adb.listener.RunnerMetricsConfig
 import com.avito.time.TimeProvider
@@ -110,7 +111,8 @@ internal interface FinalizerFactory {
             val verdictDeterminer: VerdictDeterminer = VerdictDeterminerImpl(
                 suppressFailure = params.suppressFailure,
                 suppressFlaky = params.suppressFlaky,
-                timeProvider = timeProvider
+                timeProvider = timeProvider,
+                logger = loggerFactory.create<VerdictDeterminerImpl>()
             )
 
             val actions = mutableListOf<FinalizeAction>()

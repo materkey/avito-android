@@ -1,5 +1,8 @@
 package com.avito.instrumentation.internal.finalizer.verdict
 
+import com.avito.logger.Logger
+import com.avito.logger.LoggerFactory
+import com.avito.logger.create
 import com.avito.report.model.AndroidTest
 import com.avito.report.model.Flakiness
 import com.avito.report.model.TestStaticData
@@ -8,7 +11,8 @@ import com.avito.time.TimeProvider
 internal class VerdictDeterminerImpl(
     private val suppressFlaky: Boolean,
     private val suppressFailure: Boolean,
-    private val timeProvider: TimeProvider
+    private val timeProvider: TimeProvider,
+    private val logger: Logger
 ) : VerdictDeterminer {
 
     override fun determine(
@@ -82,12 +86,18 @@ internal class VerdictDeterminerImpl(
     ): Set<AndroidTest.Lost> {
         val lostTests = testResults.filterIsInstance<AndroidTest.Lost>()
 
+        logger.info("has lostTests: ${lostTests.isNotEmpty()}")
+        logger.info("lostTests: ${lostTests.joinToString()}")
+
         val notReportedTests: List<AndroidTest.Lost> = initialTestSuite.subtract(testResults).map {
             AndroidTest.Lost.createWithoutInfo(
                 testStaticData = it,
                 currentTimeSec = timeProvider.nowInSeconds()
             )
         }
+
+        logger.info("has notReportedTests: ${notReportedTests.isNotEmpty()}")
+        logger.info("notReportedTests: ${notReportedTests.joinToString()}")
 
         return (lostTests + notReportedTests).toSet()
     }
