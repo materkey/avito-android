@@ -2,7 +2,7 @@ package com.avito.runner.finalizer.verdict
 
 internal interface TestStatisticsCounter {
 
-    fun overallDurationSec(): Int
+    fun overallDurationSec(): Float
 
     fun overallCount(): Int
 

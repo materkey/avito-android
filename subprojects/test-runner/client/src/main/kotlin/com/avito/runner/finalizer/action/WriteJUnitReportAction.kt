@@ -56,9 +56,9 @@ internal class WriteJUnitReportAction(
         append("""caseId="${test.testCaseId}" """)
 
         if (test is TestRuntimeData) {
-            append("""time="${test.duration}"""")
+            append("""time="${test.duration.toFloat()}"""")
         } else {
-            append("""time="unknown"""")
+            append("""time="-1.0"""")
         }
 
         appendLine(">")
