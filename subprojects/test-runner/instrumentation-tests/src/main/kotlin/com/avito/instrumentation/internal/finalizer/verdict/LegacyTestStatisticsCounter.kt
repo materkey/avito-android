@@ -9,8 +9,8 @@ internal class LegacyTestStatisticsCounter(
     val notReported: HasNotReportedTestsDeterminer.Result
 ) : TestStatisticsCounter {
 
-    override fun overallDurationSec(): Int {
-        return reportedTests.sumBy { it.lastAttemptDurationInSeconds }
+    override fun overallDurationSec(): Float {
+        return reportedTests.sumBy { it.lastAttemptDurationInSeconds }.toFloat()
     }
 
     override fun overallCount(): Int {
