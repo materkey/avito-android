@@ -8,9 +8,6 @@ dependencies {
     api(project(":test-runner:test-instrumentation-runner"))
     api(project(":common:junit-utils"))
     api(project(":test-runner:test-report-dsl-api"))
-    api(libs.sentry) {
-        because("InHouseInstrumentationTestRunner.sentry")
-    }
 
     implementation(project(":common:build-metadata"))
     implementation(project(":common:sentry"))

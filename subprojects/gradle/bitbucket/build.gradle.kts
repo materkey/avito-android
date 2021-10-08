@@ -18,7 +18,6 @@ dependencies {
     implementation(libs.retrofitConverterGson)
     implementation(libs.okhttp)
     implementation(libs.okhttpLogging)
-    implementation(libs.sentry)
 
     testImplementation(project(":gradle:test-project"))
     testImplementation(project(":common:test-okhttp"))

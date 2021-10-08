@@ -1,17 +1,10 @@
 package com.avito.logger
 
-import com.avito.android.sentry.SentryConfig
 import com.avito.logger.destination.SentryDestination
 
 internal object SentryDestinationFactory {
 
-    fun create(
-        sentryConfig: SentryConfig,
-        metadata: LoggerMetadata
-    ): LoggingDestination = SentryDestination(
-        config = sentryConfig,
-        metadata = metadata.toMap()
-    )
+    fun create(): LoggingDestination = SentryDestination()
 
     private fun LoggerMetadata.toMap(): Map<String, String> {
         val result = mutableMapOf("tag" to tag)

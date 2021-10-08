@@ -30,7 +30,6 @@ class GradleLoggerFactory(
 
     override fun create(tag: String): Logger = provideLogger(
         isCiRun = isCiRun,
-        sentryConfig = sentryConfig,
         elasticConfig = elasticConfig,
         metadata = LoggerMetadata(
             tag = tag,
@@ -43,18 +42,16 @@ class GradleLoggerFactory(
 
     private fun provideLogger(
         isCiRun: Boolean,
-        sentryConfig: SentryConfig,
         elasticConfig: ElasticConfig,
         metadata: LoggerMetadata,
         verboseMode: VerboseMode?
     ): Logger = if (isCiRun) {
-        createCiLogger(sentryConfig, elasticConfig, metadata, verboseMode)
+        createCiLogger(elasticConfig, metadata, verboseMode)
     } else {
         createLocalBuildLogger(metadata, verboseMode)
     }
 
     private fun createCiLogger(
-        sentryConfig: SentryConfig,
         elasticConfig: ElasticConfig,
         metadata: LoggerMetadata,
         verboseMode: VerboseMode?
@@ -78,7 +75,7 @@ class GradleLoggerFactory(
         }
 
         val sentryHandler = DefaultLoggingHandler(
-            destination = SentryDestinationFactory.create(sentryConfig, metadata)
+            destination = SentryDestinationFactory.create()
         )
 
         val errorHandler = CombinedHandler(

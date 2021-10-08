@@ -1,30 +1,6 @@
 package com.avito.android.sentry
 
-import io.sentry.SentryClient
-import io.sentry.SentryClientFactory
-import io.sentry.connection.NoopConnection
-import io.sentry.context.ThreadLocalContextManager
 import java.io.Serializable
-
-fun sentryClient(config: SentryConfig): SentryClient {
-    return when (config) {
-        is SentryConfig.Disabled ->
-            SentryClient(NoopConnection(), ThreadLocalContextManager())
-
-        is SentryConfig.Enabled ->
-            SentryClientFactory.sentryClient(
-                config.dsn,
-                CustomizableSentryClientFactory(config.maxStringLength)
-            ).apply {
-                environment = config.environment
-                serverName = config.serverName
-                release = config.release
-                config.tags.forEach { (key, value) ->
-                    addTag(key, value)
-                }
-            }
-    }
-}
 
 /**
  * Some payloads are bigger than default 400 symbols but helpful for troubleshooting

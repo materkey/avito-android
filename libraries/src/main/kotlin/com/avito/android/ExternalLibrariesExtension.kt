@@ -9,7 +9,6 @@ abstract class ExternalLibrariesExtension @Inject constructor(private val provid
 
     private object Versions {
         const val okhttp = "4.9.0"
-        const val sentry = "1.7.23"
         const val retrofit = "2.9.0"
         const val androidXTest = "1.2.0"
         const val junit5 = "5.7.1"
@@ -52,8 +51,6 @@ abstract class ExternalLibrariesExtension @Inject constructor(private val provid
     val okio = "com.squareup.okio:okio:2.7.0"
     val gson = "com.google.code.gson:gson:2.8.5"
     val kotson = "com.github.salomonbrys.kotson:kotson:2.5.0"
-    val sentry = "io.sentry:sentry:${Versions.sentry}"
-    val sentryAndroid = "io.sentry:sentry-android:${Versions.sentry}"
     val slf4jApi = "org.slf4j:slf4j-api:1.7.28"
 
     val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion"
