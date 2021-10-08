@@ -1,10 +1,10 @@
 package com.avito.android.runner
 
 import android.os.Bundle
-import androidx.test.runner.AndroidJUnitRunner
+import io.qameta.allure.android.runners.AllureAndroidJUnitRunner
 import com.avito.logger.LoggerFactory
 
-abstract class InstrumentationTestRunner : AndroidJUnitRunner(), OrchestratorDelegate {
+abstract class InstrumentationTestRunner : AllureAndroidJUnitRunner(), OrchestratorDelegate {
 
     abstract val loggerFactory: LoggerFactory
 
