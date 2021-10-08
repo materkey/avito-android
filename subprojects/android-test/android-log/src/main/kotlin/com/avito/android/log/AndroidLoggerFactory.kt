@@ -37,7 +37,7 @@ class AndroidLoggerFactory(
 
         val defaultHandler = defaultHandler(metadata)
 
-        val errorHandler = errorHandler(defaultHandler, metadata)
+        val errorHandler = errorHandler(defaultHandler)
 
         return DefaultLogger(
             debugHandler = defaultHandler,
@@ -68,14 +68,11 @@ class AndroidLoggerFactory(
         return DefaultLoggingHandler(destination = ElasticDestinationFactory.create(elasticConfig, metadata))
     }
 
-    private fun errorHandler(defaultHandler: LoggingHandler, metadata: AndroidTestMetadata): LoggingHandler {
+    private fun errorHandler(defaultHandler: LoggingHandler): LoggingHandler {
         return if (sentryConfig is SentryConfig.Enabled) {
             val sentryHandler =
                 DefaultLoggingHandler(
-                    destination = SentryDestinationFactory.create(
-                        config = sentryConfig,
-                        metadata = metadata
-                    )
+                    destination = SentryDestinationFactory.create()
                 )
             CombinedHandler(
                 listOf(
