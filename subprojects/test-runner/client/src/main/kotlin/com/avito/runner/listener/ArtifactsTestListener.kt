@@ -122,6 +122,22 @@ internal class ArtifactsTestListener(
                             require(mkdir()) { "can't mkdir $this" }
                         }
                     }
+                    val allurePath = if (device.api >= 30) {
+                        "/storage/emulated/0/allure-results"
+                    } else {
+                        "/sdcard/allure-results"
+                    }
+                    device.pullDir(
+                        deviceDir = File(allurePath).toPath(),
+                        hostDir = File(
+                            dirForResults,
+                            "test-allure"
+                        ).apply { mkdirs() }.toPath(),
+                        validator = object : PullValidator {
+                            override fun isPulledCompletely(hostDir: Path): PullValidator.Result =
+                                PullValidator.Result.Ok
+                        }
+                    )
                     device.pullDir(
                         deviceDir = artifactsPath,
                         hostDir = File(
