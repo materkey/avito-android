@@ -17,7 +17,7 @@ public abstract class InstrumentationConfiguration(public val name: String) {
 
     public var kubernetesNamespace: String = "default"
 
-    public var timeoutInSeconds: Long = 6000L // 100min
+    public var timeoutInSeconds: Long = 20_000L // 333min
 
     public var enableDeviceDebug: Boolean = false
 
