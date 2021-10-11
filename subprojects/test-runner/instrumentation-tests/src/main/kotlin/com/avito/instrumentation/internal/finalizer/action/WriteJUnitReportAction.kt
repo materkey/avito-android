@@ -41,7 +41,9 @@ internal class WriteJUnitReportAction(
 
             appendLine("<properties/>")
 
-            verdict.testResults.forEach { test -> appendTest(test) }
+            verdict.testResults.forEach { test ->
+                appendTest(test, otherTests = verdict.testResults)
+            }
 
             appendLine("</testsuite>")
         }
@@ -49,7 +51,12 @@ internal class WriteJUnitReportAction(
         destination.writeText(xml)
     }
 
-    private fun StringBuilder.appendTest(test: AndroidTest) {
+    private fun Collection<AndroidTest>.isSuccess() =
+        firstOrNull {
+            it is AndroidTest.Completed && it.incident == null
+        } ?: false
+
+    private fun StringBuilder.appendTest(test: AndroidTest, otherTests: Collection<AndroidTest>) {
         append("<testcase ")
         append("""classname="${test.name.className}" """)
         append("""name="${test.name.methodName}" """)
@@ -80,10 +87,16 @@ internal class WriteJUnitReportAction(
                 }
             }
             is AndroidTest.Lost -> {
-                appendLine("<error>")
-                appendLine("LOST (no info in report)")
-                appendLine(reportLinkGenerator.generateTestLink(test.name))
-                appendLine("</error>")
+                val noSuccessRun = otherTests.firstOrNull {
+                    test.name == it.name && it is AndroidTest.Completed && it.incident == null
+                } == null
+
+                if (noSuccessRun) {
+                    appendLine("<error>")
+                    appendLine("LOST (no info in report)")
+                    appendLine(reportLinkGenerator.generateTestLink(test.name))
+                    appendLine("</error>")
+                }
             }
         }
 
