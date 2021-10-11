@@ -22,9 +22,22 @@ internal class WriteJUnitReportAction(
 
         val testStatisticsCounter = TestStatisticsCounterFactory.create(verdict)
 
+        val lostTests: Collection<AndroidTest.Lost> = verdict.testResults
+            .filterIsInstance<AndroidTest.Lost>()
+        val completedTests: Collection<AndroidTest.Completed> = verdict.testResults
+            .filterIsInstance<AndroidTest.Completed>()
+
+        val lostTestsWithCompletedTries: Collection<AndroidTest.Lost> = lostTests.filter { test ->
+            completedTests.firstOrNull {
+                it.name == test.name
+            } != null
+        }
+
         val testCountOverall = testStatisticsCounter.overallCount()
         val testCountFailures = testStatisticsCounter.failureCount()
-        val testCountErrors = testStatisticsCounter.notReportedCount()
+        val testCountErrors =
+            (testStatisticsCounter.notReportedCount() - lostTestsWithCompletedTries.size)
+                .coerceAtLeast(0)
         val testCountSkipped = testStatisticsCounter.skippedCount()
 
         val xml = buildString(testCountOverall * estimatedTestRecordSize) {
@@ -41,7 +54,13 @@ internal class WriteJUnitReportAction(
 
             appendLine("<properties/>")
 
-            verdict.testResults.forEach { test -> appendTest(test) }
+            verdict.testResults.forEach { test ->
+                val isNotLostWithCompletedTries =
+                    test !is AndroidTest.Lost || !lostTestsWithCompletedTries.contains(test)
+                if (isNotLostWithCompletedTries) {
+                    appendTest(test)
+                }
+            }
 
             appendLine("</testsuite>")
         }
