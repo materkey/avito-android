@@ -22,9 +22,19 @@ internal class WriteJUnitReportAction(
 
         val testStatisticsCounter = TestStatisticsCounterFactory.create(verdict)
 
+        val probablyLostTests = verdict.testResults.filterIsInstance<AndroidTest.Lost>()
+        val completedTests = verdict.testResults.filterIsInstance<AndroidTest.Completed>()
+
+        val eventuallyCompletedLostTests = probablyLostTests.filter { test ->
+            completedTests.firstOrNull {
+                it.name == test.name
+            } != null
+        }
+
         val testCountOverall = testStatisticsCounter.overallCount()
         val testCountFailures = testStatisticsCounter.failureCount()
-        val testCountErrors = testStatisticsCounter.notReportedCount()
+        val testCountErrors =
+            (testStatisticsCounter.notReportedCount() - eventuallyCompletedLostTests.size).coerceAtLeast(0)
         val testCountSkipped = testStatisticsCounter.skippedCount()
 
         val xml = buildString(testCountOverall * estimatedTestRecordSize) {
@@ -42,7 +52,7 @@ internal class WriteJUnitReportAction(
             appendLine("<properties/>")
 
             verdict.testResults.forEach { test ->
-                appendTest(test, otherTests = verdict.testResults)
+                appendTest(test)
             }
 
             appendLine("</testsuite>")
@@ -56,7 +66,7 @@ internal class WriteJUnitReportAction(
             it is AndroidTest.Completed && it.incident == null
         } ?: false
 
-    private fun StringBuilder.appendTest(test: AndroidTest, otherTests: Collection<AndroidTest>) {
+    private fun StringBuilder.appendTest(test: AndroidTest) {
         append("<testcase ")
         append("""classname="${test.name.className}" """)
         append("""name="${test.name.methodName}" """)
@@ -87,16 +97,10 @@ internal class WriteJUnitReportAction(
                 }
             }
             is AndroidTest.Lost -> {
-                val noSuccessRun = otherTests.firstOrNull {
-                    test.name == it.name && it is AndroidTest.Completed && it.incident == null
-                } == null
-
-                if (noSuccessRun) {
-                    appendLine("<error>")
-                    appendLine("LOST (no info in report)")
-                    appendLine(reportLinkGenerator.generateTestLink(test.name))
-                    appendLine("</error>")
-                }
+                appendLine("<error>")
+                appendLine("LOST (no info in report)")
+                appendLine(reportLinkGenerator.generateTestLink(test.name))
+                appendLine("</error>")
             }
         }
 
