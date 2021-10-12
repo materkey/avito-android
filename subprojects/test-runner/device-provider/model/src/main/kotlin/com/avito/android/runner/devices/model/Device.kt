@@ -65,7 +65,9 @@ public sealed class Device : Serializable {
         public val cpuCoresLimit: String? = null,
         public val cpuCoresRequest: String? = null,
         public val memoryLimit: String? = null,
-        public val memoryRequest: String? = null
+        public val memoryRequest: String? = null,
+        public val command: List<String>? = null,
+        public val args: List<String>? = null
     ) : Device() {
 
         override val description: String = "emulator-$name"
