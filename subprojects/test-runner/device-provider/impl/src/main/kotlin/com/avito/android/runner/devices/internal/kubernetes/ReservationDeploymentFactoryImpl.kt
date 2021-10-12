@@ -77,6 +77,13 @@ internal class ReservationDeploymentFactoryImpl(
                     name = emulator.name.toValidKubernetesName()
                     image = emulator.image
 
+                    emulator.command?.let {
+                        command = it
+                    }
+                    emulator.args?.let {
+                        args = it
+                    }
+
                     securityContext {
                         privileged = true
                     }
