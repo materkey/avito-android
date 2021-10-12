@@ -22,10 +22,12 @@ internal class WriteJUnitReportAction(
 
         val testStatisticsCounter = TestStatisticsCounterFactory.create(verdict)
 
-        val probablyLostTests = verdict.testResults.filterIsInstance<AndroidTest.Lost>()
-        val completedTests = verdict.testResults.filterIsInstance<AndroidTest.Completed>()
+        val lostTests: Collection<AndroidTest.Lost> = verdict.testResults
+            .filterIsInstance<AndroidTest.Lost>()
+        val completedTests: Collection<AndroidTest.Completed> = verdict.testResults
+            .filterIsInstance<AndroidTest.Completed>()
 
-        val completedTestsWithLostTries = probablyLostTests.filter { test ->
+        val lostTestsWithCompletedTries: Collection<AndroidTest.Lost> = lostTests.filter { test ->
             completedTests.firstOrNull {
                 it.name == test.name
             } != null
@@ -34,7 +36,7 @@ internal class WriteJUnitReportAction(
         val testCountOverall = testStatisticsCounter.overallCount()
         val testCountFailures = testStatisticsCounter.failureCount()
         val testCountErrors =
-            (testStatisticsCounter.notReportedCount() - completedTestsWithLostTries.size).coerceAtLeast(0)
+            (testStatisticsCounter.notReportedCount() - lostTestsWithCompletedTries.size).coerceAtLeast(0)
         val testCountSkipped = testStatisticsCounter.skippedCount()
 
         val xml = buildString(testCountOverall * estimatedTestRecordSize) {
@@ -52,7 +54,11 @@ internal class WriteJUnitReportAction(
             appendLine("<properties/>")
 
             verdict.testResults.forEach { test ->
-                appendTest(test, completedTestsWithLostTries = completedTestsWithLostTries)
+                val isNotLostWithCompletedTries =
+                    test !is AndroidTest.Lost || !lostTestsWithCompletedTries.contains(test)
+                if (isNotLostWithCompletedTries) {
+                    appendTest(test)
+                }
             }
 
             appendLine("</testsuite>")
@@ -61,58 +67,46 @@ internal class WriteJUnitReportAction(
         destination.writeText(xml)
     }
 
-    private fun Collection<AndroidTest>.isSuccess() =
-        firstOrNull {
-            it is AndroidTest.Completed && it.incident == null
-        } ?: false
+    private fun StringBuilder.appendTest(test: AndroidTest) {
+        append("<testcase ")
+        append("""classname="${test.name.className}" """)
+        append("""name="${test.name.methodName}" """)
+        append("""caseId="${test.testCaseId}" """)
 
-    private fun StringBuilder.appendTest(test: AndroidTest, completedTestsWithLostTries: Collection<AndroidTest>) {
-        if (test !is AndroidTest.Lost || test.hasNoSuccessRun(completedTestsWithLostTries)) {
-            append("<testcase ")
-            append("""classname="${test.name.className}" """)
-            append("""name="${test.name.methodName}" """)
-            append("""caseId="${test.testCaseId}" """)
-
-            if (test is TestRuntimeData) {
-                append("""time="${test.duration.toFloat()}"""")
-            } else {
-                append("""time="-1.0"""")
-            }
-
-            appendLine(">")
-
-            when (test) {
-                is AndroidTest.Skipped -> {
-                    appendLine("<skipped/>")
-                    appendLine("<system-out>")
-                    appendEscapedLine("Тест не запускался: ${test.skipReason}")
-                    appendLine("</system-out>")
-                }
-                is AndroidTest.Completed -> {
-                    val incident = test.incident
-                    if (incident != null) {
-                        appendLine("<failure>")
-                        appendEscapedLine(incident.errorMessage)
-                        appendLine(reportLinkGenerator.generateTestLink(test.name))
-                        appendLine("</failure>")
-                    }
-                }
-                is AndroidTest.Lost -> {
-                    appendLine("<error>")
-                    appendLine("LOST (no info in report)")
-                    appendLine(reportLinkGenerator.generateTestLink(test.name))
-                    appendLine("</error>")
-                }
-            }
-
-            appendLine("</testcase>")
+        if (test is TestRuntimeData) {
+            append("""time="${test.duration.toFloat()}"""")
+        } else {
+            append("""time="-1.0"""")
         }
-    }
 
-    private fun AndroidTest.Lost.hasNoSuccessRun(tests: Collection<AndroidTest>) =
-        tests.firstOrNull { test ->
-            this.name == test.name && test is AndroidTest.Completed && test.incident == null
-        } == null
+        appendLine(">")
+
+        when (test) {
+            is AndroidTest.Skipped -> {
+                appendLine("<skipped/>")
+                appendLine("<system-out>")
+                appendEscapedLine("Тест не запускался: ${test.skipReason}")
+                appendLine("</system-out>")
+            }
+            is AndroidTest.Completed -> {
+                val incident = test.incident
+                if (incident != null) {
+                    appendLine("<failure>")
+                    appendEscapedLine(incident.errorMessage)
+                    appendLine(reportLinkGenerator.generateTestLink(test.name))
+                    appendLine("</failure>")
+                }
+            }
+            is AndroidTest.Lost -> {
+                appendLine("<error>")
+                appendLine("LOST (no info in report)")
+                appendLine(reportLinkGenerator.generateTestLink(test.name))
+                appendLine("</error>")
+            }
+        }
+
+        appendLine("</testcase>")
+    }
 
     private fun StringBuilder.appendEscapedLine(line: String) {
         appendLine(StringEscapeUtils.escapeXml10(line))
