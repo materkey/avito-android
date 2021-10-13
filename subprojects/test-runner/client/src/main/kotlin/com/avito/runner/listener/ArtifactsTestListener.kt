@@ -71,7 +71,8 @@ internal class ArtifactsTestListener(
             Passed, is Failed.InRun -> handleFinishedTest(
                 device = device,
                 artifactsDir = testArtifactsDir,
-                tempDirectory = tempDirectory
+                tempDirectory = tempDirectory,
+                test = test
             )
 
             is InfrastructureError -> handleIncompleteTest(
@@ -107,15 +108,36 @@ internal class ArtifactsTestListener(
     private fun handleFinishedTest(
         device: Device,
         artifactsDir: Result<File>,
-        tempDirectory: Path
+        tempDirectory: Path,
+        test: TestCase
     ): TestResult {
         return artifactsDir
             .flatMap { dir ->
-                device.pullDir(
-                    deviceDir = dir.toPath(),
-                    hostDir = tempDirectory,
-                    validator = reportArtifactsPullValidator
-                )
+                val artifactsPath = dir.toPath()
+                logger.debug("pull outputDir $artifactsPath")
+                if (saveTestArtifactsToOutputs) {
+                    val dirForResults: File = File(outputDirectory, "test-artifacts").apply {
+                        if (!exists()) {
+                            parentFile.mkdirs()
+                            require(mkdir()) { "can't mkdir $this" }
+                        }
+                    }
+                    device.pullDir(
+                        deviceDir = artifactsPath,
+                        hostDir = File(
+                            dirForResults,
+                            "test-${test.name}-${test.deviceName}-${System.nanoTime()}"
+                        ).apply { mkdirs() }.toPath(),
+                        validator = reportArtifactsPullValidator
+                    )
+                } else {
+                    createTempDirectory()
+                    device.pullDir(
+                        deviceDir = artifactsPath,
+                        hostDir = tempDirectory,
+                        validator = reportArtifactsPullValidator
+                    )
+                }
             }
             .fold(
                 onSuccess = { dir ->
@@ -153,4 +175,10 @@ internal class ArtifactsTestListener(
             }
         )
     }
+
+    private fun outputFolder(output: File, outputDirectoryName: String): File =
+        File(
+            output,
+            outputDirectoryName
+        ).apply { mkdirs() }
 }
