@@ -73,7 +73,7 @@ internal class TestSchedulerImpl(
 
         if (testsToRun.isNotEmpty()) {
             runBlocking {
-                testRunnerFactory.createTestRunner(testsToRun).runTests(testCases)
+                testRunnerFactory.createTestRunner(testsToRun, outputDir).runTests(testCases)
             }
         }
 

@@ -3,15 +3,16 @@ package com.avito.runner.listener
 import com.avito.filestorage.RemoteStorageFactory
 import com.avito.http.HttpClientProvider
 import com.avito.logger.LoggerFactory
+import com.avito.logger.create
 import com.avito.report.Report
 import com.avito.report.model.TestStaticData
 import com.avito.report.serialize.ReportSerializer
 import com.avito.retrace.ProguardRetracer
-import com.avito.runner.artifacts.AvitoFileStorageUploader
 import com.avito.runner.artifacts.LegacyTestArtifactsProcessor
 import com.avito.runner.artifacts.TestArtifactsProcessor
 import com.avito.runner.artifacts.TestArtifactsProcessorImpl
 import com.avito.runner.artifacts.TestArtifactsUploader
+import com.avito.runner.artifacts.ToFileTestUploader
 import com.avito.runner.logcat.LogcatProcessor
 import com.avito.runner.report.ReportProcessor
 import com.avito.runner.report.ReportProcessorImpl
@@ -28,6 +29,8 @@ public class TestListenerFactory(
     private val httpClientProvider: HttpClientProvider
 ) {
 
+    private val logger = loggerFactory.create<TestListenerFactory>()
+
     public fun createReportTestListener(
         testStaticDataByTestCase: Map<TestCase, TestStaticData>,
         tempLogcatDir: File,
@@ -35,6 +38,7 @@ public class TestListenerFactory(
         proguardMappings: List<File>,
         fileStorageUrl: String,
         uploadTestArtifacts: Boolean,
+        outputDir: File,
     ): TestLifecycleListener {
         return ReportTestListener(
             logcatDir = tempLogcatDir,
@@ -43,6 +47,7 @@ public class TestListenerFactory(
                 proguardMappings = proguardMappings,
                 fileStorageUrl = fileStorageUrl,
                 uploadTestArtifacts = uploadTestArtifacts,
+                outputDir = outputDir,
             ),
             report = report,
         )
@@ -53,19 +58,15 @@ public class TestListenerFactory(
         proguardMappings: List<File>,
         fileStorageUrl: String,
         uploadTestArtifacts: Boolean,
+        outputDir: File,
     ): ReportProcessor {
 
         val dispatcher = Dispatchers.IO
 
         val reTracer: ProguardRetracer = ProguardRetracer.create(proguardMappings)
 
-        val artifactsUploader: TestArtifactsUploader = AvitoFileStorageUploader(
-            RemoteStorageFactory.create(
-                endpoint = fileStorageUrl.toHttpUrl(),
-                httpClientProvider = httpClientProvider,
-                isAndroidRuntime = false
-            )
-        )
+        logger.debug("fileStorageUrl $fileStorageUrl is not used")
+        val artifactsUploader: TestArtifactsUploader = ToFileTestUploader(outputDir)
 
         val logcatUploader = LogcatProcessor.Impl(
             testArtifactsUploader = artifactsUploader,
