@@ -49,12 +49,13 @@ internal class TestRunnerFactoryImpl(
 ) : TestRunnerFactory {
 
     override fun createTestRunner(
-        tests: List<TestStaticData>
+        tests: List<TestStaticData>,
+        outputDir: File
     ): TestRunner {
         val devicesProvider = devicesProviderFactory.create(
             tempLogcatDir = tempLogcatDir,
             deviceWorkerPoolProvider = devicesWorkerPoolProvider(
-                testListener(tests)
+                testListener(tests, outputDir)
             )
         )
         return TestRunnerImpl(
@@ -85,7 +86,7 @@ internal class TestRunnerFactoryImpl(
         )
     }
 
-    private fun testListener(tests: List<TestStaticData>) = CompositeListener(
+    private fun testListener(tests: List<TestStaticData>, outputDir: File) = CompositeListener(
         listeners = mutableListOf<TestListener>().apply {
             add(LogListener())
             add(
@@ -97,6 +98,7 @@ internal class TestRunnerFactoryImpl(
                         proguardMappings = params.proguardMappings,
                         fileStorageUrl = params.fileStorageUrl,
                         uploadTestArtifacts = params.uploadTestArtifacts,
+                        outputDir = outputDir
                     ),
                     outputDirectory = testRunnerOutputDir,
                     loggerFactory = loggerFactory,
