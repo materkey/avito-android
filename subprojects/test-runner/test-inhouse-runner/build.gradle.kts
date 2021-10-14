@@ -7,12 +7,8 @@ dependencies {
     api(projects.subprojects.testRunner.testInstrumentationRunner)
     api(projects.subprojects.common.junitUtils)
     api(projects.subprojects.testRunner.testReportDslApi)
-    api(libs.sentry) {
-        because("InHouseInstrumentationTestRunner.sentry")
-    }
 
     implementation(projects.subprojects.common.buildMetadata)
-    implementation(projects.subprojects.common.sentry)
     implementation(projects.subprojects.logger.elasticLogger)
     implementation(projects.subprojects.common.httpClient)
     implementation(projects.subprojects.common.okhttp)

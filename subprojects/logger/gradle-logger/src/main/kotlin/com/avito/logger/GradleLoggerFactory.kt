@@ -1,8 +1,6 @@
 package com.avito.logger
 
 import com.avito.android.elastic.ElasticConfig
-import com.avito.android.sentry.SentryConfig
-import com.avito.android.sentry.sentryConfig
 import com.avito.logger.destination.Slf4jDestination
 import com.avito.logger.destination.VerboseDestination
 import com.avito.logger.destination.VerboseMode
@@ -19,7 +17,6 @@ import java.util.Locale
 
 public class GradleLoggerFactory(
     private val isCiRun: Boolean,
-    private val sentryConfig: SentryConfig,
     private val elasticConfig: ElasticConfig,
     private val projectPath: String,
     private val pluginName: String? = null,
@@ -29,7 +26,6 @@ public class GradleLoggerFactory(
 
     override fun create(tag: String): Logger = provideLogger(
         isCiRun = isCiRun,
-        sentryConfig = sentryConfig,
         elasticConfig = elasticConfig,
         metadata = LoggerMetadata(
             tag = tag,
@@ -42,18 +38,16 @@ public class GradleLoggerFactory(
 
     private fun provideLogger(
         isCiRun: Boolean,
-        sentryConfig: SentryConfig,
         elasticConfig: ElasticConfig,
         metadata: LoggerMetadata,
         verboseMode: VerboseMode?
     ): Logger = if (isCiRun) {
-        createCiLogger(sentryConfig, elasticConfig, metadata, verboseMode)
+        createCiLogger(elasticConfig, metadata, verboseMode)
     } else {
         createLocalBuildLogger(metadata, verboseMode)
     }
 
     private fun createCiLogger(
-        sentryConfig: SentryConfig,
         elasticConfig: ElasticConfig,
         metadata: LoggerMetadata,
         verboseMode: VerboseMode?
@@ -77,7 +71,7 @@ public class GradleLoggerFactory(
         }
 
         val sentryHandler = DefaultLoggingHandler(
-            destination = SentryDestinationFactory.create(sentryConfig, metadata)
+            destination = SentryDestinationFactory.create(metadata)
         )
 
         val errorHandler = CombinedHandler(
@@ -154,7 +148,6 @@ public class GradleLoggerFactory(
             taskName: String? = null
         ): GradleLoggerFactory = GradleLoggerFactory(
             isCiRun = project.isCiRun(),
-            sentryConfig = project.sentryConfig.get(),
             elasticConfig = ElasticConfigFactory.config(project),
             projectPath = project.path,
             pluginName = pluginName,

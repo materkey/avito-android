@@ -16,7 +16,6 @@ import com.avito.android.runner.annotation.resolver.getTestOrThrow
 import com.avito.android.runner.annotation.validation.CompositeTestMetadataValidator
 import com.avito.android.runner.annotation.validation.TestMetadataValidator
 import com.avito.android.runner.delegates.ReportLifecycleEventsDelegate
-import com.avito.android.sentry.SentryConfig
 import com.avito.android.stats.StatsDSender
 import com.avito.android.test.UITestConfig
 import com.avito.android.test.interceptor.HumanReadableActionInterceptor
@@ -61,8 +60,6 @@ abstract class InHouseInstrumentationTestRunner :
     private val activityProvider: ActivityProvider by lazy { ActivityProviderFactory.create() }
 
     private val elasticConfig: ElasticConfig by lazy { testRunEnvironment.asRunEnvironmentOrThrow().elasticConfig }
-
-    private val sentryConfig: SentryConfig by lazy { testRunEnvironment.asRunEnvironmentOrThrow().sentryConfig }
 
     private val logger by lazy { loggerFactory.create<InHouseInstrumentationTestRunner>() }
 
@@ -126,7 +123,6 @@ abstract class InHouseInstrumentationTestRunner :
         val runEnvironment = testRunEnvironment.asRunEnvironmentOrThrow()
         AndroidLoggerFactory(
             elasticConfig = elasticConfig,
-            sentryConfig = sentryConfig,
             testName = runEnvironment.testMetadata.name.toString()
         )
     }
