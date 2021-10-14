@@ -17,7 +17,6 @@ dependencies {
     }
     implementation(projects.subprojects.logger.logger)
     implementation(projects.subprojects.logger.elasticLogger)
-    implementation(projects.subprojects.common.sentry)
     implementation(projects.subprojects.common.waiter)
     implementation(projects.subprojects.common.result)
     implementation(projects.subprojects.testRunner.testAnnotations)

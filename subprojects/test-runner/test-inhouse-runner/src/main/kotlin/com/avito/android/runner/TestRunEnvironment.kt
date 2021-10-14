@@ -4,7 +4,6 @@ import android.os.Build
 import com.avito.android.elastic.ElasticConfig
 import com.avito.android.log.ElasticConfigFactory
 import com.avito.android.runner.annotation.resolver.TEST_METADATA_KEY
-import com.avito.android.sentry.SentryConfig
 import com.avito.android.stats.SeriesName
 import com.avito.android.stats.StatsDConfig
 import com.avito.android.test.report.ArgsProvider
@@ -53,7 +52,6 @@ sealed class TestRunEnvironment {
         internal val reportDestination: ReportDestination,
         internal val videoRecordingFeature: VideoFeatureValue,
         internal val elasticConfig: ElasticConfig,
-        internal val sentryConfig: SentryConfig,
         internal val statsDConfig: StatsDConfig,
         internal val fileStorageUrl: HttpUrl
     ) : TestRunEnvironment()
@@ -82,7 +80,6 @@ fun provideEnvironment(
                 argumentsProvider = argumentsProvider
             ),
             elasticConfig = ElasticConfigFactory.parse(argumentsProvider),
-            sentryConfig = parseSentryConfig(argumentsProvider),
             statsDConfig = parseStatsDConfig(argumentsProvider),
             fileStorageUrl = argumentsProvider.getMandatoryArgument("fileStorageUrl").toHttpUrl(),
             testRunCoordinates = coordinates,
@@ -108,7 +105,6 @@ fun parseEnvironment(
                 argumentsProvider = argumentsProvider
             ),
             elasticConfig = ElasticConfigFactory.parse(argumentsProvider),
-            sentryConfig = parseSentryConfig(argumentsProvider),
             statsDConfig = parseStatsDConfig(argumentsProvider),
             fileStorageUrl = argumentsProvider.getMandatoryArgument("fileStorageUrl").toHttpUrl(),
             testRunCoordinates = coordinates,
@@ -141,26 +137,6 @@ internal fun parseReportDestination(argumentsProvider: ArgsProvider): ReportDest
         } else {
             ReportDestination.Legacy
         }
-    }
-}
-
-private fun parseSentryConfig(argumentsProvider: ArgsProvider): SentryConfig {
-    val dsn = argumentsProvider.getOptionalArgument("sentryDsn")
-    val tags = mapOf(
-        "API" to Build.VERSION.SDK_INT.toString()
-    )
-    val release = BuildMetadata.androidLibVersion("test-inhouse-runner")
-
-    return if (dsn.isNullOrBlank()) {
-        SentryConfig.Disabled
-    } else {
-        SentryConfig.Enabled(
-            dsn = dsn,
-            environment = "android-test",
-            serverName = "",
-            release = release,
-            tags = tags
-        )
     }
 }
 

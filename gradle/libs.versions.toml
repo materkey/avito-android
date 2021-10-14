@@ -98,7 +98,6 @@ junitJupiterEngine = { module = "org.junit.jupiter:junit-jupiter-engine", versio
 junitPlatformRunner = { module = "org.junit.platform:junit-platform-runner", version.ref = "junit5Platform" }
 junitPlatformLauncher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit5Platform" }
 
-sentry = "io.sentry:sentry:1.7.23"
 statsd = "com.timgroup:java-statsd-client:3.1.0"
 slf4jApi = "org.slf4j:slf4j-api:1.7.28"
 slackClient = "com.github.seratch:jslack-api-client:3.4.2"
