@@ -29,6 +29,7 @@ import com.avito.instrumentation.internal.RunIdResolver
 import com.avito.kotlin.dsl.dependencyOn
 import com.avito.kotlin.dsl.getBooleanProperty
 import com.avito.kotlin.dsl.withType
+import com.avito.kotlin.dsl.getMandatoryStringProperty
 import com.avito.logger.GradleLoggerFactory
 import com.avito.runner.config.InstrumentationConfigurationData
 import com.avito.runner.config.InstrumentationFilterData
@@ -125,8 +126,8 @@ public class InstrumentationTestsPlugin : Plugin<Project> {
 
                             this.parameters.set(
                                 getExecutionParameters(
-                                    testedVariant = testedVariant,
-                                    testVariant = testVariant,
+                                    testedApplicationId = project.getMandatoryStringProperty("avito.testedApplicationId"),
+                                    testApplicationId = project.getMandatoryStringProperty("avito.testApplicationId"),
                                     extension = extension,
                                     configuration = configuration,
                                     runner = androidPluginInteractor.getTestInstrumentationRunnerOrThrow(
@@ -220,15 +221,15 @@ public class InstrumentationTestsPlugin : Plugin<Project> {
     }
 
     private fun getExecutionParameters(
-        testedVariant: @Suppress("DEPRECATION") com.android.build.gradle.api.ApkVariant,
-        testVariant: @Suppress("DEPRECATION") com.android.build.gradle.api.TestVariant,
+        testedApplicationId: String,
+        testApplicationId: String,
         extension: GradleInstrumentationPluginConfiguration,
         configuration: InstrumentationConfiguration,
         runner: String,
     ): ExecutionParameters {
         return ExecutionParameters(
-            applicationPackageName = testedVariant.applicationId,
-            applicationTestPackageName = testVariant.applicationId,
+            applicationPackageName = testedApplicationId,
+            applicationTestPackageName = testApplicationId,
             testRunner = runner,
             namespace = configuration.kubernetesNamespace,
             logcatTags = extension.logcatTags,
