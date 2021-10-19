@@ -94,14 +94,12 @@ internal class WriteJUnitReportAction(
                 if (incident != null) {
                     appendLine("<failure>")
                     appendEscapedLine(incident.errorMessage)
-                    appendLine(reportLinksGenerator.generateTestLink(test.name))
                     appendLine("</failure>")
                 }
             }
             is AndroidTest.Lost -> {
                 appendLine("<error>")
                 appendLine("LOST (no info in report)")
-                appendLine(reportLinksGenerator.generateTestLink(test.name))
                 appendLine("</error>")
             }
         }
