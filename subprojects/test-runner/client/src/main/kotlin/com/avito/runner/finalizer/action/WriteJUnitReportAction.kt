@@ -100,6 +100,12 @@ internal class WriteJUnitReportAction(
             is AndroidTest.Lost -> {
                 appendLine("<error>")
                 appendLine("LOST (no info in report)")
+                val incident = test.incident
+                if (incident != null) {
+                    appendEscapedLine(incident.errorMessage)
+                }
+                appendLine("$test")
+
                 appendLine("</error>")
             }
         }
