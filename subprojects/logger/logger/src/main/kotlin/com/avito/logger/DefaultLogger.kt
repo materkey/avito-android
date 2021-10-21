@@ -19,10 +19,12 @@ public class DefaultLogger(
     }
 
     override fun warn(msg: String, error: Throwable?) {
+        error?.printStackTrace()
         warningHandler.write(LogLevel.WARNING, msg, error)
     }
 
     override fun critical(msg: String, error: Throwable) {
+        error.printStackTrace()
         criticalHandler.write(LogLevel.CRITICAL, msg, error)
     }
 }
