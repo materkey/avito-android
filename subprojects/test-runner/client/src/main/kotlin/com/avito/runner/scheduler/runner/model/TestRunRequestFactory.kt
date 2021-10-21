@@ -45,4 +45,4 @@ internal class TestRunRequestFactory(
     }
 }
 
-private const val TEST_TIMEOUT_MINUTES = 5L
+private const val TEST_TIMEOUT_MINUTES = 4L
