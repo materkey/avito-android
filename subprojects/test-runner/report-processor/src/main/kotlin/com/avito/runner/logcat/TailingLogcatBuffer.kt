@@ -36,9 +36,20 @@ internal class TailingLogcatBuffer(
 
     override fun getLogs(): LogcatResult {
         return if (buffer.isNotEmpty()) {
-            LogcatResult.Success(
-                output = buffer.joinToString(separator = "\n")
-            )
+            try {
+                LogcatResult.Success(
+                    output = buffer.joinToString(separator = "\n")
+                )
+            } catch (e: ConcurrentModificationException) {
+                LogcatResult.Unavailable(
+                    reason = Problem(
+                        shortDescription = "No logs fetched during test execution",
+                        context = "TailingLogcatBuffer: getting logs for test report. buffer isNotEmpty",
+                        because = "It's a bug that need to be fixed. At least some log lines are printed during any test execution" +
+                            e.message + "\n" + e.cause
+                    )
+                )
+            }
         } else {
             LogcatResult.Unavailable(
                 reason = Problem(
