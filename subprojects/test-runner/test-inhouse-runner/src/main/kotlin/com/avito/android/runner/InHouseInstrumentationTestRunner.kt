@@ -320,7 +320,7 @@ abstract class InHouseInstrumentationTestRunner :
 
     private fun shouldRecordVideo(testMetadata: TestMetadata): Boolean {
         return when (testMetadata.kind) {
-            Kind.UI_COMPONENT, Kind.E2E, Kind.UNKNOWN -> true // TODO do not use UNKNOWN here
+            Kind.UI_COMPONENT, Kind.E2E -> true // TODO do not use UNKNOWN here
             else -> false
         }
     }
