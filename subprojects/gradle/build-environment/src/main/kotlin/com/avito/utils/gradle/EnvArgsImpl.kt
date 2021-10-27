@@ -1,10 +1,10 @@
 package com.avito.utils.gradle
 
-import com.avito.kotlin.dsl.getMandatoryIntProperty
 import com.avito.kotlin.dsl.getMandatoryStringProperty
 import com.avito.kotlin.dsl.getOptionalStringProperty
 import org.gradle.api.Project
 import java.io.Serializable
+import java.util.concurrent.TimeUnit
 
 internal class EnvArgsImpl(project: Project) : EnvArgs, Serializable {
 
@@ -13,7 +13,7 @@ internal class EnvArgsImpl(project: Project) : EnvArgs, Serializable {
      */
     override val build: EnvArgs.Build = when (project.getOptionalStringProperty("avito.build", "teamcity")) {
         "teamcity" -> {
-            val teamcityBuildId = project.getMandatoryIntProperty("teamcityBuildId")
+            val teamcityBuildId = project.getMandatoryStringProperty("teamcityBuildId")
             EnvArgs.Build.Teamcity(
                 id = teamcityBuildId,
                 url = project.getMandatoryStringProperty("teamcityUrl") +
@@ -22,9 +22,13 @@ internal class EnvArgsImpl(project: Project) : EnvArgs, Serializable {
                 type = "teamcity-${project.getMandatoryStringProperty("teamcityBuildType")}"
             )
         }
-        "local" ->
-            EnvArgs.Build.Local(EnvArgs.Build.Local.Id.FOR_LOCAL_KUBERNETES_RUN)
-
+        "local" -> {
+            val id = project.getOptionalStringProperty(
+                name = "localBuildId",
+                default = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()).toString()
+            )
+            EnvArgs.Build.Local(id)
+        }
         else ->
             throw IllegalStateException("property avito.build must be 'teamcity' or 'local'")
     }

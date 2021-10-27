@@ -17,20 +17,15 @@ public interface EnvArgs {
         /**
          * todo change to string after refactor [TestRunEnvironment.teamcityBuildId]
          */
-        public abstract val id: Int
+        public abstract val id: String
         public abstract val url: String
         public abstract val number: String
         public abstract val type: String
 
-        internal class Local(id: Id) : Build() {
-            override val id = id.id
+        internal class Local(override val id: String) : Build() {
             override val url = "No url. This is local build"
             override val number = "local"
             override val type = "local-$userName"
-
-            internal enum class Id(val id: Int) {
-                FOR_LOCAL_KUBERNETES_RUN(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()).toInt())
-            }
 
             companion object {
                 private val userName: String? = System.getProperty("user.name")
@@ -38,7 +33,7 @@ public interface EnvArgs {
         }
 
         public data class Teamcity(
-            override val id: Int,
+            override val id: String,
             override val url: String,
             override val number: String,
             override val type: String
