@@ -15,12 +15,12 @@ internal class GetSdkVersion(
 
     fun get(serial: Serial): Result<Int> {
         return retryAction.retry(
-            retriesCount = 3,
+            retriesCount = 5,
             delaySeconds = 5,
             action = {
                 processRunner.run(
                     command = "${adb.adbPath} -s ${serial.value} shell getprop ro.build.version.sdk",
-                    timeout = Duration.ofSeconds(5)
+                    timeout = Duration.ofSeconds(60)
                 ).map { it.toInt() }.getOrThrow()
             },
             onError = { attempt, _, durationMs ->

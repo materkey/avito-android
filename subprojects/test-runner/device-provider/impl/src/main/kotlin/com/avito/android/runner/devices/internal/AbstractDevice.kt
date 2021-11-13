@@ -36,14 +36,23 @@ internal abstract class AbstractDevice(
         )
     }
 
-    protected suspend fun isBootCompleted() =
+    protected suspend fun isBootCompleted(): Result<String> =
         waitForCommand(
             command = {
                 processRunner.run(
                     command = "$adb -s $serial $CHECK_BOOT_COMPLETED_COMMAND",
-                    timeout = Duration.ofSeconds(10)
-                )
-            }
+                    timeout = Duration.ofSeconds(60)
+                ).flatMap { bootResult ->
+                    if (bootResult == "1") {
+                        Result.Success(bootResult)
+                    } else {
+                        Result.Failure(RuntimeException("Failed to connect to $serial"))
+                    }
+                }
+            },
+            timeoutSec = 600,
+            attempts = 10,
+            frequencySec = 10
         )
 
     protected suspend fun <T> waitForCommand(

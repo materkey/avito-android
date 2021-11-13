@@ -242,7 +242,7 @@ public data class AdbDevice(
             val result = executeBlockingShellCommand(
                 command = listOf("pm", "clear", name),
                 // was seeing ~20% error rate at 5s
-                timeoutSeconds = 20
+                timeoutSeconds = 90
             )
 
             if (!result.output.contains("success", ignoreCase = true)) {
@@ -436,7 +436,7 @@ public data class AdbDevice(
                 }
                 executeBlockingShellCommand(
                     command = command,
-                    timeoutSeconds = 10
+                    timeoutSeconds = 90
                 ).output
             },
             onSuccess = { _, _, durationMs ->
@@ -601,7 +601,7 @@ public data class AdbDevice(
     override fun toString(): String = "Device ${coordinate.serial}"
 }
 
-private const val DEFAULT_COMMAND_TIMEOUT_SECONDS = 5L
+private const val DEFAULT_COMMAND_TIMEOUT_SECONDS = 90L
 private const val DDMLIB_SOCKET_TIME_OUT_SECONDS = 20L
 private const val WAIT_FOR_ADB_TIME_OUT_MINUTES = 1L
 private const val DEFAULT_RETRY_COUNT = 5
