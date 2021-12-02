@@ -2,6 +2,7 @@ plugins {
     id("convention.kotlin-jvm")
     id("convention.publish-kotlin-library")
     id("convention.test-fixtures")
+    kotlin("plugin.serialization") version "1.5.21"
 }
 
 publish {
@@ -35,6 +36,9 @@ dependencies {
     implementation(libs.commonsText) {
         because("for StringEscapeUtils.escapeXml10() only")
     }
+    implementation(libs.kotlinxSerialization)
+    implementation(libs.kotson)
+    implementation("io.qameta.allure:allure-kotlin-model:2.2.6")
 
     testImplementation(libs.coroutinesTest)
     testImplementation(libs.kotlinReflect)

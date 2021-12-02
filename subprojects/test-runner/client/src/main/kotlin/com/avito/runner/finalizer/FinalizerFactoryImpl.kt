@@ -3,9 +3,11 @@ package com.avito.runner.finalizer
 import com.avito.android.stats.StatsDSender
 import com.avito.logger.LoggerFactory
 import com.avito.report.Report
+import com.avito.runner.finalizer.action.*
 import com.avito.runner.finalizer.action.FinalizeAction
 import com.avito.runner.finalizer.action.ReportLostTestsAction
 import com.avito.runner.finalizer.action.SendMetricsAction
+import com.avito.runner.finalizer.action.WriteAllureReportAction
 import com.avito.runner.finalizer.action.WriteJUnitReportAction
 import com.avito.runner.finalizer.action.WriteReportViewerLinkFile
 import com.avito.runner.finalizer.action.WriteTaskVerdictAction
@@ -66,6 +68,10 @@ internal class FinalizerFactoryImpl(
             testSuiteNameProvider = report.testSuiteNameProvider
         )
 
+        actions += WriteAllureReportAction(
+            allureDir = File(outputDir, ALLURE_PATH).apply { mkdirs() }
+        )
+
         if (reportViewerConfig != null) {
 
             actions += ReportLostTestsAction(report = report)
@@ -85,5 +91,9 @@ internal class FinalizerFactoryImpl(
                 loggerFactory = loggerFactory
             )
         )
+    }
+
+    private companion object {
+        const val ALLURE_PATH = "test-runner/test-artifacts/test-allure/"
     }
 }
