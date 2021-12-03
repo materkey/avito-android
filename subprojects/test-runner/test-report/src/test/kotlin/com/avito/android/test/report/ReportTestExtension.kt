@@ -70,7 +70,8 @@ class ReportTestExtension(
         featureIds: List<Int> = emptyList(),
         priority: TestCasePriority? = null,
         behavior: TestCaseBehavior? = null,
-        flakiness: Flakiness = Flakiness.Stable
+        flakiness: Flakiness = Flakiness.Stable,
+        ignoreText: String? = null,
     ) {
         initTestCase(
             testMetadata = TestMetadata(
@@ -84,7 +85,8 @@ class ReportTestExtension(
                 externalId = externalId,
                 featureIds = featureIds,
                 tagIds = tagIds,
-                flakiness = flakiness
+                flakiness = flakiness,
+                ignoreText = ignoreText
             )
         )
     }

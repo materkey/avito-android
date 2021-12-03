@@ -22,6 +22,8 @@ public interface TestStaticData {
 
     public val testCaseId: Int?
 
+    public val ignoreText: String?
+
     public val externalId: String?
 
     public val featureIds: List<Int>

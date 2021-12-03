@@ -25,6 +25,7 @@ public sealed class AndroidTest : TestStaticData {
         override val behavior: TestCaseBehavior?,
         override val kind: Kind,
         override val flakiness: Flakiness,
+        override val ignoreText: String? = null,
         public val startTime: Long,
         public val lastSignalTime: Long,
         public val logcat: String,
@@ -112,6 +113,7 @@ public sealed class AndroidTest : TestStaticData {
         override val behavior: TestCaseBehavior?,
         override val kind: Kind,
         override val flakiness: Flakiness,
+        override val ignoreText: String?,
         public val skipReason: String,
         public val reportTime: Long
     ) : AndroidTest() {
@@ -159,7 +161,8 @@ public sealed class AndroidTest : TestStaticData {
                 kind = testStaticData.kind,
                 flakiness = testStaticData.flakiness,
                 skipReason = skipReason,
-                reportTime = reportTime
+                reportTime = reportTime,
+                ignoreText = testStaticData.ignoreText,
             )
         }
     }
@@ -185,6 +188,7 @@ public sealed class AndroidTest : TestStaticData {
         override val behavior: TestCaseBehavior?,
         override val kind: Kind,
         override val startTime: Long,
+        override val ignoreText: String? = null,
         override val endTime: Long,
         override val flakiness: Flakiness,
         public val logcat: String,

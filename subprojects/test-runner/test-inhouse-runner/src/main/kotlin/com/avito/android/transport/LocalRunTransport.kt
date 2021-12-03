@@ -59,6 +59,7 @@ internal class LocalRunTransport(
                 device = deviceName,
                 description = state.testMetadata.description,
                 testCaseId = state.testMetadata.caseId,
+                ignoreText = state.testMetadata.ignoreText,
                 dataSetNumber = state.testMetadata.dataSetNumber,
                 externalId = state.testMetadata.externalId,
                 tagIds = state.testMetadata.tagIds,

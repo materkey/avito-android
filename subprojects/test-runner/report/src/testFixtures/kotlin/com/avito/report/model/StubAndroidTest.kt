@@ -46,7 +46,8 @@ public fun AndroidTest.Lost.Companion.createStubInstance(
     kind: Kind = Kind.E2E,
     flakiness: Flakiness = Flakiness.Stable,
     logcat: String = "",
-    incident: Incident? = null
+    incident: Incident? = null,
+    ignoreText: String? = null,
 ): AndroidTest.Lost = fromTestStaticData(
     TestStaticDataPackage(
         name = TestName(className, methodName),
@@ -55,12 +56,13 @@ public fun AndroidTest.Lost.Companion.createStubInstance(
         testCaseId = testCaseId,
         dataSetNumber = dataSetNumber,
         externalId = externalId,
-        tagIds = tagIds,
         featureIds = featureIds,
+        tagIds = tagIds,
         priority = priority,
         behavior = behavior,
         kind = kind,
-        flakiness = flakiness
+        flakiness = flakiness,
+        ignoreText = ignoreText
     ),
     startTime = startTime,
     lastSignalTime = lastSignalTime,
@@ -83,7 +85,8 @@ public fun AndroidTest.Skipped.Companion.createStubInstance(
     behavior: TestCaseBehavior? = null,
     kind: Kind = Kind.E2E,
     flakiness: Flakiness = Flakiness.Stable,
-    skipReason: String = "просто потомучто"
+    skipReason: String = "просто потомучто",
+    ignoreText: String? = null,
 ): AndroidTest.Skipped = fromTestMetadata(
     TestStaticDataPackage(
         name = TestName(className, methodName),
@@ -92,12 +95,13 @@ public fun AndroidTest.Skipped.Companion.createStubInstance(
         testCaseId = testCaseId,
         dataSetNumber = dataSetNumber,
         externalId = externalId,
-        tagIds = tagIds,
         featureIds = featureIds,
+        tagIds = tagIds,
         priority = priority,
         behavior = behavior,
         kind = kind,
-        flakiness = flakiness
+        flakiness = flakiness,
+        ignoreText = ignoreText
     ),
     skipReason = skipReason,
     reportTime = reportTime

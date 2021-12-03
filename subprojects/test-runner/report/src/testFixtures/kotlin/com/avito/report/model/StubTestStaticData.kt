@@ -17,7 +17,8 @@ public fun TestStaticDataPackage.Companion.createStubInstance(
     priority: TestCasePriority? = null,
     behavior: TestCaseBehavior? = null,
     kind: Kind = Kind.E2E,
-    flakiness: Flakiness = Flakiness.Stable
+    flakiness: Flakiness = Flakiness.Stable,
+    ignoreText: String? = null,
 ): TestStaticDataPackage = TestStaticDataPackage(
     name = name,
     device = deviceName,
@@ -25,10 +26,11 @@ public fun TestStaticDataPackage.Companion.createStubInstance(
     testCaseId = testCaseId,
     dataSetNumber = dataSetNumber,
     externalId = externalId,
-    tagIds = tagIds,
     featureIds = featureIds,
+    tagIds = tagIds,
     priority = priority,
     behavior = behavior,
     kind = kind,
-    flakiness = flakiness
+    flakiness = flakiness,
+    ignoreText = ignoreText
 )

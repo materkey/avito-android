@@ -25,6 +25,7 @@ import com.avito.android.test.report.model.TestMetadata
 import com.avito.report.model.Flakiness
 import com.avito.report.model.Kind
 import com.avito.test.model.TestName
+import org.junit.Ignore
 
 class TestMetadataAnnotationResolver : TestMetadataResolver {
 
@@ -33,6 +34,7 @@ class TestMetadataAnnotationResolver : TestMetadataResolver {
     override fun resolve(test: TestMethodOrClass): TestMetadataResolver.Resolution {
 
         val kind: Kind = TestKindExtractor.extract(test)
+        var ignoreText: String? = null
         var caseId: Int? = null
         var description: String? = null
         var priority: TestCasePriority? = null
@@ -68,6 +70,7 @@ class TestMetadataAnnotationResolver : TestMetadataResolver {
         testAnnotations
             .forEach { annotation ->
                 when (annotation) {
+                    is Ignore -> ignoreText = annotation.value
                     is CaseId -> caseId = annotation.value
                     is Description -> description = annotation.value
                     is Priority -> priority = annotation.priority
@@ -97,7 +100,8 @@ class TestMetadataAnnotationResolver : TestMetadataResolver {
                 externalId = externalId,
                 featureIds = featureIds,
                 tagIds = tagIds,
-                flakiness = flakiness
+                flakiness = flakiness,
+                ignoreText = ignoreText,
             )
         )
     }

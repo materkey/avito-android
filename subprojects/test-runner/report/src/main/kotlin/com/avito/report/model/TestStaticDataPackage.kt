@@ -17,7 +17,8 @@ public data class TestStaticDataPackage(
     override val priority: TestCasePriority?,
     override val behavior: TestCaseBehavior?,
     override val kind: Kind,
-    override val flakiness: Flakiness
+    override val flakiness: Flakiness,
+    override val ignoreText: String?,
 ) : TestStaticData {
 
     override fun equals(other: Any?): Boolean {

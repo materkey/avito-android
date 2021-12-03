@@ -34,7 +34,7 @@ internal class WriteAllureReportAction(
                         append("skipped_${index++}")
                         append("</key>")
                         append("<value>")
-                        appendEscapedLine("${test.name} - ${test.skipReason}")
+                        appendEscapedLine("${test.name} - ${test.skipReason} ${test.ignoreText ?: ""}")
                         append("</value>")
                         appendLine("</parameter>")
                     }

@@ -71,7 +71,11 @@ internal fun parseTest(
 
     kind = determineKind(testInApk.annotations),
 
-    flakiness = determineFlakiness(testInApk.annotations, deviceApi)
+    flakiness = determineFlakiness(testInApk.annotations, deviceApi),
+
+    ignoreText = testInApk.annotations
+        .find { it.name == org.junit.Ignore::class.java.name }
+        ?.getStringValue(FEATURE_ID_VALUE_KEY)
 )
 
 // TODO: reuse logic with TestKindExtractor
