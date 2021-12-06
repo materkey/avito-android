@@ -95,19 +95,22 @@ internal class KubernetesApiImpl(
 
     override suspend fun getPods(deploymentName: String): Result<List<KubePod>> {
         return Result.tryCatch {
-            kubernetesClient.pods()
-                .withLabel("deploymentName", deploymentName)
-                .list()
-                .items
-                .map { KubePod(it) }
-                .onEach { pod ->
-                    val phase = pod.container.phase
-                    if (phase is KubeContainer.ContainerPhase.Waiting) {
-                        if (phase.hasProblemsGettingImage()) {
-                            error("Problems getting container image: ${phase.message}")
+            // prevent KubernetesClientException
+            retry {
+                kubernetesClient.pods()
+                    .withLabel("deploymentName", deploymentName)
+                    .list()
+                    .items
+                    .map { KubePod(it) }
+                    .onEach { pod ->
+                        val phase = pod.container.phase
+                        if (phase is KubeContainer.ContainerPhase.Waiting) {
+                            if (phase.hasProblemsGettingImage()) {
+                                error("Problems getting container image: ${phase.message}")
+                            }
                         }
                     }
-                }
+            }
         }.onSuccess { pods ->
             logger.debug(
                 "Getting pods for deployment $deploymentName:\n" +
@@ -116,5 +119,26 @@ internal class KubernetesApiImpl(
         }.onFailure {
             logger.warn("Can't get pods for deployment $deploymentName", it)
         }
+    }
+
+    private suspend fun <T> retry(
+        times: Int = Int.MAX_VALUE,
+        initialDelay: Long = 1000, // 1 second
+        maxDelay: Long = 10_000,    // 10 second
+        factor: Double = 2.0,
+        block: suspend () -> T): T
+    {
+        var currentDelay = initialDelay
+        repeat(times - 1) {
+            try {
+                return block()
+            } catch (e: Exception) {
+                // you can log an error here and/or make a more finer-grained
+                // analysis of the cause to see if retry is needed
+            }
+            delay(currentDelay)
+            currentDelay = (currentDelay * factor).toLong().coerceAtMost(maxDelay)
+        }
+        return block() // last attempt
     }
 }
