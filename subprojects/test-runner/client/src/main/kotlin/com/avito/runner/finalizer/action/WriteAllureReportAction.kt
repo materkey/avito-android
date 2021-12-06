@@ -25,25 +25,10 @@ internal class WriteAllureReportAction(
 
             appendLine("<environment>")
 
-            var index = 0
             verdict.testResults.forEach { test ->
-                when (test) {
-                    is AndroidTest.Skipped -> {
-                        appendLine("<parameter>")
-                        append("<key>")
-                        append("skipped_${index++}")
-                        append("</key>")
-                        append("<value>")
-                        appendEscapedLine("${test.name} - ${test.skipReason} ${test.ignoreText ?: ""}")
-                        append("</value>")
-                        appendLine("</parameter>")
-                    }
-                    else -> {
-                        val noAllureResult = existingAllureResultFileItems.find { it.name == test.name.methodName } == null
-                        if (noAllureResult) {
-                            addAllureResult(test, allureDir)
-                        }
-                    }
+                val noAllureResult = existingAllureResultFileItems.find { it.name == test.name.methodName } == null
+                if (noAllureResult) {
+                    addAllureResult(test, allureDir)
                 }
             }
 
@@ -97,7 +82,19 @@ internal class WriteAllureReportAction(
                     )
                 }
             }
-            is AndroidTest.Skipped -> { error("skipped can never happen here") }
+            is AndroidTest.Skipped -> {
+                AllureTestResult(
+                    uuid = UUID.randomUUID().toString(),
+                    fullName = test.name.toString(),
+                ).apply {
+                    name = test.name.methodName
+                    stage = Stage.FINISHED
+                    status = Status.SKIPPED
+                    statusDetails = StatusDetails(
+                        message = test.ignoreText + "\n" + test.skipReason,
+                    )
+                }
+            }
         }
 
         createAllureResultFile(

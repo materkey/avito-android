@@ -35,7 +35,7 @@ internal class WriteAllureReportActionTest {
                 )
             )
         )
-        val rawFiles = File(file, "test-runner/test-artifacts/test-allure/environment.xml")
+        val rawFiles = File(file, "environment.xml")
         assertTrue(rawFiles.exists())
     }
 
