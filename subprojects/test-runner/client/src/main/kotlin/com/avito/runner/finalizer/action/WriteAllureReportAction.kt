@@ -3,6 +3,7 @@ package com.avito.runner.finalizer.action
 import com.avito.report.model.AndroidTest
 import com.avito.report.model.Incident
 import com.avito.runner.finalizer.verdict.Verdict
+import io.qameta.allure.kotlin.model.Label
 import io.qameta.allure.kotlin.model.Stage
 import io.qameta.allure.kotlin.model.Status
 import io.qameta.allure.kotlin.model.StatusDetails
@@ -12,6 +13,8 @@ import kotlinx.serialization.json.Json
 import io.qameta.allure.kotlin.model.TestResult as AllureTestResult
 import org.apache.commons.text.StringEscapeUtils
 import java.io.File
+import java.math.BigInteger
+import java.security.MessageDigest
 import java.util.*
 internal class WriteAllureReportAction(
     private val allureDir: File
@@ -47,6 +50,7 @@ internal class WriteAllureReportAction(
                     AllureTestResult(
                         uuid = UUID.randomUUID().toString(),
                         fullName = test.name.toString(),
+                        labels = getLabels(test),
                     ).apply {
                         name = test.name.methodName
                         stage = Stage.FINISHED
@@ -55,15 +59,18 @@ internal class WriteAllureReportAction(
                             message = incident.chain.firstOrNull()?.message ?: "Unknown",
                             trace = incident.trace.joinToString(separator = "\n")
                         )
+                        historyId = md5(test.name.className + test.name.methodName)
                     }
                 } else {
                     AllureTestResult(
                         uuid = UUID.randomUUID().toString(),
                         fullName = test.name.toString(),
+                        labels = getLabels(test),
                     ).apply {
                         name = test.name.methodName
                         stage = Stage.FINISHED
                         status = Status.PASSED
+                        historyId = md5(test.name.className + test.name.methodName)
                     }
                 }
             }
@@ -72,6 +79,7 @@ internal class WriteAllureReportAction(
                 AllureTestResult(
                     uuid = UUID.randomUUID().toString(),
                     fullName = test.name.toString(),
+                    labels = getLabels(test),
                 ).apply {
                     name = test.name.methodName
                     stage = Stage.FINISHED
@@ -80,12 +88,14 @@ internal class WriteAllureReportAction(
                         message = incident?.chain?.firstOrNull()?.message ?: "Unknown",
                         trace = incident?.trace?.joinToString(separator = "\n")
                     )
+                    historyId = md5(test.name.className + test.name.methodName)
                 }
             }
             is AndroidTest.Skipped -> {
                 AllureTestResult(
                     uuid = UUID.randomUUID().toString(),
                     fullName = test.name.toString(),
+                    labels = getLabels(test),
                 ).apply {
                     name = test.name.methodName
                     stage = Stage.FINISHED
@@ -93,6 +103,7 @@ internal class WriteAllureReportAction(
                     statusDetails = StatusDetails(
                         message = test.ignoreText + "\n" + test.skipReason,
                     )
+                    historyId = md5(test.name.className + test.name.methodName)
                 }
             }
         }
@@ -101,6 +112,31 @@ internal class WriteAllureReportAction(
             allureDir,
             Json.encodeToString(allureResultItem),
             allureResultItem.uuid + ALLURE_RESULT_FILE_POSTFIX
+        )
+    }
+
+    private fun getLabels(test: AndroidTest): MutableList<Label> {
+        return mutableListOf(
+            Label(
+                name = "package",
+                value = test.name.packageName
+            ),
+            Label(
+                name = "testClass",
+                value = test.name.className
+            ),
+            Label(
+                name = "testMethod",
+                value = test.name.methodName
+            ),
+            Label(
+                name = "suite",
+                value = test.name.className
+            ),
+            Label(
+                name = "host",
+                value = test.device.name
+            ),
         )
     }
 
@@ -129,6 +165,11 @@ internal class WriteAllureReportAction(
                     replaceBrokenWithFailedAndWrite(resultFile)
                 }
             } ?: emptyList()
+
+    private fun md5(str: String): String {
+        val md = MessageDigest.getInstance("MD5")
+        return BigInteger(1, md.digest(str.toByteArray())).toString(16).padStart(32, '0')
+    }
 
     private companion object {
         const val ALLURE_RESULT_FILE_POSTFIX = "-result.json"

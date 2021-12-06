@@ -40,6 +40,30 @@ internal class WriteAllureReportActionTest {
     }
 
     @Test
+    fun `allure report - check md5`() {
+        mockData(
+            Verdict.Success.OK(
+                testResults = listOf(
+                    AndroidTest.Completed.createStubInstance(
+                        testStaticData = TestStaticDataPackage.createStubInstance(
+                            name = TestName(
+                                "com.avito.android.deep_linking.DeepLinkingActivityIntentFilterTest",
+                                "resolve_advert_legacyFormat"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        val hasMd5 = file.listFiles()?.find {
+            // md5(className+method) (without dot after className)
+            val md5 = "222838125e2da90eaaa8fb6335dc94b4"
+            it.readText().contains(md5)
+        } != null
+        assertTrue(hasMd5)
+    }
+
+    @Test
     fun `allure report - contains report file`() {
         mockData(
             Verdict.Success.OK(
