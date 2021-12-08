@@ -30,7 +30,7 @@ dependencies {
     implementation(projects.subprojects.testRunner.reportProcessor)
     implementation(projects.subprojects.testRunner.runnerApi)
     implementation(projects.subprojects.testRunner.testAnnotations)
-    implementation("junit:junit:4.13.2")
+    implementation("junit:junit:4.12")
     implementation(projects.subprojects.testRunner.testReportArtifacts)
     implementation(libs.coroutinesCore)
     implementation(libs.gson)
