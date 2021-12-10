@@ -62,6 +62,7 @@ public sealed class Device : Serializable {
         public val image: String,
         // todo remove, not used anymore
         public val gpu: Boolean = false,
+        public val privileged: Boolean = true,
         public val cpuCoresLimit: String? = null,
         public val cpuCoresRequest: String? = null,
         public val memoryLimit: String? = null,

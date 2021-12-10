@@ -85,7 +85,7 @@ internal class ReservationDeploymentFactoryImpl(
                     }
 
                     securityContext {
-                        privileged = true
+                        privileged = emulator.privileged
                     }
 
                     resources {
@@ -96,6 +96,10 @@ internal class ReservationDeploymentFactoryImpl(
                             if (!emulator.memoryLimit.isNullOrBlank()) {
                                 plusAssign("memory" to Quantity(emulator.memoryLimit))
                             }
+                            if (!emulator.privileged) {
+                                // https://github.com/kubernetes/kubernetes/issues/7890#issuecomment-766088805
+                                plusAssign("smarter-devices/kvm" to Quantity("1"))
+                            }
                         }
 
                         requests = mutableMapOf<String, Quantity>().apply {
@@ -104,6 +108,10 @@ internal class ReservationDeploymentFactoryImpl(
                             }
                             if (!emulator.memoryRequest.isNullOrBlank()) {
                                 plusAssign("memory" to Quantity(emulator.memoryRequest))
+                            }
+                            if (!emulator.privileged) {
+                                // https://github.com/kubernetes/kubernetes/issues/7890#issuecomment-766088805
+                                plusAssign("smarter-devices/kvm" to Quantity("1"))
                             }
                         }
                     }
