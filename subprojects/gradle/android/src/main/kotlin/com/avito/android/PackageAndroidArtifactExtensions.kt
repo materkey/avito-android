@@ -1,12 +1,7 @@
 package com.avito.android
 
-import com.android.build.gradle.tasks.PackageAndroidArtifact
 import org.gradle.api.file.Directory
-import org.gradle.api.file.DirectoryProperty
 import java.io.File
-
-// TODO: Use Artifacts API
-public fun PackageAndroidArtifact.apkDirectory(): DirectoryProperty = outputDirectory
 
 public fun Directory.getApk(): File? {
     val dir = asFile
@@ -30,4 +25,24 @@ public fun Directory.getApkOrThrow(): File {
 private fun File.dumpFiles(): String {
     return listFiles().orEmpty()
         .joinToString(prefix = "[", postfix = "]") { it.path }
+}
+
+public fun Directory.getBundle(): File? {
+    val dir = asFile
+    val bundles = dir.listFiles().orEmpty()
+        .filter {
+            it.extension == "aab"
+        }
+
+    require(bundles.size < 2) {
+        "Multiple aab files found in ${dir.path}"
+    }
+
+    return bundles.firstOrNull()
+}
+
+public fun Directory.getBundleOrThrow(): File {
+    return requireNotNull(getBundle()) {
+        "Bundle not found in $asFile. Files in dir: ${asFile.dumpFiles()}"
+    }
 }

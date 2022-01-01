@@ -3,8 +3,6 @@ package com.avito.test.summary
 import com.avito.android.Problem
 import com.avito.android.asPlainText
 import com.avito.kotlin.dsl.isRoot
-import com.avito.logger.GradleLoggerFactory
-import com.avito.logger.create
 import com.avito.time.DefaultTimeProvider
 import com.avito.time.TimeProvider
 import org.gradle.api.Plugin
@@ -15,11 +13,6 @@ import org.gradle.kotlin.dsl.register
 public class TestSummaryPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-
-        val loggerFactory = GradleLoggerFactory.fromPlugin(this, target)
-
-        val logger = loggerFactory.create<TestSummaryPlugin>()
-
         val extension = target.extensions.create<TestSummaryExtension>(testSummaryExtensionName)
 
         if (!target.isRoot()) {
@@ -29,7 +22,7 @@ public class TestSummaryPlugin : Plugin<Project> {
                 because = "Summary tasks now registered from CiStep on root project, one per PlanSlug+JobSlug key, " +
                     "to make cross-app dependency on single report possible"
             )
-            logger.warn(problem.asPlainText())
+            target.logger.warn(problem.asPlainText())
         } else {
 
             val timeProvider: TimeProvider = DefaultTimeProvider()
@@ -46,13 +39,6 @@ public class TestSummaryPlugin : Plugin<Project> {
                 this.timeProvider.set(timeProvider)
                 this.reportsApi.set(reportsApi)
                 this.reportViewerUrl.set(extension.reportViewerUrl)
-
-                this.loggerFactory.set(
-                    GradleLoggerFactory.fromTask(
-                        project = project,
-                        taskName = this.name,
-                    )
-                )
             }
         }
     }

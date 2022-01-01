@@ -1,7 +1,6 @@
 package com.avito.runner.config
 
 import com.avito.android.stats.StatsDConfig
-import com.avito.logger.LoggerFactory
 import com.avito.runner.scheduler.runner.createStubInstance
 import com.avito.runner.scheduler.runner.model.ExecutionParameters
 import com.avito.runner.scheduler.suite.filter.ImpactAnalysisResult
@@ -23,13 +22,14 @@ public fun RunnerInputParams.Companion.createStubInstance(
     kubernetesCredentials: KubernetesCredentials = KubernetesCredentials.Service(
         token = "empty",
         caCertData = "empty",
-        url = "empty"
+        url = "empty",
+        namespace = "kubernetesNamespace",
     ),
     projectName: String = "testProject",
     suppressFailure: Boolean = false,
     suppressFlaky: Boolean = false,
     impactAnalysisResult: ImpactAnalysisResult = ImpactAnalysisResult.createStubInstance(),
-    loggerFactory: LoggerFactory,
+    deviceDebug: Boolean = false,
     outputDir: File = createTempDirectory("runnerOutput").toFile(),
     verdictFile: File = File(outputDir, "verdict.json"),
     fileStorageUrl: String = "https://files",
@@ -51,7 +51,6 @@ public fun RunnerInputParams.Companion.createStubInstance(
     suppressFailure = suppressFailure,
     suppressFlaky = suppressFlaky,
     impactAnalysisResult = impactAnalysisResult,
-    loggerFactory = loggerFactory,
     outputDir = outputDir,
     verdictFile = verdictFile,
     fileStorageUrl = fileStorageUrl,
@@ -63,4 +62,5 @@ public fun RunnerInputParams.Companion.createStubInstance(
     fetchLogcatForIncompleteTests = fetchLogcatForIncompleteTests,
     useLegacyExtensionsV1Beta = useLegacyExtensionsV1Beta,
     sendPodsMetrics = sendPodsMetrics,
+    deviceDebug = deviceDebug
 )

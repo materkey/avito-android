@@ -1,7 +1,6 @@
 package com.avito.runner.config
 
 import com.avito.android.stats.StatsDConfig
-import com.avito.logger.LoggerFactory
 import com.avito.runner.scheduler.report.ReportViewerConfig
 import com.avito.runner.scheduler.runner.model.ExecutionParameters
 import com.avito.runner.scheduler.suite.filter.ImpactAnalysisResult
@@ -17,11 +16,11 @@ public data class RunnerInputParams(
     val buildId: String,
     val buildType: String,
     val kubernetesCredentials: KubernetesCredentials,
+    val deviceDebug: Boolean,
     val projectName: String,
     val suppressFailure: Boolean,
     val suppressFlaky: Boolean,
     val impactAnalysisResult: ImpactAnalysisResult,
-    val loggerFactory: LoggerFactory,
     val outputDir: File,
     val verdictFile: File,
     val fileStorageUrl: String,

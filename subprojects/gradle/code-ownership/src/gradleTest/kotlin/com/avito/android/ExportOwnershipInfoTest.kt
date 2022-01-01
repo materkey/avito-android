@@ -27,9 +27,6 @@ internal class ExportOwnershipInfoTest {
                 AndroidAppModule(
                     "app",
                     imports = listOf("import com.avito.android.model.Owner"),
-                    plugins = plugins {
-                        id("com.avito.android.module-types")
-                    },
                     dependencies = setOf(
                         project(
                             path = ":feature",
@@ -41,36 +38,32 @@ internal class ExportOwnershipInfoTest {
                         )
                     ),
                     buildGradleExtra = """
-                        |class Speed implements Owner { 
-                        |   String toString() { return "Speed" }
+                        |object Speed : Owner { 
+                        |   override fun toString(): String = "Speed"
                         |}
-                        |def speed = new Speed() { }
                         |
                         |ownership {
-                        |    owners = [speed]
+                        |    owners(Speed)
                         |}
-                    """.trimMargin()
+                    """.trimMargin(),
+                    useKts = true,
                 ),
                 AndroidLibModule(
                     name = "feature",
                     imports = listOf("import com.avito.android.model.Owner"),
-                    plugins = plugins {
-                        id("com.avito.android.module-types")
-                    },
                     buildGradleExtra = """
-                        |class Speed implements Owner {
-                        |   String toString() { return "Speed" }
+                        |object Speed : Owner {
+                        |   override fun toString(): String = "Speed"
                         |}
-                        |class Performance implements Owner { 
-                        |   String toString() { return "Performance" }
+                        |object Performance : Owner { 
+                        |   override fun toString(): String = "Performance"
                         |}
-                        |def speed = new Speed() { }
-                        |def performance = new Performance() { }
                         |
                         |ownership {
-                        |    owners = [speed, performance]
+                        |    owners(Speed, Performance)
                         |}
-                    """.trimMargin()
+                    """.trimMargin(),
+                    useKts = true,
                 ),
                 KotlinModule(name = "common")
             )

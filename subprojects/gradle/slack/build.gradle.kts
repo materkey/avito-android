@@ -4,12 +4,12 @@ plugins {
     id("convention.kotlin-jvm")
     id("convention.publish-kotlin-library")
     id("convention.integration-testing")
+    id("convention.test-fixtures")
 }
 
 dependencies {
     api(projects.subprojects.common.result)
 
-    implementation(projects.subprojects.logger.gradleLogger)
     implementation(projects.subprojects.common.time)
     implementation(projects.subprojects.common.httpClient)
     implementation(projects.subprojects.common.okhttp)
@@ -22,10 +22,9 @@ dependencies {
     integTestImplementation(testFixtures(projects.subprojects.common.httpClient))
 
     testImplementation(projects.subprojects.gradle.testProject)
-    testImplementation(projects.subprojects.gradle.slackTestFixtures)
-    testImplementation(testFixtures(projects.subprojects.common.time))
-    testImplementation(testFixtures(projects.subprojects.logger.logger))
     testImplementation(testFixtures(projects.subprojects.common.statsd))
+    testImplementation(testFixtures(projects.subprojects.common.time))
+    testImplementation(testFixtures(projects.subprojects.gradle.slack))
 }
 
 tasks.named<Test>("integrationTest").configure {
@@ -39,7 +38,7 @@ tasks.named<Test>("integrationTest").configure {
         require(missing.isEmpty()) {
             "$path:integrationTest requires additional properties to be applied\n" +
                 "missing values are: $missing\n" +
-                "It should be added to ~/.gradle/gradle.properties"
+                "It should be added to <GRADLE_USER_HOME>/gradle.properties"
         }
     }
 }

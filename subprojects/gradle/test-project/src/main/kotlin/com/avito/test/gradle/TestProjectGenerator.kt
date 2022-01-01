@@ -2,9 +2,6 @@ package com.avito.test.gradle
 
 import com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION
 import com.avito.android.androidHomeFromLocalPropertiesFallback
-import com.avito.logger.Logger
-import com.avito.logger.PrintlnLoggerFactory
-import com.avito.logger.create
 import com.avito.test.gradle.dependencies.GradleDependency
 import com.avito.test.gradle.dependencies.GradleDependency.Safe.Companion.project
 import com.avito.test.gradle.files.build_gradle
@@ -12,6 +9,7 @@ import com.avito.test.gradle.files.build_gradle_kts
 import com.avito.test.gradle.module.AndroidAppModule
 import com.avito.test.gradle.module.AndroidLibModule
 import com.avito.test.gradle.module.Module
+import com.avito.test.gradle.module.imports
 import com.avito.test.gradle.plugin.PluginsSpec
 import com.avito.test.gradle.plugin.plugins
 import java.io.File
@@ -54,6 +52,7 @@ public interface Generator {
  */
 public class TestProjectGenerator(
     override val name: String = "test-project",
+    override val imports: List<String> = emptyList(),
     override val plugins: PluginsSpec = PluginsSpec(),
     override val buildGradleExtra: String = "",
     // TODO: don't share complex default values in common test fixtures. Plugin must define them implicitly!
@@ -77,8 +76,6 @@ public class TestProjectGenerator(
     )
 ) : Module {
 
-    private val logger: Logger = PrintlnLoggerFactory.create<TestProjectGenerator>()
-
     override val dependencies: Set<GradleDependency> = emptySet()
 
     override fun generateIn(file: File) {
@@ -86,6 +83,7 @@ public class TestProjectGenerator(
             modules.forEach { it.generateIn(file) }
 
             val buildGradleContent = """
+                    |${imports()}
                     |${plugins()}
                     |
                     |subprojects {
@@ -158,7 +156,7 @@ buildCache {
 
             FileOutputStream(file("local.properties")).use { file ->
                 Properties().run {
-                    setProperty("sdk.dir", androidHome ?: androidHomeFromLocalPropertiesFallback(logger))
+                    setProperty("sdk.dir", androidHome ?: androidHomeFromLocalPropertiesFallback())
                     store(file, null)
                 }
             }

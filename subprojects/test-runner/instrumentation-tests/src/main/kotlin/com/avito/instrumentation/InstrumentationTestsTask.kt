@@ -11,7 +11,7 @@ import com.avito.gradle.worker.inMemoryWork
 import com.avito.instrumentation.configuration.Experiments
 import com.avito.instrumentation.configuration.ReportViewer
 import com.avito.instrumentation.internal.RunnerInputDumper
-import com.avito.logger.LoggerFactory
+import com.avito.logger.GradleLoggerPlugin
 import com.avito.runner.config.InstrumentationConfigurationData
 import com.avito.runner.config.RunnerInputParams
 import com.avito.runner.finalizer.verdict.InstrumentationTestsTaskVerdict
@@ -29,6 +29,7 @@ import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
+import org.gradle.api.provider.SetProperty
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
@@ -44,14 +45,19 @@ public abstract class InstrumentationTestsTask @Inject constructor(
     private val workerExecutor: WorkerExecutor
 ) : DefaultTask(), BuildVerdictTask {
 
-    private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
-
     @get:Optional
     @get:InputDirectory
     public abstract val application: DirectoryProperty
 
+    @get:Optional
+    @get:Input
+    public abstract val applicationPackageName: Property<String>
+
     @get:InputDirectory
     public abstract val testApplication: DirectoryProperty
+
+    @get:Input
+    public abstract val testApplicationPackageName: Property<String>
 
     @get:Input
     public abstract val runOnlyChangedTests: Property<Boolean>
@@ -84,18 +90,22 @@ public abstract class InstrumentationTestsTask @Inject constructor(
     public abstract val experiments: Property<Experiments>
 
     @get:Input
-    @get:Optional
     public abstract val suppressFailure: Property<Boolean>
 
     @get:Input
-    @get:Optional
     public abstract val suppressFlaky: Property<Boolean>
 
     @get:Input
     public abstract val instrumentationConfiguration: Property<InstrumentationConfigurationData>
 
     @get:Input
-    public abstract val parameters: Property<ExecutionParameters>
+    public abstract val instrumentationRunner: Property<String>
+
+    @get:Input
+    public abstract val logcatTags: SetProperty<String>
+
+    @get:Input
+    public abstract val enableDeviceDebug: Property<Boolean>
 
     @get:Input
     @get:Optional
@@ -111,9 +121,6 @@ public abstract class InstrumentationTestsTask @Inject constructor(
     public abstract val kubernetesCredentials: Property<KubernetesCredentials>
 
     @get:Internal
-    public abstract val loggerFactory: Property<LoggerFactory>
-
-    @get:Internal
     public abstract val buildFailer: Property<BuildFailer>
 
     @get:Internal
@@ -127,6 +134,7 @@ public abstract class InstrumentationTestsTask @Inject constructor(
     @get:Internal
     override val verdict: SpannedString
         get() {
+            val gson: Gson = GsonBuilder().setPrettyPrinting().create()
             val verdictRaw = verdictFile.asFile.get().reader()
             val verdict = gson.fromJson(verdictRaw, InstrumentationTestsTaskVerdict::class.java)
             return multiline(
@@ -144,7 +152,6 @@ public abstract class InstrumentationTestsTask @Inject constructor(
     public fun doWork() {
         val configuration = instrumentationConfiguration.get()
         val reportCoordinates = configuration.instrumentationParams.reportCoordinates()
-        val loggerFactory = loggerFactory.get()
 
         val reportViewerData = reportViewerProperty.orNull
         val reportViewerConfig = if (reportViewerData != null) {
@@ -165,20 +172,25 @@ public abstract class InstrumentationTestsTask @Inject constructor(
             mainApk = application.orNull?.getApk(),
             testApk = testApplication.get().getApkOrThrow(),
             instrumentationConfiguration = configuration,
-            executionParameters = parameters.get(),
+            executionParameters = ExecutionParameters(
+                applicationPackageName.get(),
+                testApplicationPackageName.get(),
+                instrumentationRunner.get(),
+                logcatTags.get(),
+            ),
             buildId = buildId.get(),
             buildType = buildType.get(),
             kubernetesCredentials = requireNotNull(kubernetesCredentials.orNull) {
                 "you need to provide kubernetesCredentials"
             },
+            deviceDebug = enableDeviceDebug.get(),
             projectName = projectName.get(),
-            suppressFailure = suppressFailure.getOrElse(false),
-            suppressFlaky = suppressFlaky.getOrElse(false),
+            suppressFailure = suppressFailure.get(),
+            suppressFlaky = suppressFlaky.get(),
             impactAnalysisResult = ImpactAnalysisResult.create(
                 runOnlyChangedTests = runOnlyChangedTests.get(),
                 changedTestsFile = changedTests.asFile.orNull
             ),
-            loggerFactory = loggerFactory,
             outputDir = output,
             verdictFile = verdictFile.get().asFile,
             fileStorageUrl = getFileStorageUrl(),
@@ -203,9 +215,10 @@ public abstract class InstrumentationTestsTask @Inject constructor(
         )
 
         if (!isGradleTestKitRun) {
+            val loggerFactory = GradleLoggerPlugin.getLoggerFactory(this).get()
             workerExecutor.inMemoryWork {
                 when (
-                    val result = TestSchedulerFactoryProvider()
+                    val result = TestSchedulerFactoryProvider(loggerFactory)
                         .provide(testRunParams)
                         .create()
                         .schedule()

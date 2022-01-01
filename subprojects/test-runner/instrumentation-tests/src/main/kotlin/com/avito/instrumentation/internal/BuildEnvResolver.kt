@@ -1,15 +1,15 @@
 package com.avito.instrumentation.internal
 
-import com.avito.utils.gradle.envArgs
-import org.gradle.api.Project
+import com.avito.utils.gradle.EnvArgs
+import org.gradle.api.provider.Provider
 
-internal object BuildEnvResolver {
+internal class BuildEnvResolver(private val envArgs: Provider<EnvArgs>) {
 
-    fun getBuildId(project: Project): String {
-        return project.envArgs.build.id.toString()
+    fun getBuildId(): String {
+        return envArgs.get().build.id.toString()
     }
 
-    fun getBuildType(project: Project): String {
-        return project.envArgs.build.type
+    fun getBuildType(): String {
+        return envArgs.get().build.type
     }
 }

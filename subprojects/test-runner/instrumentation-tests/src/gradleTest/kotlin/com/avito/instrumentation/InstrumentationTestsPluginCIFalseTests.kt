@@ -14,25 +14,25 @@ internal class InstrumentationTestsPluginCIFalseTests {
     @field:TempDir
     lateinit var projectDir: File
 
-    private val instrumentationTask = ":app:instrumentationApi22"
+    private val instrumentationTask = ":app:instrumentationApi22Default"
 
     @Test
     fun `k8s emulator target task is available with credentials`() {
         createProject(
             projectDir = projectDir,
             device = """
-                            new CloudEmulator(
-                                "api22",
-                                22,
-                                "Android_SDK_built_for_x86",
-                                "stub",
-                                false,
-                                "1",
-                                "1.3",
-                                "3.5Gi",
-                                "3Gi"
-                            )
-                        """.trimIndent()
+                |new CloudEmulator(
+                |    "api22",
+                |    22,
+                |    "Android_SDK_built_for_x86",
+                |    "stub",
+                |    false,
+                |    "1",
+                |    "1.3",
+                |    "3.5Gi",
+                |    "3Gi"
+                |)
+                |""".trimMargin()
         )
 
         executeInstrumentationTask(
@@ -51,25 +51,25 @@ internal class InstrumentationTestsPluginCIFalseTests {
         createProject(
             projectDir = projectDir,
             device = """
-                            new CloudEmulator(
-                                "api22",
-                                22,
-                                "Android_SDK_built_for_x86",
-                                "stub",
-                                false,
-                                "1",
-                                "1.3",
-                                "3.5Gi",
-                                "3Gi"
-                            )
-                        """.trimIndent()
+                |new CloudEmulator(
+                |    "api22",
+                |    22,
+                |    "Android_SDK_built_for_x86",
+                |    "stub",
+                |    false,
+                |    "1",
+                |    "1.3",
+                |    "3.5Gi",
+                |    "3Gi"
+                |)
+                |""".trimMargin()
         )
         executeInstrumentationTask(
             task = instrumentationTask,
             expectFailure = true
         ).assertThat()
             .buildFailed()
-            .outputContains("Configuration api22 error: has kubernetes device target without kubernetes credentials")
+            .outputContains("Cannot query the value of property")
     }
 
     @Test
@@ -80,11 +80,11 @@ internal class InstrumentationTestsPluginCIFalseTests {
         )
 
         executeInstrumentationTask(
-            task = instrumentationTask,
+            task = ":app:instrumentationApi22Local",
             expectFailure = false
         ).assertThat()
             .buildSuccessful()
-            .tasksShouldBeTriggered(instrumentationTask)
+            .tasksShouldBeTriggered(":app:instrumentationApi22Local")
     }
 
     private fun executeInstrumentationTask(
@@ -107,6 +107,9 @@ internal class InstrumentationTestsPluginCIFalseTests {
         device: String
     ) {
         TestProjectGenerator(
+            plugins = plugins {
+                  id("com.avito.android.gradle-logger")
+            },
             modules = listOf(
                 AndroidAppModule(
                     "app",
@@ -122,42 +125,40 @@ internal class InstrumentationTestsPluginCIFalseTests {
         ).generateIn(projectDir)
     }
 
-    private fun instrumentationConfiguration(
-        device: String
-    ): String = """
-                    import static com.avito.instrumentation.reservation.request.Device.LocalEmulator
-                    import com.avito.instrumentation.reservation.request.Device.CloudEmulator
-
-                    instrumentation {
-                    
-                        sentryDsn = "stub"
-
-                        configurations {
-
-                            api22 {
-                                targets {
-                                    api22 {
-                                        deviceName = "api22"
-
-                                        scheduling {
-                                            quota {
-                                                minimumSuccessCount = 1
-                                            }
-
-                                            staticDevicesReservation {
-                                                device = $device
-                                                count = 1
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    android {
-                        defaultConfig {
-                            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-                        }
-                    }
-            """.trimIndent()
+    private fun instrumentationConfiguration(device: String): String = """
+    |import static com.avito.instrumentation.reservation.request.Device.LocalEmulator
+    |import com.avito.instrumentation.reservation.request.Device.CloudEmulator
+    |
+    |instrumentation {
+    |
+    |    output = rootProject.file("outputs").path
+    |
+    |    configurations {
+    |
+    |        api22 {
+    |            targets {
+    |                api22 {
+    |                    deviceName = "api22"
+    |
+    |                    scheduling {
+    |                        quota {
+    |                            minimumSuccessCount = 1
+    |                        }
+    |
+    |                        staticDevicesReservation {
+    |                            device = $device
+    |                            count = 1
+    |                        }
+    |                    }
+    |                }
+    |            }
+    |        }
+    |    }
+    |}
+    |android {
+    |    defaultConfig {
+    |        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    |    }
+    |}
+    |""".trimMargin()
 }

@@ -19,7 +19,6 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
-import kotlin.io.path.ExperimentalPathApi
 
 internal class RunnerInputParamsTest {
 
@@ -35,6 +34,9 @@ internal class RunnerInputParamsTest {
     fun `runner parameters - passed correctly - kotlin`(@TempDir projectDir: File): List<DynamicTest> {
         projectDir.apply {
             TestProjectGenerator(
+                plugins = plugins {
+                    id("com.avito.android.gradle-logger")
+                },
                 modules = listOf(
                     AndroidAppModule(
                         name = appModuleName,
@@ -44,7 +46,7 @@ internal class RunnerInputParamsTest {
                         },
                         useKts = true,
                         imports = listOf(
-                            "import com.avito.instrumentation.reservation.request.Device"
+                            "import com.avito.instrumentation.reservation.request.Device",
                         ),
                         buildGradleExtra = kotlinStubConfig
                     )
@@ -60,6 +62,9 @@ internal class RunnerInputParamsTest {
     fun `runner parameters - passed correctly - groovy`(@TempDir projectDir: File): List<DynamicTest> {
         projectDir.apply {
             TestProjectGenerator(
+                plugins = plugins {
+                    id("com.avito.android.gradle-logger")
+                },
                 modules = listOf(
                     AndroidAppModule(
                         name = appModuleName,
@@ -68,7 +73,7 @@ internal class RunnerInputParamsTest {
                             id(instrumentationPluginId)
                         },
                         imports = listOf(
-                            "import static com.avito.instrumentation.reservation.request.Device.LocalEmulator"
+                            "import static com.avito.instrumentation.reservation.request.Device.LocalEmulator",
                         ),
                         buildGradleExtra = groovyStubConfig
                     )
@@ -79,7 +84,6 @@ internal class RunnerInputParamsTest {
         return cases(projectDir, "groovy")
     }
 
-    @OptIn(ExperimentalPathApi::class)
     private fun cases(
         projectDir: File,
         lang: String,
@@ -93,7 +97,7 @@ internal class RunnerInputParamsTest {
 
         val buildResult = ciRun(
             projectDir,
-            "app:instrumentationFunctional",
+            "app:instrumentationFunctionalK8sCredentials",
             "-PteamcityBuildId=0",
             "-Pavito.git.state=env",
             "-PisGradleTestKitRun=true",
@@ -111,8 +115,7 @@ internal class RunnerInputParamsTest {
 
         val configurationName = "functional"
 
-        val expectedOutputDir = "${projectDir.canonicalPath}/$appModuleName/" +
-            "outputs/stub.$commit.teamcity-buildType/functional"
+        val expectedOutputDir = "${projectDir.canonicalPath}/outputs/stub.$commit.teamcity-buildType/functional"
 
         val runnerInput: RunnerInputParams = RunnerInputDumper(File(expectedOutputDir)).readInput()
 
@@ -160,11 +163,6 @@ internal class RunnerInputParamsTest {
             Case("report skipped tests") {
                 assertThat(it.instrumentationConfiguration.reportSkippedTests)
                     .isEqualTo(false)
-            },
-            Case("kubernetes namespace") {
-                // todo remove duplicate
-                assertThat(it.instrumentationConfiguration.kubernetesNamespace)
-                    .isEqualTo("default")
             },
             Case("target device name") {
                 assertThat(it.instrumentationConfiguration.targets[0].deviceName)
@@ -220,35 +218,24 @@ internal class RunnerInputParamsTest {
                     )
             },
             Case("instrumentation enableDeviceDebug") {
-                // todo remove duplicate
-                assertThat(it.instrumentationConfiguration.enableDeviceDebug)
+                assertThat(it.deviceDebug)
                     .isFalse()
             },
             Case("execution params app package") {
                 assertThat(it.executionParameters.applicationPackageName)
-                    .isEqualTo(appPackageName)
+                    .isEqualTo("$appPackageName.debug")
             },
             Case("execution params test app package") {
                 assertThat(it.executionParameters.applicationTestPackageName)
-                    .isEqualTo("$appPackageName.test")
+                    .isEqualTo("$appPackageName.debug.test")
             },
             Case("execution params test runner") {
                 assertThat(it.executionParameters.testRunner)
                     .isEqualTo("androidx.test.runner.AndroidJUnitRunner")
             },
-            Case("execution params test runner") {
-                // todo remove duplicate
-                assertThat(it.executionParameters.namespace)
-                    .isEqualTo("default")
-            },
             Case("execution params logcat tags") {
                 assertThat(it.executionParameters.logcatTags)
                     .isEmpty()
-            },
-            Case("execution params enable device debug") {
-                // todo remove duplicate
-                assertThat(it.executionParameters.enableDeviceDebug)
-                    .isFalse()
             },
             Case("build id") {
                 assertThat(it.buildId)
@@ -264,15 +251,19 @@ internal class RunnerInputParamsTest {
             },
             Case("kubernetes credentials url") {
                 assertThat((it.kubernetesCredentials as KubernetesCredentials.Service).url)
-                    .isEqualTo("xxx")
+                    .isEqualTo("myk8s.com")
             },
             Case("kubernetes credentials token") {
                 assertThat((it.kubernetesCredentials as KubernetesCredentials.Service).token)
-                    .isEqualTo("xxx")
+                    .isEqualTo("q1w2e3")
             },
             Case("kubernetes credentials ca cert data") {
                 assertThat((it.kubernetesCredentials as KubernetesCredentials.Service).caCertData)
-                    .isEqualTo("xxx")
+                    .isEqualTo("12345")
+            },
+            Case("kubernetes credentials ca cert data") {
+                assertThat((it.kubernetesCredentials as KubernetesCredentials.Service).namespace)
+                    .isEqualTo("default")
             },
             Case("project name") {
                 assertThat(it.projectName)
@@ -280,11 +271,11 @@ internal class RunnerInputParamsTest {
             },
             Case("suppress failure") {
                 assertThat(it.suppressFailure)
-                    .isFalse()
+                    .isTrue()
             },
             Case("suppress flaky") {
                 assertThat(it.suppressFlaky)
-                    .isFalse()
+                    .isTrue()
             },
             Case("impact analysis result runOnlyChangedTests flag") {
                 assertThat(it.impactAnalysisResult.runOnlyChangedTests)
@@ -301,8 +292,7 @@ internal class RunnerInputParamsTest {
             Case("verdict file") {
                 assertThat(it.verdictFile.canonicalPath)
                     .isEqualTo(
-                        "${projectDir.canonicalPath}/$appModuleName/" +
-                            "outputs/stub.$commit.teamcity-buildType/functional/verdict.json"
+                        "${projectDir.canonicalPath}/outputs/stub.$commit.teamcity-buildType/functional/verdict.json"
                     )
             },
             Case("file storage url") {

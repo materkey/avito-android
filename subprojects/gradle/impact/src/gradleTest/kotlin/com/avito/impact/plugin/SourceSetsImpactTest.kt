@@ -35,7 +35,7 @@ import java.nio.file.Path
  *   testUtils/kotlin/SharedTestUtils.kt
  * }
  */
-class SourceSetsImpactTest {
+internal class SourceSetsImpactTest {
 
     private lateinit var projectDir: File
 
