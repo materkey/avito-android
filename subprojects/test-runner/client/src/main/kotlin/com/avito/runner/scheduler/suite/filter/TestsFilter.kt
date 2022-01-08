@@ -23,6 +23,11 @@ public interface TestsFilter {
                 reason = "test has SkipSdk with value sdk=$sdk"
             )
 
+            public class HasSkipDeviceAnnotation(name: String, deviceName: String) : Excluded(
+                byFilter = name,
+                reason = "test has SkipDevice with value deviceName=$deviceName"
+            )
+
             public class HasFlakyAnnotation(name: String, sdk: Int) : Excluded(
                 byFilter = name,
                 reason = "test has Flaky with value sdk=$sdk"

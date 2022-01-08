@@ -35,7 +35,7 @@ public abstract class ClearScreenshotsTask : DefaultTask() {
             )
         ).getDevice()
 
-        val remotePath = Paths.get("/sdcard/screenshots/$applicationId")
+        val remotePath = Paths.get("/storage/emulated/0/screenshots/$applicationId")
         currentDevice.clearDirectory(remotePath).fold(
             onSuccess = {
                 logger.debug("Screenshot directory is cleared up")

@@ -105,7 +105,6 @@ public class GradleLoggerPlugin : Plugin<Project> {
                     it.fileHandler.set(extension.fileHandler)
                     it.fileHandlerRootDir.set(extension.fileHandlerRootDir.map { it.dir(formatter.format(instant)) })
                     it.elasticHandler.set(extension.elasticHandler)
-                    it.sentryHandler.set(extension.sentryHandler)
                     it.finalized.set(extension.finalized)
                 }
             }

@@ -19,14 +19,14 @@ internal class ApplicationVariantConfigurator(variant: ApplicationVariant) :
                 "#androidTest:com.android.build.api.component.AndroidTest"
         }
 
-        task.testApplication.set(androidTestVariant.artifacts.get(SingleArtifact.APK))
-        task.testProguardMapping.set(androidTestVariant.artifacts.get(SingleArtifact.OBFUSCATION_MAPPING_FILE))
-        task.testApplicationPackageName.set(androidTestVariant.applicationId)
-
-        task.application.set(variant.artifacts.get(SingleArtifact.APK))
-        task.applicationProguardMapping.set(variant.artifacts.get(SingleArtifact.OBFUSCATION_MAPPING_FILE))
-        task.applicationPackageName.set(variant.applicationId)
-
-        task.instrumentationRunner.set(androidTestVariant.instrumentationRunner.get())
+//        task.testApplication.set(androidTestVariant.artifacts.get(SingleArtifact.APK))
+//        task.testProguardMapping.set(androidTestVariant.artifacts.get(SingleArtifact.OBFUSCATION_MAPPING_FILE))
+//        task.testApplicationPackageName.set(androidTestVariant.applicationId)
+//
+//        task.application.set(variant.artifacts.get(SingleArtifact.APK))
+//        task.applicationProguardMapping.set(variant.artifacts.get(SingleArtifact.OBFUSCATION_MAPPING_FILE))
+//        task.applicationPackageName.set(variant.applicationId)
+//
+//        task.instrumentationRunner.set(androidTestVariant.instrumentationRunner.get())
     }
 }

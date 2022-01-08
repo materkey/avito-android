@@ -8,7 +8,10 @@ import com.avito.logger.LoggerFactory
 import com.avito.logger.create
 import io.fabric8.kubernetes.api.model.apps.Deployment
 import io.fabric8.kubernetes.client.KubernetesClient
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlin.coroutines.coroutineContext
 
 internal class KubernetesApiImpl(
     private val kubernetesClient: KubernetesClient,
@@ -101,7 +104,12 @@ internal class KubernetesApiImpl(
                     .withLabel("deploymentName", deploymentName)
                     .list()
                     .items
-                    .map { KubePod(it) }
+                    .map {
+                        KubePod(
+                            pod = it,
+                            portForward = kubernetesClient.pods().withName(it.metadata.name).portForward(5555)
+                        )
+                    }
                     .onEach { pod ->
                         val phase = pod.container.phase
                         if (phase is KubeContainer.ContainerPhase.Waiting) {

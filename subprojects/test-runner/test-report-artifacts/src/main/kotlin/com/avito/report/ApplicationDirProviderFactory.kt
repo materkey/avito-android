@@ -12,7 +12,7 @@ public object ApplicationDirProviderFactory {
         val dataPath = if (api >= 30) {
             "/storage/emulated/0/Android/media/$appPackage"
         } else {
-            "/sdcard/Android/data/$appPackage/files"
+            "/storage/emulated/0/Android/data/$appPackage/files"
         }
         return object : ApplicationDirProvider {
             override val dir: File = File(dataPath)

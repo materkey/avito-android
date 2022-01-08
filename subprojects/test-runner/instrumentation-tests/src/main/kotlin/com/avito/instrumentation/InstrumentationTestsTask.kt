@@ -11,6 +11,7 @@ import com.avito.gradle.worker.inMemoryWork
 import com.avito.instrumentation.configuration.Experiments
 import com.avito.instrumentation.configuration.ReportViewer
 import com.avito.instrumentation.internal.RunnerInputDumper
+import com.avito.kotlin.dsl.getMandatoryStringProperty
 import com.avito.logger.GradleLoggerPlugin
 import com.avito.runner.config.InstrumentationConfigurationData
 import com.avito.runner.config.RunnerInputParams
@@ -173,10 +174,10 @@ public abstract class InstrumentationTestsTask @Inject constructor(
             testApk = testApplication.get().getApkOrThrow(),
             instrumentationConfiguration = configuration,
             executionParameters = ExecutionParameters(
-                applicationPackageName.get(),
-                testApplicationPackageName.get(),
-                instrumentationRunner.get(),
-                logcatTags.get(),
+                applicationPackageName = project.getMandatoryStringProperty("avito.testedApplicationId"),
+                applicationTestPackageName = project.getMandatoryStringProperty("avito.testApplicationId"),
+                testRunner = instrumentationRunner.get(),
+                logcatTags = logcatTags.get(),
             ),
             buildId = buildId.get(),
             buildType = buildType.get(),

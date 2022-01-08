@@ -10,11 +10,11 @@ internal class DefaultLoggerFactory(
     private val handlerProviders: List<LoggingHandlerProvider>
 ) : LoggerFactory {
 
-    init {
-        check(handlerProviders.isNotEmpty()) {
-            "handler providers must contain at least one provider"
-        }
-    }
+//    init {
+//        check(handlerProviders.isNotEmpty()) {
+//            "handler providers must contain at least one provider"
+//        }
+//    }
 
     override fun create(tag: String): Logger {
         val metadata = metadataProvider.provide(tag)

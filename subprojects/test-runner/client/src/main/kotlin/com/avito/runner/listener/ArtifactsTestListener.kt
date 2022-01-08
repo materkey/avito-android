@@ -120,7 +120,7 @@ internal class ArtifactsTestListener(
                             require(mkdir()) { "can't mkdir $this" }
                         }
                     }
-                    val allurePath = if (device.api >= 30) {
+                    val allurePath = if (device.api >= 29) {
                         "/storage/emulated/0/allure-results"
                     } else {
                         "/sdcard/allure-results"
