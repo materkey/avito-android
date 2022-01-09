@@ -12,6 +12,7 @@ import com.avito.instrumentation.configuration.Experiments
 import com.avito.instrumentation.configuration.ReportViewer
 import com.avito.instrumentation.internal.RunnerInputDumper
 import com.avito.kotlin.dsl.getMandatoryStringProperty
+import com.avito.kotlin.dsl.getOptionalStringProperty
 import com.avito.logger.GradleLoggerPlugin
 import com.avito.runner.config.InstrumentationConfigurationData
 import com.avito.runner.config.RunnerInputParams
@@ -178,6 +179,9 @@ public abstract class InstrumentationTestsTask @Inject constructor(
                 applicationTestPackageName = project.getMandatoryStringProperty("avito.testApplicationId"),
                 testRunner = instrumentationRunner.get(),
                 logcatTags = logcatTags.get(),
+                testTimeoutMinutes = project.getOptionalStringProperty(
+                    "avito.testTimeoutMinutes"
+                )?.toLongOrNull() ?: 4L,
             ),
             buildId = buildId.get(),
             buildType = buildType.get(),
@@ -206,6 +210,9 @@ public abstract class InstrumentationTestsTask @Inject constructor(
             saveTestArtifactsToOutputs = experiments.saveTestArtifactsToOutputs,
             useLegacyExtensionsV1Beta = experiments.useLegacyExtensionsV1Beta,
             sendPodsMetrics = experiments.sendPodsMetrics,
+            needForward = project.getOptionalStringProperty(
+                "avito.needForward"
+            )?.toBoolean() ?: false,
         )
 
         val isGradleTestKitRun = gradleTestKitRun.get()

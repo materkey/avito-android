@@ -39,11 +39,9 @@ internal class TestRunRequestFactory(
             testApplication = testApplication.absolutePath,
             testPackage = executionParameters.applicationTestPackageName,
             testRunner = executionParameters.testRunner,
-            timeoutMinutes = TEST_TIMEOUT_MINUTES,
+            timeoutMinutes = executionParameters.testTimeoutMinutes,
             instrumentationParameters = target.instrumentationParams,
             enableDeviceDebug = deviceDebug
         )
     }
 }
-
-private const val TEST_TIMEOUT_MINUTES = 4L

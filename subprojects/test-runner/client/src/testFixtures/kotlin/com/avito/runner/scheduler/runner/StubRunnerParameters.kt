@@ -11,5 +11,6 @@ public fun ExecutionParameters.Companion.createStubInstance(
     applicationPackageName = applicationPackageName,
     applicationTestPackageName = applicationTestPackageName,
     testRunner = testRunner,
-    logcatTags = logcatTags
+    logcatTags = logcatTags,
+    testTimeoutMinutes = 4L
 )

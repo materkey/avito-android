@@ -7,6 +7,7 @@ public data class ExecutionParameters(
     val applicationTestPackageName: String,
     val testRunner: String,
     val logcatTags: Collection<String>,
+    val testTimeoutMinutes: Long,
 ) : Serializable {
 
     public companion object

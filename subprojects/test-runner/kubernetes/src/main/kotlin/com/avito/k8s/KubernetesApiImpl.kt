@@ -16,6 +16,7 @@ import kotlin.coroutines.coroutineContext
 internal class KubernetesApiImpl(
     private val kubernetesClient: KubernetesClient,
     loggerFactory: LoggerFactory,
+    override val needForward: Boolean,
 ) : KubernetesApi {
 
     private val logger = loggerFactory.create<KubernetesApi>()
@@ -107,7 +108,9 @@ internal class KubernetesApiImpl(
                     .map {
                         KubePod(
                             pod = it,
-                            portForward = kubernetesClient.pods().withName(it.metadata.name).portForward(5555)
+                            portForward = if (needForward) {
+                                kubernetesClient.pods().withName(it.metadata.name).portForward(5555)
+                            } else null
                         )
                     }
                     .onEach { pod ->
