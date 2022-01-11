@@ -92,6 +92,7 @@ internal class WriteAllureReportAction(
                 }
             }
             is AndroidTest.Skipped -> {
+                if (test.skipReason.contains("SkipDevice")) return
                 AllureTestResult(
                     uuid = UUID.randomUUID().toString(),
                     fullName = test.name.toString(),

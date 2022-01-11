@@ -18,5 +18,5 @@ public fun KubePod.Companion.createStubInstance(
             podIP = ip
         }
     },
-    portForward = kubernetesClient.pods().withName(it.metadata.name).portForward(5555)
+    portForward = null
 )
