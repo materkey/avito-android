@@ -22,7 +22,7 @@ internal class FilterFactoryImpl(
     override fun createFilter(): TestsFilter {
         val filters = mutableListOf<TestsFilter>()
         filters.add(ExcludeBySkipOnSdkFilter())
-        filters.add(ExcludeBySkipOnDeviceFilter())
+        filters.add(ExcludeByRunOnDeviceFilter())
         filters.addFlakyFilter()
         filters.addAnnotationFilters()
         filters.addSourceCodeSignaturesFilters()

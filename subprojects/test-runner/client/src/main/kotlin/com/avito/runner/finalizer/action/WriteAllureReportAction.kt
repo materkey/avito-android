@@ -92,19 +92,22 @@ internal class WriteAllureReportAction(
                 }
             }
             is AndroidTest.Skipped -> {
-                if (test.skipReason.contains("SkipDevice")) return
-                AllureTestResult(
-                    uuid = UUID.randomUUID().toString(),
-                    fullName = test.name.toString(),
-                    labels = getLabels(test),
-                ).apply {
-                    name = test.name.methodName
-                    stage = Stage.FINISHED
-                    status = Status.SKIPPED
-                    statusDetails = StatusDetails(
-                        message = test.ignoreText + "\n" + test.skipReason,
-                    )
-                    historyId = md5(test.name.className + test.name.methodName)
+                if (test.skipReason.contains("RunDevice")) {
+                    return
+                } else {
+                    AllureTestResult(
+                        uuid = UUID.randomUUID().toString(),
+                        fullName = test.name.toString(),
+                        labels = getLabels(test),
+                    ).apply {
+                        name = test.name.methodName
+                        stage = Stage.FINISHED
+                        status = Status.SKIPPED
+                        statusDetails = StatusDetails(
+                            message = test.ignoreText + "\n" + test.skipReason,
+                        )
+                        historyId = md5(test.name.className + test.name.methodName)
+                    }
                 }
             }
         }
