@@ -14,6 +14,7 @@ internal class FilterFactoryImpl(
     private val filterData: InstrumentationFilterData,
     private val impactAnalysisResult: ImpactAnalysisResult,
     private val report: Report,
+    private val defaultDevice: String?,
     loggerFactory: LoggerFactory
 ) : FilterFactory {
 
@@ -22,7 +23,7 @@ internal class FilterFactoryImpl(
     override fun createFilter(): TestsFilter {
         val filters = mutableListOf<TestsFilter>()
         filters.add(ExcludeBySkipOnSdkFilter())
-        filters.add(ExcludeByRunOnDeviceFilter())
+        filters.add(ExcludeByRunOnDeviceFilter(defaultDevice))
         filters.addFlakyFilter()
         filters.addAnnotationFilters()
         filters.addSourceCodeSignaturesFilters()

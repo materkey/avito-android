@@ -16,13 +16,15 @@ internal interface FilterFactory {
             filterData: InstrumentationFilterData,
             impactAnalysisResult: ImpactAnalysisResult,
             loggerFactory: LoggerFactory,
-            report: Report
+            report: Report,
+            defaultDevice: String?,
         ): FilterFactory {
             return FilterFactoryImpl(
                 filterData = filterData,
                 impactAnalysisResult = impactAnalysisResult,
                 loggerFactory = loggerFactory,
-                report = report
+                report = report,
+                defaultDevice = defaultDevice,
             )
         }
     }

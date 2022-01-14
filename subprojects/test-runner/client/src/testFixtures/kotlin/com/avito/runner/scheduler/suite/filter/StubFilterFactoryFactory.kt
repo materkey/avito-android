@@ -13,13 +13,15 @@ internal object StubFilterFactoryFactory {
         filter: InstrumentationFilterData = InstrumentationFilterData.createStub(),
         impactAnalysisResult: ImpactAnalysisResult = ImpactAnalysisResult.createStubInstance(),
         loggerFactory: LoggerFactory = PrintlnLoggerFactory,
-        report: Report = StubReport()
+        report: Report = StubReport(),
+        defaultDevice: String? = "StubDevice",
     ): FilterFactory {
         return FilterFactory.create(
             filterData = filter,
             impactAnalysisResult = impactAnalysisResult,
             report = report,
-            loggerFactory = loggerFactory
+            loggerFactory = loggerFactory,
+            defaultDevice = defaultDevice,
         )
     }
 }

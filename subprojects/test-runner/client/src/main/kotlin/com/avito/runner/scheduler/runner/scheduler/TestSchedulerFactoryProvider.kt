@@ -79,7 +79,8 @@ public class TestSchedulerFactoryProvider(private val loggerFactory: LoggerFacto
                     filterData = params.instrumentationConfiguration.filter,
                     impactAnalysisResult = params.impactAnalysisResult,
                     report = report,
-                    loggerFactory = loggerFactory
+                    loggerFactory = loggerFactory,
+                    defaultDevice = params.defaultDevice,
                 )
             ),
             testRunnerFactoryProvider = TestRunnerFactoryProvider(

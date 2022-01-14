@@ -3,7 +3,9 @@ package com.avito.runner.scheduler.suite.filter
 import com.avito.android.test.annotations.RunOnDevice
 
 // it makes [name] instance field. It needs for gson
-internal class ExcludeByRunOnDeviceFilter : TestsFilter {
+internal class ExcludeByRunOnDeviceFilter(
+    private val defaultDevice: String?
+) : TestsFilter {
 
     override val name = "ExcludeByRunOnDeviceFilter"
 
@@ -16,14 +18,19 @@ internal class ExcludeByRunOnDeviceFilter : TestsFilter {
         @Suppress("UNCHECKED_CAST")
         val allowedDevices = testAnnotations?.values?.get("deviceName") as? Collection<String>
 
-        return if (allowedDevices?.contains(test.deviceName.name) == true) {
-            TestsFilter.Result.Included
-
-        } else {
-            TestsFilter.Result.Excluded.HasRunDeviceAnnotation(
-                name,
-                test.deviceName.name
-            )
+        return when {
+            allowedDevices == null && (defaultDevice == null || test.deviceName.name == defaultDevice) -> {
+                TestsFilter.Result.Included
+            }
+            allowedDevices?.contains(test.deviceName.name) == true -> {
+                TestsFilter.Result.Included
+            }
+            else -> {
+                TestsFilter.Result.Excluded.HasRunDeviceAnnotation(
+                    name,
+                    test.deviceName.name
+                )
+            }
         }
     }
 

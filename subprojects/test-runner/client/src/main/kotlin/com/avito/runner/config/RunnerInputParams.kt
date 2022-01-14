@@ -33,6 +33,7 @@ public data class RunnerInputParams(
     val useLegacyExtensionsV1Beta: Boolean,
     val sendPodsMetrics: Boolean,
     val needForward: Boolean,
+    val defaultDevice: String?,
 ) : Serializable {
 
     public companion object
