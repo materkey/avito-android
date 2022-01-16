@@ -15,6 +15,7 @@ internal object StubFilterFactoryFactory {
         loggerFactory: LoggerFactory = PrintlnLoggerFactory,
         report: Report = StubReport(),
         defaultDevice: String? = "StubDevice",
+        replaceTestList: List<String>? = null,
     ): FilterFactory {
         return FilterFactory.create(
             filterData = filter,
@@ -22,6 +23,7 @@ internal object StubFilterFactoryFactory {
             report = report,
             loggerFactory = loggerFactory,
             defaultDevice = defaultDevice,
+            replaceTestList = replaceTestList,
         )
     }
 }

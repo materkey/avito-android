@@ -28,6 +28,11 @@ public interface TestsFilter {
                 reason = "test has no RunDevice with value deviceName=$deviceName"
             )
 
+            public class ExcludedByTestList(name: String, deviceName: String) : Excluded(
+                byFilter = name,
+                reason = "has no test in test list with value deviceName=$deviceName"
+            )
+
             public class HasFlakyAnnotation(name: String, sdk: Int) : Excluded(
                 byFilter = name,
                 reason = "test has Flaky with value sdk=$sdk"

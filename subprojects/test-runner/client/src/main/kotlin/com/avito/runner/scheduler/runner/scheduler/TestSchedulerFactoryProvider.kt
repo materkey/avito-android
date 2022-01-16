@@ -81,6 +81,7 @@ public class TestSchedulerFactoryProvider(private val loggerFactory: LoggerFacto
                     report = report,
                     loggerFactory = loggerFactory,
                     defaultDevice = params.defaultDevice,
+                    replaceTestList = params.replaceTestList,
                 )
             ),
             testRunnerFactoryProvider = TestRunnerFactoryProvider(

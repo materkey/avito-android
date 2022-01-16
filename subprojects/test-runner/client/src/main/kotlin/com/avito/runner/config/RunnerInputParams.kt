@@ -34,6 +34,7 @@ public data class RunnerInputParams(
     val sendPodsMetrics: Boolean,
     val needForward: Boolean,
     val defaultDevice: String?,
+    val replaceTestList: List<String>?,
 ) : Serializable {
 
     public companion object

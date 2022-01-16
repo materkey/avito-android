@@ -214,6 +214,9 @@ public abstract class InstrumentationTestsTask @Inject constructor(
                 "avito.needForward"
             )?.toBoolean() ?: false,
             defaultDevice = project.getOptionalStringProperty("avito.defaultDevice"),
+            replaceTestList = project.getOptionalStringProperty(
+                "uiTestsRunner.replaceTestList"
+            )?.split(",")?.toList(),
         )
 
         val isGradleTestKitRun = gradleTestKitRun.get()

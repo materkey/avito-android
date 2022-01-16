@@ -18,6 +18,7 @@ internal interface FilterFactory {
             loggerFactory: LoggerFactory,
             report: Report,
             defaultDevice: String?,
+            replaceTestList: List<String>?,
         ): FilterFactory {
             return FilterFactoryImpl(
                 filterData = filterData,
@@ -25,6 +26,7 @@ internal interface FilterFactory {
                 loggerFactory = loggerFactory,
                 report = report,
                 defaultDevice = defaultDevice,
+                replaceTestList = replaceTestList,
             )
         }
     }
