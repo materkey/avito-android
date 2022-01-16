@@ -125,17 +125,22 @@ internal class ArtifactsTestListener(
                     } else {
                         "/sdcard/allure-results"
                     }
+                    val allureDevicePath = File(allurePath).toPath()
+                    val allureHostDir = File(
+                        dirForResults,
+                        "test-allure"
+                    )
+                    val allureHostPath = allureHostDir.apply { mkdirs() }.toPath()
                     device.pullDir(
-                        deviceDir = File(allurePath).toPath(),
-                        hostDir = File(
-                            dirForResults,
-                            "test-allure"
-                        ).apply { mkdirs() }.toPath(),
+                        deviceDir = allureDevicePath,
+                        hostDir = allureHostPath,
                         validator = object : PullValidator {
                             override fun isPulledCompletely(hostDir: Path): PullValidator.Result =
                                 PullValidator.Result.Ok
                         }
                     )
+                    device.clearDirectory(remotePath = allureDevicePath)
+                    AllureTransformer.transform(allureHostDir, device)
                     device.pullDir(
                         deviceDir = artifactsPath,
                         hostDir = File(

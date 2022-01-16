@@ -53,6 +53,8 @@ internal class WriteAllureReportAction(
                         labels = getLabels(test),
                     ).apply {
                         name = test.name.methodName
+                        start = test.startTime
+                        stop = test.endTime
                         stage = Stage.FINISHED
                         status = if (incident.type == Incident.Type.INFRASTRUCTURE_ERROR) Status.BROKEN else Status.FAILED
                         statusDetails = StatusDetails(
@@ -68,6 +70,8 @@ internal class WriteAllureReportAction(
                         labels = getLabels(test),
                     ).apply {
                         name = test.name.methodName
+                        start = test.startTime
+                        stop = test.endTime
                         stage = Stage.FINISHED
                         status = Status.PASSED
                         historyId = md5(test.name.className + test.name.methodName)
@@ -82,6 +86,7 @@ internal class WriteAllureReportAction(
                     labels = getLabels(test),
                 ).apply {
                     name = test.name.methodName
+                    start = test.startTime
                     stage = Stage.FINISHED
                     status = Status.BROKEN
                     statusDetails = StatusDetails(
@@ -144,18 +149,6 @@ internal class WriteAllureReportAction(
         )
     }
 
-    // for allure reports with nonsense "broken" status it can be useful to replace it with "failed"
-    private fun AllureTestResult.replaceBrokenWithFailedAndWrite(resultFile: File) {
-        if (status == Status.BROKEN) {
-            status = Status.FAILED
-            resultFile.writeText(Json.encodeToString(this))
-        }
-    }
-
-    private fun StringBuilder.appendEscapedLine(line: String) {
-        appendLine(StringEscapeUtils.escapeXml10(line))
-    }
-
     private fun createAllureResultFile(allureDir: File, text: String, name: String): File =
         File(allureDir, name).apply {
             writeText(text)
@@ -165,9 +158,7 @@ internal class WriteAllureReportAction(
         allureDir.listFiles()?.filter { it.name.endsWith(ALLURE_RESULT_FILE_POSTFIX) }
             ?.map { resultFile ->
                 val allureResult: AllureTestResult = Json.decodeFromString(resultFile.readText())
-                allureResult.apply {
-                    replaceBrokenWithFailedAndWrite(resultFile)
-                }
+                allureResult
             } ?: emptyList()
 
     private fun md5(str: String): String {
