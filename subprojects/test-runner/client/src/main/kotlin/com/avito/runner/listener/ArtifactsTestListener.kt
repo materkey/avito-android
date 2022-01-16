@@ -130,17 +130,24 @@ internal class ArtifactsTestListener(
                         dirForResults,
                         "test-allure"
                     )
-                    val allureHostPath = allureHostDir.apply { mkdirs() }.toPath()
+                    val tempAllureHostDir = File(
+                        dirForResults,
+                        "test-allure-${System.nanoTime()}"
+                    )
+                    val tempAllureHostPath = tempAllureHostDir.apply { mkdirs() }.toPath()
                     device.pullDir(
                         deviceDir = allureDevicePath,
-                        hostDir = allureHostPath,
+                        hostDir = tempAllureHostPath,
                         validator = object : PullValidator {
                             override fun isPulledCompletely(hostDir: Path): PullValidator.Result =
                                 PullValidator.Result.Ok
                         }
                     )
+                    AllureTransformer.transform(tempAllureHostDir, device)
+                    tempAllureHostDir.copyRecursively(allureHostDir)
+                    tempAllureHostDir.deleteRecursively()
                     device.clearDirectory(remotePath = allureDevicePath)
-                    AllureTransformer.transform(allureHostDir, device)
+
                     device.pullDir(
                         deviceDir = artifactsPath,
                         hostDir = File(
