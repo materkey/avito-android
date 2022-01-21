@@ -11,11 +11,12 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import io.qameta.allure.kotlin.model.TestResult as AllureTestResult
-import org.apache.commons.text.StringEscapeUtils
 import java.io.File
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.util.*
+import java.util.concurrent.TimeUnit
+
 internal class WriteAllureReportAction(
     private val allureDir: File
 ) : FinalizeAction {
@@ -46,6 +47,10 @@ internal class WriteAllureReportAction(
         val allureResultItem: AllureTestResult = when (test) {
             is AndroidTest.Completed -> {
                 val incident = test.incident
+                val startTimeMillis = TimeUnit.SECONDS.toMillis(test.startTime)
+                val endTimeMillis = TimeUnit.SECONDS.toMillis(test.endTime).let { endTimeMillis ->
+                    if (test.startTime == test.endTime) endTimeMillis + 500 else endTimeMillis // fix empty allure repot timeline
+                }
                 if (incident != null) {
                     AllureTestResult(
                         uuid = UUID.randomUUID().toString(),
@@ -53,8 +58,8 @@ internal class WriteAllureReportAction(
                         labels = getLabels(test),
                     ).apply {
                         name = test.name.methodName
-                        start = test.startTime
-                        stop = test.endTime
+                        start = startTimeMillis
+                        stop = endTimeMillis
                         stage = Stage.FINISHED
                         status = if (incident.type == Incident.Type.INFRASTRUCTURE_ERROR) Status.BROKEN else Status.FAILED
                         statusDetails = StatusDetails(
@@ -70,8 +75,8 @@ internal class WriteAllureReportAction(
                         labels = getLabels(test),
                     ).apply {
                         name = test.name.methodName
-                        start = test.startTime
-                        stop = test.endTime
+                        start = startTimeMillis
+                        stop = endTimeMillis
                         stage = Stage.FINISHED
                         status = Status.PASSED
                         historyId = md5(test.name.className + test.name.methodName)
@@ -79,6 +84,8 @@ internal class WriteAllureReportAction(
                 }
             }
             is AndroidTest.Lost -> {
+                val startTimeMillis = TimeUnit.SECONDS.toMillis(test.startTime)
+
                 val incident = test.incident
                 AllureTestResult(
                     uuid = UUID.randomUUID().toString(),
@@ -86,7 +93,7 @@ internal class WriteAllureReportAction(
                     labels = getLabels(test),
                 ).apply {
                     name = test.name.methodName
-                    start = test.startTime
+                    start = startTimeMillis
                     stage = Stage.FINISHED
                     status = Status.BROKEN
                     statusDetails = StatusDetails(
