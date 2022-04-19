@@ -22,6 +22,7 @@ internal class WriteAllureReportAction(
 ) : FinalizeAction {
 
     override fun action(verdict: Verdict) {
+        editExistingResultFiles(allureDir)
         val existingAllureResultFileItems = getAllureResultFileItems(allureDir)
 
         val environmentXml = buildString(capacity = 100) {
@@ -167,6 +168,16 @@ internal class WriteAllureReportAction(
                 val allureResult: AllureTestResult = Json.decodeFromString(resultFile.readText())
                 allureResult
             } ?: emptyList()
+
+    private fun editExistingResultFiles(allureDir: File) =
+        allureDir.listFiles()?.filter { it.name.endsWith(ALLURE_RESULT_FILE_POSTFIX) }
+            ?.forEach { resultFile ->
+                val allureResult: AllureTestResult = Json.decodeFromString(resultFile.readText())
+                allureResult.apply {
+                    statusDetails?.message = statusDetails?.message?.take(240) ?: ""
+                }
+                resultFile.writeText(Json.encodeToString(allureResult))
+            }
 
     private fun md5(str: String): String {
         val md = MessageDigest.getInstance("MD5")
