@@ -1,14 +1,9 @@
 package com.avito.test.http
 
 import com.google.common.truth.Truth.assertThat
-import okhttp3.Headers
 import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.RecordedRequest
-import okio.Buffer
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import java.net.InetAddress
-import java.nio.charset.Charset
 
 internal class MockDispatcherTest {
 
@@ -56,6 +51,21 @@ internal class MockDispatcherTest {
         assertThat(response.getBody()?.readUtf8()).isEqualTo("First registered")
     }
 
+    @Test
+    fun `dispatcher - captures request - also sending response`() {
+        val request = dispatcher.captureRequest(
+            Mock(
+                requestMatcher = { path.contains("xxx") },
+                response = MockResponse().setResponseCode(200).setBody("Capturer response")
+            )
+        )
+
+        val response = dispatcher.dispatch(buildRequest(path = "xxx", body = "2222"))
+
+        assertThat(response.getBody()?.readUtf8()).isEqualTo("Capturer response")
+        request.checks.singleRequestCaptured().bodyContains("2222")
+    }
+
     /**
      * Run with "Repeat: Until failure" option in IDEA run configuration
      * see MBS-7636
@@ -94,24 +104,3 @@ internal class MockDispatcherTest {
         assertThat(throwable).isNull()
     }
 }
-
-private fun buildRequest(
-    method: String = "GET",
-    path: String = "",
-    body: String? = null
-): RecordedRequest =
-    RecordedRequest(
-        requestLine = "$method /$path HTTP/1.1",
-        headers = Headers.Builder().build(),
-        chunkSizes = emptyList(),
-        bodySize = if (body == null) -1 else Buffer().writeString(body, Charset.forName("UTF-8")).size,
-        body = if (body == null) Buffer() else Buffer().writeString(body, Charset.forName("UTF-8")),
-        sequenceNumber = -1,
-        socket = StubSocket(
-            inetAddress = InetAddress.getByAddress(
-                "127.0.0.1",
-                byteArrayOf(127, 0, 0, 1)
-            ),
-            localPort = 80
-        )
-    )

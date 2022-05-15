@@ -23,8 +23,10 @@ plugins-setup.md
     ```kotlin
     buildChecks {
         androidSdk {
-            compileSdkVersion = 29
-            revision = 5
+            version(
+                compileSdkVersion = 29,
+                revision = 5
+            )
         }
         javaVersion {
             version = JavaVersion.VERSION_1_8
@@ -39,8 +41,7 @@ plugins-setup.md
     ```groovy
     buildChecks {
         androidSdk {
-            compileSdkVersion = 29
-            revision = 5
+            version(29, 5)
         }
         javaVersion {
             version = JavaVersion.VERSION_1_8
@@ -71,8 +72,10 @@ The plugin will run it automatically on every build.
         enableByDefault = false
     
         androidSdk {
-            compileSdkVersion = 29
-            revision = 5
+            version(
+                compileSdkVersion = 29,
+                revision = 5
+            )
         }
     }
     ```
@@ -85,8 +88,7 @@ The plugin will run it automatically on every build.
         enableByDefault = false
     
         androidSdk {
-            compileSdkVersion = 29
-            revision = 5
+            version(29, 5)
         }
     }
     ```
@@ -184,7 +186,8 @@ This check forces the same major version for all builds.
 
 Android build tools uses android.jar (`$ANDROID_HOME/platforms/android-<compileSdkVersion>/android.jar`).  
 The version can be specified only without a revision ([#117789774](https://issuetracker.google.com/issues/117789774)).
-Different revisions lead to Gradle remote cache misses. This check forces the same revision:
+Different revisions lead to Gradle remote cache misses. 
+This check forces the same revision:
 
 === "Kotlin"
     `build.gradle.kts`
@@ -192,8 +195,15 @@ Different revisions lead to Gradle remote cache misses. This check forces the sa
     ```kotlin
     buildChecks {
         androidSdk {
-            compileSdkVersion = 29
-            revision = 5
+            version(
+                compileSdkVersion = 29,
+                revision = 5
+            )
+            // You can define multiple versions if modules use them
+            version(
+                compileSdkVersion = 30,
+                revision = 3
+            )
         }
     }
     ```
@@ -204,8 +214,7 @@ Different revisions lead to Gradle remote cache misses. This check forces the sa
     ```groovy
     buildChecks {
         androidSdk {
-            compileSdkVersion = 29
-            revision = 5
+            version(29, 5)
         }
     }
     ```
@@ -251,7 +260,38 @@ This check automatically detects the issue:
     }
     ```
 
+#### Prevent Kotlin daemon fallback strategy 
+
+Sometimes Kotlin daemon fails and can't recover on its own. 
+It has incredible impact on build performance and continuing build is not worth it.
+This is a workaround for [KT-48843](https://youtrack.jetbrains.com/issue/KT-48843). See there more details.
+
+=== "Kotlin"
+`build.gradle.kts`
+
+    ```kotlin
+    buildChecks {
+        preventKotlinDaemonFallback { 
+            enabled = true // disabled by default
+        } 
+    }
+    ```
+
+=== "Groovy"
+`build.gradle`
+
+    ```groovy
+    buildChecks {
+        preventKotlinDaemonFallback { 
+            enabled = true // disabled by default
+        } 
+    }
+    ```
+
 #### Gradle properties
+
+???+ warning
+    This check is deprecated and will be removed.
 
 --8<--
 avito-disclaimer.md

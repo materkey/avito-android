@@ -24,15 +24,17 @@ internal class CheckAndroidSdkVersionTest {
     }
 
     @Test
-    fun `fail - no android sdk specified`() {
+    fun `no android sdk specified - fail`() {
         androidHome?.delete()
         androidHome = null
 
         val result = runCheck(
             androidHomeLocation = AndroidHomeLocation.Absent,
             extension = """
-                    compileSdkVersion = 29
-                    revision = 5
+                    version(
+                        compileSdkVersion = 29,
+                        revision = 5
+                    )
                     """,
             expectFailure = true
         )
@@ -42,13 +44,15 @@ internal class CheckAndroidSdkVersionTest {
     }
 
     @Test
-    fun `fail - no android sdk in specified path`() {
+    fun `no android sdk in specified path - fail`() {
         androidHome?.delete()
 
         val result = runCheck(
             extension = """
-                    compileSdkVersion = 29
-                    revision = 5
+                    version(
+                        compileSdkVersion = 29,
+                        revision = 5
+                    )
                     """,
             expectFailure = true
         )
@@ -58,7 +62,7 @@ internal class CheckAndroidSdkVersionTest {
     }
 
     @Test
-    fun `fail - not specified versions`() {
+    fun `not specified versions - fail`() {
         val result = runCheck(
             extension = """
                     // no versions
@@ -67,17 +71,19 @@ internal class CheckAndroidSdkVersionTest {
         )
         result.assertThat()
             .buildFailed()
-            .outputContains("buildChecks.androidSdk.compileSdkVersion must be set")
+            .outputContains("At least one version must be configured in buildChecks.androidSdk")
     }
 
     @Test
-    fun `fail - no SDK platform with specified version`() {
+    fun `no SDK platform with specified version - fail`() {
         givenAndroidSdkPlatform(version = 28, revision = 1)
 
         val result = runCheck(
             extension = """
-                    compileSdkVersion = 29
-                    revision = 5
+                    version(
+                        compileSdkVersion = 29,
+                        revision = 5
+                    )
                     """,
             expectFailure = true
         )
@@ -87,13 +93,15 @@ internal class CheckAndroidSdkVersionTest {
     }
 
     @Test
-    fun `fail - an old platform revision`() {
+    fun `an old platform revision - fail`() {
         givenAndroidSdkPlatform(version = 29, revision = 4)
 
         val result = runCheck(
             extension = """
-                    compileSdkVersion = 29
-                    revision = 5
+                    version(
+                        compileSdkVersion = 29,
+                        revision = 5
+                    )
                     """,
             expectFailure = true
         )
@@ -106,13 +114,35 @@ internal class CheckAndroidSdkVersionTest {
     }
 
     @Test
-    fun `success - the same platform revision`() {
+    fun `the same platform revision - success`() {
         givenAndroidSdkPlatform(version = 29, revision = 5)
 
         val result = runCheck(
             extension = """
-                    compileSdkVersion = 29
-                    revision = 5
+                    version(
+                        compileSdkVersion = 29,
+                        revision = 5
+                    )
+                    """
+        )
+        result.assertThat().buildSuccessful()
+    }
+
+    @Test
+    fun `the same multiple versions - success`() {
+        givenAndroidSdkPlatform(version = 29, revision = 5)
+        givenAndroidSdkPlatform(version = 30, revision = 1)
+
+        val result = runCheck(
+            extension = """
+                    version(
+                        compileSdkVersion = 29,
+                        revision = 5
+                    )
+                    version(
+                        compileSdkVersion = 30,
+                        revision = 1
+                    )
                     """
         )
         result.assertThat().buildSuccessful()
@@ -124,8 +154,10 @@ internal class CheckAndroidSdkVersionTest {
 
         val result = runCheck(
             extension = """
-                    compileSdkVersion = 29
-                    revision = 5
+                    version(
+                        compileSdkVersion = 29,
+                        revision = 5
+                    )
                     """
         )
         result.assertThat().buildSuccessful()

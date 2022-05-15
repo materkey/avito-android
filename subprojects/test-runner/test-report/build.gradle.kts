@@ -36,7 +36,6 @@ dependencies {
     testImplementation(projects.subprojects.common.junitUtils)
     testImplementation(projects.subprojects.common.resources)
     testImplementation(projects.subprojects.common.truthExtensions)
-    testImplementation(testFixtures(projects.subprojects.logger.logger))
     testImplementation(testFixtures(projects.subprojects.common.time))
     testImplementation(testFixtures(projects.subprojects.common.httpClient))
 }

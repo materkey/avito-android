@@ -1,6 +1,8 @@
 package com.avito.test.http
 
 import com.avito.android.Result
+import com.avito.logger.PrintlnLoggerFactory
+import com.avito.logger.create
 import com.avito.utils.ResourcesReader
 import com.github.salomonbrys.kotson.fromJson
 import com.google.gson.Gson
@@ -13,6 +15,8 @@ import java.util.Collections
 public class MockDispatcher(
     private val unmockedResponse: MockResponse = MockResponse().setResponseCode(418).setBody("Not mocked"),
 ) : Dispatcher() {
+
+    private val logger = PrintlnLoggerFactory.create<MockDispatcher>()
 
     private val mocks = Collections.synchronizedList(mutableListOf<Mock>())
 
@@ -28,8 +32,14 @@ public class MockDispatcher(
         return capturer
     }
 
-    override fun dispatch(request: RecordedRequest): MockResponse {
+    public fun captureRequest(mock: Mock): RequestCapturer {
+        val capturer = RequestCapturer(mock.requestMatcher)
+        capturers.add(capturer)
+        mocks.add(mock)
+        return capturer
+    }
 
+    override fun dispatch(request: RecordedRequest): MockResponse {
         val requestData = RequestData(request)
 
         synchronized(capturers) {
@@ -46,7 +56,14 @@ public class MockDispatcher(
         val matchedMock = synchronized(mocks) {
             mocks.findLast { it.requestMatcher.invoke(requestData) }
         }
-        val response = matchedMock?.response ?: unmockedResponse
+
+        val response = if (matchedMock?.response != null) {
+            logger.debug("Request matched: [$requestData], answering: ${matchedMock.response}")
+            matchedMock.response
+        } else {
+            logger.warn("Unmocked request captured: [$requestData], answering: [$unmockedResponse]")
+            unmockedResponse
+        }
 
         if (matchedMock?.removeAfterMatched == true) mocks.remove(matchedMock)
 

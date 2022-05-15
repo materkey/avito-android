@@ -2,21 +2,30 @@
 
 set -e
 
-source $(dirname $0)/../_environment.sh
+source $(dirname "$0")/../_environment.sh
 
-BUILD_DIRECTORY=$(pwd)/$1
+if test "$#" -ne 2; then
+    echo "ERROR: Missing arguments.
+    You should pass a path to a directory with Dockerfile and image name to publish:
+    ./publish.sh <directory> <image-name>
 
-ARGS=""
-if [ -n "${DOCKER_LOGIN}" ]; then
-    ARGS+="--env DOCKER_LOGIN=${DOCKER_LOGIN} "
+    Example:
+    ./publish.sh image-builder android/image-builder
+    "
+    exit 1
 fi
-if [ -n "${DOCKER_PASSWORD}" ]; then
-    ARGS+="--env DOCKER_PASSWORD=${DOCKER_PASSWORD} "
-fi
+
+readonly BUILD_DIRECTORY=$(pwd)/$1
+readonly IMAGE_NAME=$2
 
 docker run --rm \
     --volume /var/run/docker.sock:/var/run/docker.sock \
-    --volume ${BUILD_DIRECTORY}:/build \
-    --env "DOCKER_REGISTRY=${DOCKER_REGISTRY}" \
-    ${ARGS} \
-    ${IMAGE_DOCKER_IN_DOCKER} publish_docker_image publish /build
+    --volume "${BUILD_DIRECTORY}":/build \
+    "${IMAGE_BUILDER}" publish \
+        --buildDir /build \
+        --dockerHubUsername "${DOCKER_HUB_USERNAME}" \
+        --dockerHubPassword "${DOCKER_HUB_PASSWORD}" \
+        --registryUsername "${DOCKER_REGISTRY_USERNAME}" \
+        --registryPassword "${DOCKER_REGISTRY_PASSWORD}" \
+        --registry "${DOCKER_REGISTRY}" \
+        --imageName "${IMAGE_NAME}"

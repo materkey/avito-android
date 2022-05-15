@@ -6,6 +6,7 @@ import okhttp3.mockwebserver.RecordedRequest
 import org.hamcrest.Matcher
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.containsString
+import org.skyscreamer.jsonassert.JSONAssert
 
 public class RequestCapturer(
     public val requestMatcher: RequestData.() -> Boolean
@@ -23,8 +24,20 @@ public class RequestCapturer(
 
         public fun singleRequestCaptured(): RequestChecks = waitForAssertion {
             synchronized(this@RequestCapturer) {
-                assertThat("", requests.size == 1)
+                assertThat(
+                    "Single request should be captured, Currently matched: $requests",
+                    requests.size == 1
+                )
                 RequestChecks(RequestData(requests.first()))
+            }
+        }
+
+        public fun nothingCaptured() {
+            synchronized(this@RequestCapturer) {
+                assertThat(
+                    "No requests should be captured. Currently matched: $requests",
+                    requests.size == 0
+                )
             }
         }
     }
@@ -62,6 +75,15 @@ public class RequestCapturer(
 
         public fun bodyMatches(matcher: Matcher<Any?>): RequestChecks {
             assertThat(requestData.body, matcher)
+            return this
+        }
+
+        /**
+         * @param strict false - forgives reordering data and extending results
+         *               (as long as all the expected elements are there)
+         */
+        public fun jsonEquals(json: String, strict: Boolean = false): RequestChecks {
+            JSONAssert.assertEquals(json, requestData.body, strict)
             return this
         }
     }

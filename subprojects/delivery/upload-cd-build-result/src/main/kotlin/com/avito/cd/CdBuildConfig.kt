@@ -38,6 +38,7 @@ public data class CdBuildConfig(
         public data class Unknown(val type: String) : Deployment()
 
         public enum class Track {
+
             @SerializedName("alpha")
             ALPHA,
 
