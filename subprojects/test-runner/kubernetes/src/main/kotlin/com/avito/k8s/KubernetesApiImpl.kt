@@ -8,10 +8,9 @@ import com.avito.logger.LoggerFactory
 import com.avito.logger.create
 import io.fabric8.kubernetes.api.model.apps.Deployment
 import io.fabric8.kubernetes.client.KubernetesClient
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
+import io.fabric8.kubernetes.client.LocalPortForward
 import kotlinx.coroutines.delay
-import kotlin.coroutines.coroutineContext
+import java.util.concurrent.ConcurrentHashMap
 
 internal class KubernetesApiImpl(
     private val kubernetesClient: KubernetesClient,
@@ -97,6 +96,10 @@ internal class KubernetesApiImpl(
         }
     }
 
+    companion object {
+        val portForwardMap: MutableMap<String, LocalPortForward> = ConcurrentHashMap<String, LocalPortForward>()
+    }
+
     override suspend fun getPods(deploymentName: String): Result<List<KubePod>> {
         return Result.tryCatch {
             // prevent KubernetesClientException
@@ -105,11 +108,15 @@ internal class KubernetesApiImpl(
                     .withLabel("deploymentName", deploymentName)
                     .list()
                     .items
-                    .map {
+                    .map { pod ->
+
                         KubePod(
-                            pod = it,
+                            pod = pod,
                             portForward = if (needForward) {
-                                kubernetesClient.pods().withName(it.metadata.name).portForward(5555)
+                                portForwardMap[pod.metadata.name]
+                                    ?: kubernetesClient.pods().withName(pod.metadata.name).portForward(5555).also { portForwardItem ->
+                                        portForwardMap[pod.metadata.name] = portForwardItem
+                                    }
                             } else null
                         )
                     }
