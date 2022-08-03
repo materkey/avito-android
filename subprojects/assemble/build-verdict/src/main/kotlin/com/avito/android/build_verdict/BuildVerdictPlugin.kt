@@ -16,7 +16,6 @@ public class BuildVerdictPlugin : Plugin<ProjectInternal> {
     private val Project.pluginIsEnabled: Boolean
         get() = providers
             .gradleProperty(enabledProp)
-            .forUseAtConfigurationTime()
             .map { it.toBoolean() }
             .getOrElse(true)
 
