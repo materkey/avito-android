@@ -20,10 +20,12 @@ import java.util.concurrent.TimeUnit
 internal class WriteAllureReportAction(
     private val allureDir: File
 ) : FinalizeAction {
+    private val skippedTests = File(allureDir.absolutePath.plus("/skipped-tests")).apply { mkdirs() }
+    private val unskippedTests = File(allureDir.absolutePath.plus("/unskipped-tests")).apply { mkdirs() }
 
     override fun action(verdict: Verdict) {
-        editExistingResultFiles(allureDir)
-        val existingAllureResultFileItems = getAllureResultFileItems(allureDir)
+        editExistingResultFiles(unskippedTests)
+        val existingAllureResultFileItems = getAllureResultFileItems(unskippedTests)
 
         val environmentXml = buildString(capacity = 100) {
             appendLine("""<?xml version="1.0" encoding="UTF-8"?>""")
@@ -33,7 +35,7 @@ internal class WriteAllureReportAction(
             verdict.testResults.forEach { test ->
                 val noAllureResult = existingAllureResultFileItems.find { it.name == test.name.methodName } == null
                 if (noAllureResult) {
-                    addAllureResult(test, allureDir)
+                    addAllureResult(test)
                 }
             }
 
@@ -44,13 +46,13 @@ internal class WriteAllureReportAction(
         File(allureDir, "environment.xml").writeText(environmentXml)
     }
 
-    private fun addAllureResult(test: AndroidTest, allureDir: File) {
+    private fun addAllureResult(test: AndroidTest) {
         val allureResultItem: AllureTestResult = when (test) {
             is AndroidTest.Completed -> {
                 val incident = test.incident
                 val startTimeMillis = TimeUnit.SECONDS.toMillis(test.startTime)
                 val endTimeMillis = TimeUnit.SECONDS.toMillis(test.endTime).let { endTimeMillis ->
-                    if (test.startTime == test.endTime) endTimeMillis + 500 else endTimeMillis // fix empty allure repot timeline
+                    if (test.startTime == test.endTime) endTimeMillis + 500 else endTimeMillis // fix empty allure report timeline
                 }
                 if (incident != null) {
                     AllureTestResult(
@@ -125,8 +127,13 @@ internal class WriteAllureReportAction(
             }
         }
 
+        val rawResultsTarget = when (test) {
+            is AndroidTest.Skipped -> skippedTests
+            else -> unskippedTests
+        }
+
         createAllureResultFile(
-            allureDir,
+            rawResultsTarget,
             Json.encodeToString(allureResultItem),
             allureResultItem.uuid + ALLURE_RESULT_FILE_POSTFIX
         )
@@ -162,11 +169,21 @@ internal class WriteAllureReportAction(
             writeText(text)
         }
 
+    // for allure reports with nonsense "broken" status it can be useful to replace it with "failed"
+    private fun AllureTestResult.replaceBrokenWithFailedAndWrite(resultFile: File) {
+        if (status == Status.BROKEN) {
+            status = Status.FAILED
+            resultFile.writeText(Json.encodeToString(this))
+        }
+    }
+
     private fun getAllureResultFileItems(allureDir: File): List<AllureTestResult> =
         allureDir.listFiles()?.filter { it.name.endsWith(ALLURE_RESULT_FILE_POSTFIX) }
             ?.map { resultFile ->
                 val allureResult: AllureTestResult = Json.decodeFromString(resultFile.readText())
-                allureResult
+                allureResult.apply {
+                    replaceBrokenWithFailedAndWrite(resultFile)
+                }
             } ?: emptyList()
 
     private fun editExistingResultFiles(allureDir: File) =
