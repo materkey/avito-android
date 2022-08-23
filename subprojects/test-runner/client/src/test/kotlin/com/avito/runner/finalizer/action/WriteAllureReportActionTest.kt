@@ -13,10 +13,14 @@ import java.nio.file.Path
 internal class WriteAllureReportActionTest {
 
     private lateinit var file: File
+    private lateinit var unskippedDir: File
+    private lateinit var skippedDir: File
 
     @BeforeEach
     fun setup(@TempDir temp: Path) {
         file = temp.toFile()
+        unskippedDir = File(file.absolutePath.plus("/unskipped-tests"))
+        skippedDir = File(file.absolutePath.plus("/skipped-tests"))
     }
 
     @Test
@@ -55,7 +59,7 @@ internal class WriteAllureReportActionTest {
                 )
             )
         )
-        val hasMd5 = file.listFiles()?.find {
+        val hasMd5 = unskippedDir.listFiles()?.find {
             // md5(className+method) (without dot after className)
             val md5 = "222838125e2da90eaaa8fb6335dc94b4"
             it.readText().contains(md5)
@@ -79,7 +83,7 @@ internal class WriteAllureReportActionTest {
                 )
             )
         )
-        val listFiles: List<File> = file.listFiles()!!.toList()
+        val listFiles: List<File> = unskippedDir.listFiles()!!.toList()
         val hasResultFile = listFiles.find { it.name.endsWith("-result.json") } != null
         println(listFiles.find { it.name.endsWith("-result.json") }?.readText())
         assertTrue(hasResultFile)
@@ -87,7 +91,8 @@ internal class WriteAllureReportActionTest {
 
     @Test
     fun `allure report - broken to failed converter works`() {
-        File(file, "asd67as-2da-3asd4d-asd-result.json").apply {
+        unskippedDir.mkdirs()
+        File(unskippedDir, "asd67as-2da-3asd4d-asd-result.json").apply {
             writeText(
                 "{\n" +
                     "    \"uuid\": \"asd67as-2da-3asd4d-asd\",\n" +
@@ -128,7 +133,7 @@ internal class WriteAllureReportActionTest {
                 )
             )
         )
-        file.listFiles()?.forEach {
+        unskippedDir.listFiles()?.forEach {
             println(
                 it.readText()
             )

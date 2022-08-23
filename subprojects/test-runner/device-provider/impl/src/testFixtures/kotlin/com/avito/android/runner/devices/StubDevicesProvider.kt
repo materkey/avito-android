@@ -26,4 +26,8 @@ public class StubDevicesProvider(
     override suspend fun releaseDevice(coordinate: DeviceCoordinate) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun releaseReservation(name: String) {
+        TODO("Not yet implemented")
+    }
 }

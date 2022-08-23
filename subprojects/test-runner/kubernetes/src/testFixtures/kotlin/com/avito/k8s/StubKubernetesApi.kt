@@ -14,6 +14,9 @@ public class StubKubernetesApi(
 
     public var deletePod: (String) -> Boolean = { true }
 
+    override val needForward: Boolean
+        get() = TODO("Not yet implemented")
+
     override suspend fun deletePod(podName: String): Boolean {
         return deletePod.invoke(podName)
     }

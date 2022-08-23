@@ -62,5 +62,8 @@ public fun RunnerInputParams.Companion.createStubInstance(
     fetchLogcatForIncompleteTests = fetchLogcatForIncompleteTests,
     useLegacyExtensionsV1Beta = useLegacyExtensionsV1Beta,
     sendPodsMetrics = sendPodsMetrics,
-    deviceDebug = deviceDebug
+    deviceDebug = deviceDebug,
+    needForward = false,
+    defaultDevice = null,
+    replaceTestList = emptyList(),
 )
