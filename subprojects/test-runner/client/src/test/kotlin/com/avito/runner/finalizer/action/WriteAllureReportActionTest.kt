@@ -19,8 +19,8 @@ internal class WriteAllureReportActionTest {
     @BeforeEach
     fun setup(@TempDir temp: Path) {
         file = temp.toFile()
-        unskippedDir = File(file.absolutePath.plus("/unskipped_tests"))
-        skippedDir = File(file.absolutePath.plus("/skipped_tests"))
+        unskippedDir = File(file.absolutePath.plus("/unskipped-tests"))
+        skippedDir = File(file.absolutePath.plus("/skipped-tests"))
     }
 
     @Test
