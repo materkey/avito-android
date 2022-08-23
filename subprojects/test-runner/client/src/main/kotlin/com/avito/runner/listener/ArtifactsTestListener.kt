@@ -128,7 +128,7 @@ internal class ArtifactsTestListener(
                     val allureDevicePath = File(allurePath).toPath()
                     val allureHostDir = File(
                         dirForResults,
-                        "test-allure"
+                        "test-allure/unskipped-tests"
                     )
                     val tempAllureHostDir = File(
                         dirForResults,
